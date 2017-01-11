@@ -1,0 +1,19 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "Volumes": [],
+  "containerDefinitions": [
+    {
+      "name": "payments_demo",
+      "image": "056252067802.dkr.ecr.us-west-2.amazonaws.com/beanstream/payments_demo:VERSION",
+      "essential": true,
+      "memory": 128,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 8080
+        }
+      ]
+    }
+  ],
+  "Logging": "/var/log/supervisor"
+}

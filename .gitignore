@@ -1,0 +1,20 @@
+### Node ###
+# Logs
+logs
+*.log
+npm-debug.log*
+node_modules
+
+### OSx ###
+*.DS_Store
+
+### Python ###
+*.pyc
+
+### Git ###
+.git
+
+### Virtualenv ###
+venv
+
+*.css
