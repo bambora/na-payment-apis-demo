@@ -3,8 +3,8 @@
   "Volumes": [],
   "containerDefinitions": [
     {
-      "name": "payments-demo",
-      "image": "056252067802.dkr.ecr.us-west-2.amazonaws.com/beanstream/payments-demo:latest",
+      "name": "payments-api-demo",
+      "image": "056252067802.dkr.ecr.us-west-2.amazonaws.com/beanstream/payments-api-demo:0.0.1",
       "essential": true,
       "memory": 128,
       "portMappings": [
