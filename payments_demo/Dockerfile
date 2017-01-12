@@ -1,29 +1,16 @@
-FROM alpine:3.4
+FROM python:3.6.0-alpine
 
-RUN mkdir /code
-WORKDIR /code
+MAINTAINER Aengus Bates <aengus.bates@bambora.com>
 
-RUN apk add --no-cache --update \
-  python3 build-base python3-dev libffi-dev postgresql-dev \
-  nginx supervisor openssl ca-certificates \
-  && python3 -m ensurepip \
-  && rm -rf /usr/lib/python*/ensurepip \
-  && rm -rf /root/.cache \
-  && pip3 install --upgrade pip gunicorn \
-  && rm -rf /var/cache/apk/* \
-  && apk del build-base python3-dev
+# We copy just the requirements.txt first to leverage Docker cache
+COPY ./requirements.txt /app/requirements.txt
 
-# Setup nginx
-ADD conf/etc /etc/
-RUN mkdir -p /etc/nginx/sites-enabled \
-    && mkdir -p /run/nginx \
-    && ln -s /etc/nginx/sites-available/app.conf /etc/nginx/sites-enabled/app.conf
+WORKDIR /app
 
-# Setup supervisord
-RUN mkdir -p /var/log/supervisor/conf.d
+RUN pip3 install -r requirements.txt
 
-# Copy server app
-ADD serverApp /code/
-RUN pip3 install -r /code/requirements.txt
+COPY app/ /app
 
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+ENTRYPOINT [ "python" ]
+
+CMD [ "app.py" ]
