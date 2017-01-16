@@ -1,0 +1,21 @@
+## Running the Python app locally
+### Install dependencies in virtualenv
+```
+cd payments_api_demo
+virtualenv -p python3 venv
+source venv/bin/activate
+pip3 install -r requirements.txt
+```
+
+### Run the app
+'''
+python app/app.py
+'''
+
+## Build docker image and deploy
+'''
+make build
+make tag
+make push
+make deploy
+'''

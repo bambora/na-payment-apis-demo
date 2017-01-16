@@ -1,6 +1,5 @@
 {
   "AWSEBDockerrunVersion": 2,
-  "Volumes": [],
   "containerDefinitions": [
     {
       "name": "payments-api-demo",

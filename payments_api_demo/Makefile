@@ -12,7 +12,10 @@ build:
 	docker build -t $(IMAGE_NAME):$(VERSION) .
 
 run:
-	docker run -p 5000:5000 $(IMAGE_NAME)
+	docker run -p 5000:5000 $(IMAGE_NAME):$(VERSION)
+
+run_latest:
+	docker run -p 5000:5000 $(IMAGE_NAME):latest
 
 tag:
 	docker tag $(IMAGE_NAME):$(VERSION) $(REPO_BASE)/$(IMAGE_NAME):$(VERSION)
