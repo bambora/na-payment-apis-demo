@@ -128,7 +128,8 @@
 
     var xhr = new XMLHttpRequest();
     var method = "POST";
-    var url = "/make_token_payment";
+    //var url = "/payment/token";
+    var url  = "/payment/3d_secure/token"
     var data = JSON.stringify({
       "order_number":invoice,
       "name":name,
@@ -190,7 +191,7 @@
 
     var xhr = new XMLHttpRequest();
     var method = "POST";
-    var url = "/make_interac_payment";
+    var url = "/payment/interac";
     var data = JSON.stringify({
       "order_number":invoice,
       "amount":amount

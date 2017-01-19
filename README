@@ -1,3 +1,5 @@
+Note this app is very rough and ready. It will need to be tidied before it can be used to demo externally.
+
 ## Running the Python app locally
 ### Install dependencies in virtualenv
 ```
@@ -12,10 +14,12 @@ pip3 install -r requirements.txt
 python app/app.py
 '''
 
-## Build docker image and deploy
+## Build docker image and deploy to AWS
 '''
 make build
 make tag
 make push
 make deploy
 '''
+
+You can view the deployed app at: http://payments-api-demo.us-west-2.elasticbeanstalk.com/
