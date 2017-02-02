@@ -16,7 +16,6 @@ def make_token_payment():
     url = 'https://www.beanstream.com/api/v1/payments'
     headers = {'Authorization': 'Passcode MzAwMjAyNzc5OkZENUQyYkIyMUQxOTQ1MTQ4RmJhRDJFYzAzNkY0ZmE2', 'Content-Type': 'application/json'}
     data = json.dumps({
-        'order_number': request.json.get('order_number'),
         'amount': int(request.json.get('amount')),
         'payment_method': 'token',
         'token': {
@@ -24,7 +23,6 @@ def make_token_payment():
             'name':request.json.get('name')
         }
     })
-
     response = requests.post(url, headers=headers, data=data)
     return response.content.decode("utf-8"), response.status_code
 
@@ -33,7 +31,6 @@ def make_3dsecure_token_payment():
     url = 'https://www.beanstream.com/api/v1/payments'
     headers = {'Authorization': 'Passcode MzAwMjAzOTQwOjY5Mjg1YzE1MkY2YzQyNGE5ODBlQUM5ZDQ4ODNjNDYx', 'Content-Type': 'application/json'}
     data = json.dumps({
-        'order_number': request.json.get('order_number'),
         'amount': int(request.json.get('amount')),
         'language': 'en',
         'term_url': 'http://payments-api-demo.us-west-2.elasticbeanstalk.com/redirect/3dsecure',
@@ -46,10 +43,7 @@ def make_3dsecure_token_payment():
     })
 
     response = requests.post(url, headers=headers, data=data)
-    print(response.content.decode("utf-8"))
-
-    #toDo: check if payment complete. redirect if 3d secure
-    
+    session['3d_secure_id'] = json.loads(response.content.decode("utf-8")).get('merchant_data')
     return response.content.decode("utf-8"), response.status_code
 
 @app.route('/payment/interac', methods=['POST'])
@@ -107,11 +101,36 @@ def interac_callback():
 
 
 @app.route('/redirect/3dsecure', methods=['POST'])
-def threedsecure_callback():
+def three_d_secure_callback():
 
-  if '3dsecure_id' in session:
-      feedback = {'success': False, 'message': 'Foo.'}
+  if '3d_secure_id' in session:
+      url = 'https://www.beanstream.com/api/v1/payments/{0}/continue'.format(session['3d_secure_id'])
+      session.pop('3d_secure_id', None)
+
+      headers = {'Authorization': 'Passcode MzAwMjAyNzc5OkZENUQyYkIyMUQxOTQ1MTQ4RmJhRDJFYzAzNkY0ZmE2', 'Content-Type': 'application/json'}
+      data = json.dumps({
+          'payment_method': 'credit_card',
+          'card_response': {
+              'pa_res':request.form.get('pa_res')
+          }
+      });
+
+      response = requests.post(url, headers=headers, data=data)
+      status = response.status_code
+      content = json.loads(response.content.decode("utf-8"))
+
+      if status == 200:
+          feedback = {'success': True, 'invoice_id': content.get('order_number'), 'transaction_id': content.get('id')}
+      else:
+          #feedback = {'success': False, 'message': content.get('message')}
+          #feedback = {'success': False, 'message': status}
+          #feedback = {'success': False, 'message': content}
+          feedback = {'success': True, 'invoice_id': status, 'transaction_id': content}
+
       return render_template('interac_response.html', feedback=feedback)
+
+      #feedback = {'success': False, 'message': request.form}
+      #return render_template('interac_response_test.html', feedback=feedback)
 
   else:
       feedback = {'success': False, 'message': 'Error. Your session has expired. Please return to the payment page.'}
