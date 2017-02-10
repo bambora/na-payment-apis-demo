@@ -17,17 +17,17 @@ pip3 install -r requirements.txt
 ```
 
 ### Run the app
-'''
+```
 python app/app.py
-'''
+```
 
 ## Build docker image and deploy to AWS
-'''
+```
 make build
 make tag
 make push
 make deploy
-'''
+```
 
 You can view the deployed app at: http://payments-api-demo.us-west-2.elasticbeanstalk.com/.
 
