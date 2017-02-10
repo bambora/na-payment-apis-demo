@@ -2,7 +2,7 @@
 
 # REST API Payments Demo App
 
-Copyright © 2016 Beanstream Internet Commerce, Inc.
+Copyright © 2017 Beanstream Internet Commerce, Inc.
 
 A simple Python/Flask based app to demonstrate how to use the Beanstream REST v1 APIs.
 
