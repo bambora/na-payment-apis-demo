@@ -33,15 +33,21 @@ push_latest: login
 	docker push $(REPO_BASE)/$(IMAGE_NAME):latest
 
 deploy: login
+    # Set version string
+    #sed -i'' -e "s/VERSION/$(VERSION)/g" Dockerrun.aws.json
+
 	# Upload zipped Dockerrun file to S3
 	zip -r $(ZIP) Dockerrun.aws.json
 	aws s3 cp $(ZIP) s3://$(EB_BUCKET)/$(ZIP)
 
 	# Create new app version with zipped Dockerrun file
 	aws elasticbeanstalk create-application-version --application-name $(APP_NAME) \
-	--version-label $(VERSION) --source-bundle S3Bucket=$(EB_BUCKET),S3Key=$(ZIP) \
+	--version-label $(VERSION) \
+	--source-bundle S3Bucket=$(EB_BUCKET),S3Key=$(ZIP) \
 	--region us-west-2
 
 	# Update the environment to use the new app version
-	aws elasticbeanstalk update-environment --application-name onboardapi --environment-name $(EB_APP_ENV_NAME) \
-	--version-label $(VERSION) --region us-west-2
+	aws elasticbeanstalk update-environment --application-name $(APP_NAME) \
+	--environment-name $(EB_APP_ENV_NAME) \
+	--version-label $(VERSION) \
+	--region us-west-2
