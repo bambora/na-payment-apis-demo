@@ -6,9 +6,9 @@ Copyright © 2016 Beanstream Internet Commerce, Inc.
 
 A simple Python/Flask based app to demonstrate how to use the Beanstream REST v1 APIs.
 
-# Running the Python app locally
+## Running the Python app locally
 
-## Install dependencies in virtualenv
+### Install dependencies in virtualenv
 ```
 cd rest-api-demo
 virtualenv -p python3 venv
@@ -16,12 +16,12 @@ source venv/bin/activate
 pip3 install -r requirements.txt
 ```
 
-## Run the app
+### Run the app
 '''
 python app/app.py
 '''
 
-# Build docker image and deploy to AWS
+## Build docker image and deploy to AWS
 '''
 make build
 make tag
@@ -31,7 +31,7 @@ make deploy
 
 You can view the deployed app at: http://payments-api-demo.us-west-2.elasticbeanstalk.com/.
 
-# Todo:
+## Todo:
 - Validate inputs
 - Populate card fields when the user clicks the table
 
