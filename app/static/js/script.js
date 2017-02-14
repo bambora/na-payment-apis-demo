@@ -28,6 +28,7 @@
             this.interacBlock.classList.toggle('visible');
             this.cardTag.classList.toggle('active');
             this.interacTag.classList.toggle('active');
+            collapseGrowDiv();
         }
     };
     tabController.init();
@@ -137,25 +138,31 @@
 
             xhr.open(method, url, true);
             xhr.onreadystatechange = function () {
-                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 302) {
-                    var contents = JSON.parse(xhr.responseText).contents;
-                    var contents_decoded = decodeURIComponent(contents.replace(/\+/g, '%20'));
-                    var formStr = contents_decoded.match("<FORM(.*)<\/FORM>");
-                    document.body.insertAdjacentHTML('afterbegin', formStr);
-                    document.form1.submit();
-                }
-                else if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                    this.invoice.innerHTML = JSON.parse(xhr.responseText).order_number;
-                    this.transaction.innerHTML = JSON.parse(xhr.responseText).id;
-                    this.errorFeedback.classList.remove('visible');
-                    this.successFeedback.classList.add('visible');
-                    this.processingScreen.classList.toggle('visible');
-                }
-                else if (xhr.readyState === XMLHttpRequest.DONE) {
-                    this.message.innerHTML = JSON.parse(xhr.responseText).message;
-                    this.successFeedback.classList.remove('visible');
-                    this.errorFeedback.classList.add('visible');
-                    this.processingScreen.classList.toggle('visible');
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    var json = JSON.parse(xhr.responseText);
+                    var jsonStr = JSON.stringify(json, undefined, 2);
+                    setResponseStr(jsonStr);
+
+                    if (xhr.status === 302) {
+                        var contents = json.contents;
+                        var contents_decoded = decodeURIComponent(contents.replace(/\+/g, '%20'));
+                        var formStr = contents_decoded.match("<FORM(.*)<\/FORM>");
+                        document.body.insertAdjacentHTML('afterbegin', formStr);
+                        document.form1.submit();
+                    }
+                    else if (xhr.status === 200) {
+                        this.invoice.innerHTML = JSON.parse(xhr.responseText).order_number;
+                        this.transaction.innerHTML = JSON.parse(xhr.responseText).id;
+                        this.errorFeedback.classList.remove('visible');
+                        this.successFeedback.classList.add('visible');
+                        this.processingScreen.classList.toggle('visible');
+                    }
+                    else {
+                        this.message.innerHTML = JSON.parse(xhr.responseText).message;
+                        this.successFeedback.classList.remove('visible');
+                        this.errorFeedback.classList.add('visible');
+                        this.processingScreen.classList.toggle('visible');
+                    }
                 }
             }.bind(this);
 
@@ -233,3 +240,102 @@
 
     interacFormController.init();
 })();
+
+function toggleGrowDiv() {
+    var growDiv = document.getElementById('grow');
+    if (growDiv.clientHeight) {
+        growDiv.style.height = 0;
+    } else {
+        var wrapper = document.querySelector('.measuringWrapper');
+        growDiv.style.height = wrapper.clientHeight + "px";
+        growDiv.scrollIntoView();
+    }
+    var moreButton = document.getElementById('more-button');
+    moreButton.value = moreButton.value == 'Show JSON' ? 'Hide JSON' : 'Show JSON';
+}
+
+function collapseGrowDiv() {
+    var growDiv = document.getElementById('grow');
+    if (growDiv.clientHeight > 0) {
+        toggleGrowDiv();
+    }
+}
+
+function setRequestStr(str) {
+    var elem = document.getElementById('raw-json-request');
+    elem.innerHTML = str;
+    elem.className = "prettyprint lang-js";
+    PR.prettyPrint();
+    resizeGrowDiv();
+}
+
+function setResponseStr(str) {
+    var elem = document.getElementById('raw-json-response');
+    elem.innerHTML = str;
+    elem.className = "prettyprint lang-js";
+    PR.prettyPrint();
+    resizeGrowDiv();
+}
+
+// Text change may require a resize of the containing div
+function resizeGrowDiv() {
+    var growDiv = document.getElementById('grow');
+    if (growDiv.clientHeight > 0) {
+        // Force div resize
+        var display = growDiv.style.display;
+        growDiv.style.display = 'none';
+        var trick = growDiv.offsetHeight;
+        growDiv.style.display = display;
+
+        // Reset containing div size
+        var wrapper = document.querySelector('.measuringWrapper');
+        growDiv.style.height = wrapper.clientHeight + "px";
+        growDiv.style.height = wrapper.clientHeight + "px";
+    }
+}
+
+// Doesn't quite work as Payfields DOM events aren't fired to format and validate.
+function setCCPaymentData(cardStr, cvvStr) {
+    var cardPaymentForm = document.getElementById('cardPaymentForm');
+    var ccNumberInput = cardPaymentForm.querySelector('[data-beanstream-id=ccNumber]');
+    var ccExpInput = cardPaymentForm.querySelector('[data-beanstream-id=ccExp]');
+    var ccCvvInput = cardPaymentForm.querySelector('[data-beanstream-id=ccCvv]');
+
+    ccNumberInput.value = cardStr;
+    ccExpInput.value = '12/2030';
+    ccCvvInput.value = cvvStr;
+}
+
+// Copies a string to the clipboard. Must be called from within an
+// event handler such as click. May return false if it failed, but
+// this is not always possible. Browser support for Chrome 43+,
+// Firefox 42+, Safari 10+, Edge and IE 10+.
+// IE: The clipboard feature may be disabled by an administrator. By
+// default a prompt is shown the first time the clipboard is
+// used (per session).
+function copyToClipboard(text) {
+    var copied = false;
+    if (window.clipboardData && window.clipboardData.setData) {
+        // IE specific code path to prevent textarea being shown while dialog is visible.
+        copied = clipboardData.setData("Text", text);
+
+    } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+        var textarea = document.createElement("textarea");
+        textarea.textContent = text;
+        textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in MS Edge.
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            copied = document.execCommand("copy");  // Security exception may be thrown by some browsers.
+        } catch (ex) {
+            console.warn("Copy to clipboard failed.", ex);
+            copied = false;
+        } finally {
+            document.body.removeChild(textarea);
+        }
+    }
+
+    if (copied) {
+        alert("Copied card number to clipboard");
+    }
+}

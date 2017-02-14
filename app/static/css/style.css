@@ -15,7 +15,6 @@
 
 }
 
-
 table.table.table-highlight, .nav-pane {
   margin-bottom: 24px;
 }
@@ -68,4 +67,32 @@ table.table.table-highlight, .nav-pane {
 
 .message.visible {
   display: block;
+}
+
+#more-button-area {
+  text-align: center;
+}
+
+#more-button {
+  border-style: none;
+  background: none;
+  color: rgba(120, 71, 181, 1);
+  margin: 0 0 10px 0;
+}
+
+#more-button:hover {font-weight: bold;}
+
+#grow {
+  text-align: left;
+  -moz-transition: height .5s;
+  -ms-transition: height .5s;
+  -o-transition: height .5s;
+  -webkit-transition: height .5s;
+  transition: height .5s;
+  height: 0;
+  overflow: hidden;
+}
+
+pre.prettyprint {
+  border: 0 !important;
 }
