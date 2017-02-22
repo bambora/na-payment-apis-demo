@@ -1,6 +1,6 @@
 <img src="http://www.beanstream.com/wp-content/uploads/2015/08/Beanstream-logo.png" />
 
-# REST API Payments Demo App
+# Payments REST API Demo App
 
 Copyright © 2017 Beanstream Internet Commerce, Inc.
 

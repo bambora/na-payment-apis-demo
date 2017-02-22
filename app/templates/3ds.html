@@ -1,7 +1,7 @@
 <!doctype html>
 
 {% include 'snippets/head.html' %}
-{% with tab='basic' %}
+{% with tab='3ds' %}
     {% include 'snippets/main-nav.html' %}
 {%  endwith %}
 
@@ -37,6 +37,14 @@
             <td>123</td>
             <td>Declined</td>
         </tr>
+        <tr onclick="javascript:copyToClipboard('4123450131003312');">
+            <td>Visa</td>
+            <td>4123450131003312</td>
+            <td>123</td>
+            <td>Approved only when you have implemented Verified by VISA (VbV) and provided a correct password.
+                Password: 12345.
+            </td>
+        </tr>
         </tbody>
     </table>
 
@@ -56,11 +64,18 @@
     <nav class="nav-pane secondary">
         <div class="pull-left nav-links">
             <a id="card-tag" href="javascript:void(0)" class="active">Credit or Debit Card</a>
+            <a id="interac-tag" href="javascript:void(0)">Interac Online</a>
         </div>
     </nav>
     <div id="card-block" class="block visible">
         <!-- This form uses PayFields -->
         <form id="cardPaymentForm">
+                    <div class="checkbox 3ds">
+                        <input type="checkbox" id="3ds-checkbox" checked>
+                        <label for="3ds-checkbox">
+                            3D Secure Enabled Flow
+                        </label>
+                    </div>
                     <div class="form-group">
                         <label for="card_number">Card Number</label>
                         <div data-beanstream-target='ccNumber_input'></div>
@@ -85,6 +100,32 @@
             <input type="submit" class="btn btn-default" value="Pay"/>
             <script src='https://payform.beanstream.com/payfields/beanstream_payfields.js' id="payfieldsScript"
                     data-submitForm="false"></script>
+        </form>
+    </div>
+    <div id="interac-block" class="block">
+        <p>The INTERAC Online service is a payment option that allows you to pay for goods and services on the Internet
+            directly from your bank account.
+            <a href="">Learn more...
+                <span class="sr-only">Opens in a new window. External site may not meet accessibility guidelines.</span>
+            </a>
+        </p>
+        <p>NOTE: The INTERAC Online service is currently ONLY available to cardholders of these financial institutions
+            (other financial institution may be added shortly):</p>
+        <ul>
+            <li>BMO Bank of Montréal</li>
+            <li>RBC Royal Bank</li>
+            <li>Scotiabank</li>
+            <li>TD Canada Trust</li>
+        </ul>
+        <p>To continue, click on the 'PURCHASE' button below. You will be asked to select your financial institution,
+            then will be directed to your financial institution's website to complete your payment.
+            Upon completing your payment, you will be redirected back to our website to obtain your booking
+            reference.</p>
+        <p>® Trademark of Interac Inc. Used under licence.</p>
+        <form id="interacPaymentForm">
+            <input id="interac_invoice" type="hidden" name="order_number"/>
+            <input id="interac_amount" type="hidden" name="amount"/>
+            <input type="submit" class="btn btn-default" value="Pay with Interac"/>
         </form>
     </div>
 

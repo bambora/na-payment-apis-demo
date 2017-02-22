@@ -20,7 +20,9 @@
         addListeners: function () {
             console.log('tabController.addListeners()');
             this.cardTag.addEventListener('click', this.setPaymentMethod.bind(this));
-            this.interacTag.addEventListener('click', this.setPaymentMethod.bind(this));
+            if (this.interacTag != null) {
+                this.interacTag.addEventListener('click', this.setPaymentMethod.bind(this));
+            }
         },
         setPaymentMethod: function () {
             console.log('tabController.setPaymentMethod()');
@@ -128,22 +130,37 @@
 
             var xhr = new XMLHttpRequest();
             var method = "POST";
-            //var url = "/payment/3d-secure/token"
-            var url = "/payment/token"
+            var url = "/payment/basic/token"
+
+            if (document.getElementById('3ds-checkbox') != null && document.getElementById('3ds-checkbox').checked) {
+                url = "/payment/enhanced/3d-secure/token";
+            }
+
             var data = JSON.stringify({
                 "name": name,
                 "amount": amount,
                 "token": token
             });
 
+            setRequestStr(data);
+
             xhr.open(method, url, true);
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
-                    var json = JSON.parse(xhr.responseText);
-                    var jsonStr = JSON.stringify(json, undefined, 2);
-                    setResponseStr(jsonStr);
+                    var json = null;
+                    var jsonStr = '';
 
-                    if (xhr.status === 302) {
+                    try {
+                        json = JSON.parse(xhr.responseText);
+                        jsonStr = JSON.stringify(json, undefined, 2);
+                        setResponseStr(jsonStr);
+                    }
+                    catch (ex) {
+                        console.log(ex);
+                        setResponseStr(ex.message);
+                    }
+
+                    if (json != null && jsonStr !== '' && xhr.status === 302) {
                         var contents = json.contents;
                         var contents_decoded = decodeURIComponent(contents.replace(/\+/g, '%20'));
                         var formStr = contents_decoded.match("<FORM(.*)<\/FORM>");
@@ -158,6 +175,13 @@
                         this.processingScreen.classList.toggle('visible');
                     }
                     else {
+                        var message = xhr.responseText;
+                        try {
+                            message = JSON.parse(xhr.responseText).message;
+                        }
+                        catch (ex) {
+                            console.log('Parsing exception: ' + ex.message);
+                        }
                         this.message.innerHTML = JSON.parse(xhr.responseText).message;
                         this.successFeedback.classList.remove('visible');
                         this.errorFeedback.classList.add('visible');
@@ -171,11 +195,9 @@
         },
         getPaymentType: function () {
             console.log('cardFormController.getPaymentType()');
-            this.paymentType = window.location.href.substr(window.location.href.lastIndexOf('/') + 1);
 
-            // NOTE: We can use the url to determine which payment method to use.
-            // We put a payment type on different pages - at a minimum we need different pages
-            // for Payfields, Hosted Checkout and vanilla payments.
+            // We can use the url to determine which payment method to use.
+            this.paymentType = window.location.href.substr(window.location.href.lastIndexOf('/') + 1);
         }
     };
 
@@ -198,7 +220,9 @@
         },
         addListeners: function () {
             console.log('interacFormController.addListeners()');
-            document.getElementById('interacPaymentForm').addEventListener('submit', this.onSubmit.bind(this));
+            if (document.getElementById('interacPaymentForm') != null) {
+                document.getElementById('interacPaymentForm').addEventListener('submit', this.onSubmit.bind(this));
+            }
         },
         onSubmit: function (e) {
             console.log('interacFormController.onSubmit()');
@@ -208,15 +232,14 @@
         makeInteracPayment: function (e) {
             console.log('interacFormController.makeInteracPayment()');
             this.processingScreen.classList.toggle('visible');
-            var amount = document.getElementById('amount').value;
 
+            var amount = document.getElementById('amount').value;
             var xhr = new XMLHttpRequest();
             var method = "POST";
-            var url = "/payment/interac";
             var data = JSON.stringify({"amount": amount});
+            var url = "/payment/enhanced/interac";
 
             xhr.open(method, url, true);
-
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 302) {
                     var contents = JSON.parse(xhr.responseText).contents;
@@ -245,7 +268,8 @@ function toggleGrowDiv() {
     var growDiv = document.getElementById('grow');
     if (growDiv.clientHeight) {
         growDiv.style.height = 0;
-    } else {
+    }
+    else {
         var wrapper = document.querySelector('.measuringWrapper');
         growDiv.style.height = wrapper.clientHeight + "px";
         growDiv.scrollIntoView();
@@ -265,6 +289,7 @@ function setRequestStr(str) {
     var elem = document.getElementById('raw-json-request');
     elem.innerHTML = str;
     elem.className = "prettyprint lang-js";
+
     PR.prettyPrint();
     resizeGrowDiv();
 }
@@ -273,6 +298,7 @@ function setResponseStr(str) {
     var elem = document.getElementById('raw-json-response');
     elem.innerHTML = str;
     elem.className = "prettyprint lang-js";
+
     PR.prettyPrint();
     resizeGrowDiv();
 }

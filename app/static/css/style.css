@@ -96,3 +96,7 @@ table.table.table-highlight, .nav-pane {
 pre.prettyprint {
   border: 0 !important;
 }
+
+.checkbox {
+  padding-top: 20px;
+}

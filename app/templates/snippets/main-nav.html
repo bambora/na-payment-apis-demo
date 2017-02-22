@@ -1,14 +1,14 @@
 <nav class="nav-pane">
-  <div class="pull-left nav-links">
-    <a href="" class="logo">
-    <img src="{{ url_for('static', filename='images/zebraffe-dark.svg') }}">
-    </a>
-    <a href="" class="active">Basic</a>
-    <a href="" class="active">Payfields</a>
-    <a href="" class="">Payform</a>
-    <a href="" class="">3D Secure</a>
-    <a href="" class="">Wallets</a>
-    <a href="" class="">Wallets + 3D Secure</a>
-    <a href="" class="">Hosted Checkout</a>
-  </div>
+    <div class="pull-left nav-links">
+        <a href="" class="logo">
+            <img src="{{ url_for('static', filename='images/zebraffe-dark.svg') }}">
+        </a>
+        <a href="index.html" class="{{ 'active' if (tab == null or tab == 'basic') else '' }}">Basic</a>
+        <a href="3ds.html" class="{{ 'active' if (tab == '3ds') else '' }}">3D Secure &amp; Interact Online</a>
+        <!--
+        <a href="" class="">Wallets</a>
+        <a href="" class="">Wallets + 3D Secure</a>
+        <a href="" class="">Hosted Checkout</a>
+        -->
+    </div>
 </nav>
