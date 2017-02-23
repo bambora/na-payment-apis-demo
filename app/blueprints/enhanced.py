@@ -8,9 +8,11 @@ import requests
 import simplejson as json
 
 from flask import Blueprint
-from flask import request
 from flask import render_template
-from flask import current_app as app
+from flask import request
+from flask import session
+
+import settings
 
 # Setup our Enhanced Payment Blueprint
 payments = Blueprint('enhanced', __name__,)
@@ -18,10 +20,13 @@ payments = Blueprint('enhanced', __name__,)
 
 @payments.route('/token', methods=['POST'])
 def make_token_payment():
+    # Determine the absolute URL for a redirect based on the current path less the tail '/token' part
+    term_url = request.base_url[:len('/token')*-1] + '/redirect/3d-secure'
+
     data = json.dumps({
-        'amount': decimal.Decimal(request.json.get('amount')).quantize(app.TWO_PLACES),
+        'amount': decimal.Decimal(request.json.get('amount')).quantize(settings.TWO_PLACES),
         'payment_method': 'token',
-        'term_url': request.host_url + 'payment/redirect/3d-secure',
+        'term_url': term_url,
         'token': {
             'code': request.json.get('token'),
             'name': request.json.get('name')
@@ -32,17 +37,20 @@ def make_token_payment():
     # for payments when a customer uses a 3D Secure enabled credit card and when your Beanstream
     # merchant account is also configured to enable 3D Secure.
 
-    response = requests.post(app.base_url, headers=app.create_auth_headers(), data=data)
-    app.session['3d-secure-id'] = json.loads(response.content.decode("utf-8")).get('merchant_data')
+    response = requests.post(settings.base_url, headers=settings.create_auth_headers(), data=data)
+    session['3d-secure-id'] = json.loads(response.content.decode("utf-8")).get('merchant_data')
     return response.content.decode("utf-8"), response.status_code
 
 
 @payments.route('/3d-secure/token', methods=['POST'])
 def make_3d_secure_token_payment():
+    # Determine the absolute URL for a redirect based on the current path less the tail '/redirect/token' part
+    term_url = request.base_url[:len('/3d-secure/token')*-1] + '/redirect/3d-secure'
+
     data = json.dumps({
-        'amount': decimal.Decimal(request.json.get('amount')).quantize(app.TWO_PLACES),
+        'amount': decimal.Decimal(request.json.get('amount')).quantize(settings.TWO_PLACES),
         'language': 'en',
-        'term_url': request.host_url + 'payment/redirect/3d-secure',
+        'term_url': term_url,
         'comments': '',
         'payment_method': 'token',
         'token': {
@@ -51,8 +59,8 @@ def make_3d_secure_token_payment():
         }
     }, use_decimal=True)
 
-    response = requests.post(app.base_url, headers=app.create_auth_headers(), data=data)
-    app.session['3d-secure-id'] = json.loads(response.content.decode("utf-8")).get('merchant_data')
+    response = requests.post(settings.base_url, headers=settings.create_auth_headers(), data=data)
+    session['3d-secure-id'] = json.loads(response.content.decode("utf-8")).get('merchant_data')
     return response.content.decode("utf-8"), response.status_code
 
 
@@ -60,20 +68,20 @@ def make_3d_secure_token_payment():
 def make_interac_payment():
     data = json.dumps({
         'order_number': request.json.get('order_number'),
-        'amount': decimal.Decimal(request.json.get('amount')).quantize(app.TWO_PLACES),
+        'amount': decimal.Decimal(request.json.get('amount')).quantize(settings.TWO_PLACES),
         'payment_method': 'interac'
     }, use_decimal=True)
 
-    response = requests.post(app.base_url, headers=app.create_auth_headers(), data=data)
-    app.session['interac-id'] = json.loads(response.content.decode("utf-8")).get('merchant_data')
+    response = requests.post(settings.base_url, headers=settings.create_auth_headers(), data=data)
+    session['interac-id'] = json.loads(response.content.decode("utf-8")).get('merchant_data')
     return response.content.decode("utf-8"), response.status_code
 
 
 @payments.route('/interac_callback', methods=['POST'])
 def interac_callback():
-    if 'interac-id' in app.session:
-        url = '{}/{}/continue'.format(app.base_url, app.session['interac-id'])
-        app.session.pop('interac-id', None)
+    if 'interac-id' in session:
+        url = '{}/{}/continue'.format(settings.base_url, session['interac-id'])
+        session.pop('interac-id', None)
 
         data = json.dumps({
             'payment_method': 'interac',
@@ -89,7 +97,7 @@ def interac_callback():
             }
         })
 
-        response = requests.post(url, headers=app.create_auth_headers(), data=data)
+        response = requests.post(url, headers=settings.create_auth_headers(), data=data)
         status = response.status_code
         content = json.loads(response.content.decode("utf-8"))
 
@@ -107,9 +115,9 @@ def interac_callback():
 
 @payments.route('/redirect/3d-secure', methods=['POST'])
 def three_d_secure_callback():
-    if '3d-secure-id' in app.session:
-        url = '{}/{}/continue'.format(app.base_url, app.session['3d-secure-id'])
-        app.session.pop('3d-secure-id', None)
+    if '3d-secure-id' in session:
+        url = '{}/{}/continue'.format(settings.base_url, session['3d-secure-id'])
+        session.pop('3d-secure-id', None)
         data = json.dumps({
             'payment_method': 'credit_card',
             'card_response': {
@@ -117,7 +125,7 @@ def three_d_secure_callback():
             }
         })
 
-        response = requests.post(url, headers=app.create_auth_headers(), data=data)
+        response = requests.post(url, headers=settings.create_auth_headers(), data=data)
         status = response.status_code
         content = json.loads(response.content.decode("utf-8"))
 

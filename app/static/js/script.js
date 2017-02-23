@@ -132,8 +132,13 @@
             var method = "POST";
             var url = "/payment/basic/token"
 
-            if (document.getElementById('3ds-checkbox') != null && document.getElementById('3ds-checkbox').checked) {
-                url = "/payment/enhanced/3d-secure/token";
+            if (document.getElementById('3ds-checkbox') != null) {
+                if (document.getElementById('3ds-checkbox').checked) {
+                    url = "/payment/enhanced/3d-secure/token";
+                }
+                else {
+                    url = "/payment/enhanced/token";
+                }
             }
 
             var data = JSON.stringify({

@@ -19,10 +19,6 @@ payments = Blueprint('basic', __name__,)
 
 @payments.route('/token', methods=['POST'])
 def make_token_payment():
-
-    test1 = request.host_url
-    test2 = request.base_url
-
     data = json.dumps({
         'amount': decimal.Decimal(request.json.get('amount')).quantize(settings.TWO_PLACES),
         'payment_method': 'token',
