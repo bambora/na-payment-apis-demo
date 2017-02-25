@@ -3,7 +3,7 @@
   "containerDefinitions": [
     {
       "name": "payments-api-demo",
-      "image": "056252067802.dkr.ecr.us-west-2.amazonaws.com/beanstream/payments-api-demo:0.0.1",
+      "image": "056252067802.dkr.ecr.us-west-2.amazonaws.com/beanstream/payments-api-demo:0.0.2",
       "essential": true,
       "memory": 128,
       "portMappings": [
