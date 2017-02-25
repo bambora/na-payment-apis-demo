@@ -33,9 +33,5 @@ You can view the deployed app at: http://payments-api-demo.us-west-2.elasticbean
 
 ## Todo:
 - Validate inputs
-- Populate card fields when the user clicks the table
-
 - 3d secure
- - Fix completion call.
  - Display 3d secure in Lightbox.
- - Ensure 3d secure implementation conforms with code guideline in support.beanstream.com.
