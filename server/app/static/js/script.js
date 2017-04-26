@@ -1,7 +1,7 @@
 /*
- * Copyright (c) 2017 - Beanstream Internet Commerce, Inc. <http://beanstream.com>
- # MIT licensed. Feel free to use and abuse.
-*/
+ * Copyright (c) 2017 - Bambora Inc. <http://developer.na.bambora.com>
+ * MIT licensed. Feel free to use and abuse.
+ */
 
 (function () {
     var tabController = {

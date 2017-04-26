@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Copyright (c) 2017 - Beanstream Internet Commerce, Inc. <http://beanstream.com>
+# Copyright (c) 2017 - Bambora Inc. <http://developer.na.bambora.com>
 # MIT licensed. Feel free to use and abuse.
 #
 
@@ -18,7 +18,7 @@ from blueprints.enhanced import payments as enhanced
 
 
 # Setup a logger
-logger = logging.getLogger('ApplePay-Demo')
+logger = logging.getLogger('Merchant-API-Demo')
 logger.setLevel(logging.DEBUG)
 
 # Create a Flask app.

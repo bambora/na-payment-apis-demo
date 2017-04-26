@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2017 - Beanstream Internet Commerce, Inc. <http://beanstream.com>
+# Copyright (c) 2017 - Bambora Inc. <http://developer.na.bambora.com>
 # MIT licensed. Feel free to use and abuse.
 #
 
@@ -9,8 +9,8 @@ import decimal
 
 
 #
-# Beanstream params needed for authentication include Merchant ID & API Passcode.
-# --> More info here: http://developer.beanstream.com/documentation/authentication/
+# Bambora params needed for authentication include Merchant ID & API Passcode.
+# --> More info here: https://developer.na.bambora.com/docs/guides/merchant_quickstart/
 #
 merchant_id = os.environ.get('MERCHANT_ID')
 api_passcode = os.environ.get('API_PASSCODE')
@@ -21,7 +21,7 @@ if merchant_id is None or api_passcode is None:
           ' start this app!')
     exit(0)
 
-base_url = 'https://www.beanstream.com/api/v1/payments'
+base_url = 'https://api.na.bambora.com/v1/payments'
 
 # http://stackoverflow.com/questions/1995615/how-can-i-format-a-decimal-to-always-show-2-decimal-places
 TWO_PLACES = decimal.Decimal(10) ** -2       # same as Decimal('0.01')
