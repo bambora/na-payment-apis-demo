@@ -2,8 +2,8 @@
   "AWSEBDockerrunVersion": 2,
   "containerDefinitions": [
     {
-      "name": "payments-api-demo",
-      "image": "056252067802.dkr.ecr.us-west-2.amazonaws.com/beanstream/payments-api-demo:0.0.2",
+      "name": "na-merchant-api-demo",
+      "image": "056252067802.dkr.ecr.us-west-2.amazonaws.com/beanstream/na-merchant-api-demo:VERSION",
       "essential": true,
       "memory": 128,
       "portMappings": [
