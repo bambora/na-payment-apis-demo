@@ -15,7 +15,7 @@ from werkzeug.exceptions import HTTPException
 
 from blueprints.basic import payments as basic
 from blueprints.enhanced import payments as enhanced
-from blueprints.mobilepayments.mobile import payments as mobile
+from blueprints.mobile import payments as mobile
 
 
 # Setup a logger
