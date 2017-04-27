@@ -17,7 +17,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var placeholderView: UIView!
     
     // Mobile Payments Demo Server
-    fileprivate let DemoServerURLBase = "http://mobilepay-demo.us-west-2.elasticbeanstalk.com"
+    fileprivate let DemoServerURLBase = "http://merchant-api-demo.us-west-2.elasticbeanstalk.com"
     
     // Apple Pay Merchant Identifier
     fileprivate let ApplePayMerchantID = "merchant.com.beanstream.apbeanstream"
@@ -138,7 +138,7 @@ extension ViewController: PKPaymentAuthorizationViewControllerDelegate {
         
         self.hud = MBProgressHUD.showAdded(to: self.view, animated: true)
 
-        Alamofire.request(DemoServerURLBase + "/process-payment/apple-pay", method: .post, parameters: parameters, encoding: URLEncoding.httpBody).responseJSON {
+        Alamofire.request(DemoServerURLBase + "/payment/mobile/process/apple-pay", method: .post, parameters: parameters, encoding: URLEncoding.httpBody).responseJSON {
             response in
 
             if let _ = self.hud {
