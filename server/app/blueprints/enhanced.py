@@ -37,7 +37,7 @@ def make_token_payment():
     # for payments when a customer uses a 3D Secure enabled credit card and when your Beanstream
     # merchant account is also configured to enable 3D Secure.
 
-    response = requests.post(settings.base_url, headers=settings.create_auth_headers(), data=data)
+    response = requests.post(settings.base_url + '/v1/payments', headers=settings.create_auth_headers(), data=data)
     session['3d-secure-id'] = json.loads(response.content.decode("utf-8")).get('merchant_data')
     return response.content.decode("utf-8"), response.status_code
 
@@ -59,7 +59,7 @@ def make_3d_secure_token_payment():
         }
     }, use_decimal=True)
 
-    response = requests.post(settings.base_url, headers=settings.create_auth_headers(), data=data)
+    response = requests.post(settings.base_url + '/v1/payments', headers=settings.create_auth_headers(), data=data)
     session['3d-secure-id'] = json.loads(response.content.decode("utf-8")).get('merchant_data')
     return response.content.decode("utf-8"), response.status_code
 
@@ -72,7 +72,7 @@ def make_interac_payment():
         'payment_method': 'interac'
     }, use_decimal=True)
 
-    response = requests.post(settings.base_url, headers=settings.create_auth_headers(), data=data)
+    response = requests.post(settings.base_url + '/v1/payments', headers=settings.create_auth_headers(), data=data)
     session['interac-id'] = json.loads(response.content.decode("utf-8")).get('merchant_data')
     return response.content.decode("utf-8"), response.status_code
 
@@ -80,7 +80,7 @@ def make_interac_payment():
 @payments.route('/interac_callback', methods=['POST'])
 def interac_callback():
     if 'interac-id' in session:
-        url = '{}/{}/continue'.format(settings.base_url, session['interac-id'])
+        url = '{}/{}/continue'.format(settings.base_url + '/v1/payments', session['interac-id'])
         session.pop('interac-id', None)
 
         data = json.dumps({
@@ -116,7 +116,7 @@ def interac_callback():
 @payments.route('/redirect/3d-secure', methods=['POST'])
 def three_d_secure_callback():
     if '3d-secure-id' in session:
-        url = '{}/{}/continue'.format(settings.base_url, session['3d-secure-id'])
+        url = '{}/{}/continue'.format(settings.base_url + '/v1/payments', session['3d-secure-id'])
         session.pop('3d-secure-id', None)
         data = json.dumps({
             'payment_method': 'credit_card',

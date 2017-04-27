@@ -21,7 +21,7 @@ if merchant_id is None or api_passcode is None:
           ' start this app!')
     exit(0)
 
-base_url = 'https://api.na.bambora.com/v1/payments'
+base_url = 'https://api.na.bambora.com'
 
 # http://stackoverflow.com/questions/1995615/how-can-i-format-a-decimal-to-always-show-2-decimal-places
 TWO_PLACES = decimal.Decimal(10) ** -2       # same as Decimal('0.01')

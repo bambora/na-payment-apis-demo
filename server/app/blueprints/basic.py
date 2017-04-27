@@ -28,5 +28,5 @@ def make_token_payment():
         }
     }, use_decimal=True)
 
-    response = requests.post(settings.base_url, headers=settings.create_auth_headers(), data=data)
+    response = requests.post(settings.base_url + '/v1/payments', headers=settings.create_auth_headers(), data=data)
     return response.content.decode("utf-8"), response.status_code

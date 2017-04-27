@@ -18,51 +18,27 @@
 # SOFTWARE.
 #
 
-import os
 import sys
 import json
 import base64
 import logging
 import requests
-import newrelic.agent
-from flask import Flask
+
+from flask import Blueprint
 from flask import request
 from flask import jsonify
-from werkzeug.exceptions import default_exceptions
-from werkzeug.exceptions import HTTPException
-from db import payments
 
-# Bambora Merchant API Server base URL. Defaults to 'https://api.na.bambora.com'
-bic_server_url_base = os.environ.get('BIC_SERVER_URL_BASE')
+import settings
+from blueprints.mobilepayments import db
 
-if bic_server_url_base is None:
-    bic_server_url_base = 'https://api.na.bambora.com'
+# Setup our Mobile Payments Blueprint
+payments = Blueprint('mobile-payments', __name__,)
 
-# Params needed for authentication include Merchant ID & API Passcode.
-# --> More info here: https://developer.na.bambora.com/docs/references/merchant_API/
-bic_merchant_id = os.environ.get('BIC_MERCHANT_ID')
-bic_api_passcode = os.environ.get('BIC_API_PASSCODE')
-
-if bic_merchant_id is None or bic_api_passcode is None:
-    print("FATAL: Required Server Params Missing!!!")
-
-# If New Relic support is needed use the following environment variables.
-# Environment should be one of
-# --> development | test | staging | production
-
-environment = os.environ.get('NEW_RELIC_ENVIRONMENT')
-new_relic_license = os.environ.get('NEW_RELIC_LICENSE_KEY')
-
-if environment is None or new_relic_license is None:
-    print("New Relic Monitoring not enabled!")
-else:
-    newrelic.agent.initialize('config/newrelic.ini')
-
-# Create the Server app
-app = Flask(__name__)
+# Create our database access helper instance variable
+payments_dao = db.PaymentsDAO()
 
 # Setup a logger
-logger = logging.getLogger('ApplePay-Demo')
+logger = logging.getLogger('Mobile-Payments')
 logger.setLevel(logging.DEBUG)
 
 ch = logging.StreamHandler(sys.stdout)
@@ -71,48 +47,14 @@ formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(messag
 ch.setFormatter(formatter)
 logger.addHandler(ch)
 
-##########################
-# ERROR/EXCEPTION HANDLING
-#
-# --> http://flask.pocoo.org/snippets/83/
-# Creates a JSON-oriented Flask app.
-#
-# All error responses that you don't specifically
-# manage yourself will have application/json content
-# type, and will contain JSON like this (just an example):
-#
-# { "message": "405: Method Not Allowed" }
-
-
-def make_json_error(ex):
-
-    logger.exception(ex)
-    response = jsonify(message=str(ex))
-    response.status_code = (ex.code
-                            if isinstance(ex, HTTPException)
-                            else 500)
-    return response
-
-
-for code in default_exceptions.items():
-        app.error_handler_spec[None][code] = make_json_error
-
 
 ##########################
 # ROUTES
 
-@app.route('/version')
-def version():
-    return '1.0.2'
-
-
-@app.route('/process-payment/<wallet_type>', methods=['POST'])
+@payments.route('/process/<wallet_type>', methods=['POST'])
 def process_payment(wallet_type):
     if wallet_type != 'apple-pay':
         return error400('Must use an Apple Pay wallet type.')
-
-    if bic_merchant_id is None or bic_api_passcode is None:
-        return error400('Required Server Params Missing.')
 
     logger.debug(request.form)
 
@@ -135,7 +77,7 @@ def process_payment(wallet_type):
     # Create a new payment record in the local database.
     payment_dict = payments_dao.create_payment(
         payment_amount=amount,
-        payment_method=payments.PaymentMethod.apple_pay
+        payment_method=db.PaymentMethod.apple_pay
     )
 
     payment_id = payment_dict["id"]
@@ -157,7 +99,7 @@ def process_payment(wallet_type):
 
     print(payload)
 
-    passcode = bic_merchant_id + ':' + bic_api_passcode
+    passcode = settings.merchant_id + ':' + settings.api_passcode
     passcode = base64.b64encode(passcode.encode('utf-8')).decode()
 
     headers = {
@@ -165,41 +107,42 @@ def process_payment(wallet_type):
         'Content-Type': 'application/json'
     }
 
-    response = requests.post(bic_server_url_base + '/v1/payments',
+    response = requests.post(settings.base_url + '/v1/payments',
                              json=payload,
                              headers=headers)
-
-    json_response = {'success': False}
 
     if response.status_code == 200:
         response = response.json()
         logger.info(response)
 
         bic_transaction_id = response.get('id')
-        payment_status = payments.PaymentStatus.captured
+        payment_status = db.PaymentStatus.captured
 
         if transaction_type == "pre-auth":
-            payment_status = payments.PaymentStatus.authorized
+            payment_status = db.PaymentStatus.authorized
 
         # Update the payment record to include the Transaction ID
         # and a status to indicate payment was captured or authorized.
         json_response = payments_dao.update_payment(
             payment_id=payment_id,
             payment_status=payment_status,
-            bic_transaction_id = bic_transaction_id
+            bic_transaction_id=bic_transaction_id
         )
+
+        return jsonify(json_response)
+
     else:
         message = response.text
-        logger.warn('Payments API call unsuccessful: ' + response.text)
+        logger.warning('Payments API call unsuccessful: ' + response.text)
 
-        payment_status = payments.PaymentStatus.error
+        payment_status = db.PaymentStatus.error
 
         try:
             json_dict = json.loads(message)
             message = json_dict.get('message')
 
             if message == 'Declined':
-                payment_status = payments.PaymentStatus.declined
+                payment_status = db.PaymentStatus.declined
 
         except json.JSONDecodeError:
             pass
@@ -212,29 +155,18 @@ def process_payment(wallet_type):
 
         return error400(message)
 
-    return jsonify(json_response)
-
 
 # HELPER FUNCTIONS
 
 # Used for custom error handling
-@app.errorhandler(400)
 def error400(e):
 
     logger.warning(e)
     return jsonify(error=400, message=str(e)), 400
 
 
-@app.errorhandler(Exception)
 def error500(e):
 
     logger.exception(e)
     error_code = 500
     return jsonify(error=error_code, message=str(e)), error_code
-
-# START SERVER
-
-payments_dao = payments.PaymentsDAO()
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080)

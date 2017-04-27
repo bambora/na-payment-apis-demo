@@ -22,6 +22,7 @@ import sys
 import enum
 import logging
 import datetime
+
 from sqlalchemy import create_engine
 from sqlalchemy import MetaData
 from sqlalchemy import Column
@@ -115,7 +116,7 @@ class PaymentsDAO:
     def __init__(self):
         session = None
         try:
-            self.logger = logging.getLogger('ApplePay-Demo')
+            self.logger = logging.getLogger('MobilePay-Demo')
 
             # test being able to create a DB session at start up
             session = DBSession()

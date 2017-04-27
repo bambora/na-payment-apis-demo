@@ -15,6 +15,7 @@ from werkzeug.exceptions import HTTPException
 
 from blueprints.basic import payments as basic
 from blueprints.enhanced import payments as enhanced
+from blueprints.mobilepayments.mobile import payments as mobile
 
 
 # Setup a logger
@@ -60,6 +61,11 @@ def error500(e):
 # Routes
 #
 
+@app.route('/version')
+def version():
+    return '<VERSION>'
+
+
 @app.route('/', defaults={'path': 'index.html'})
 @app.route('/<path:path>')
 def route(path):
@@ -68,6 +74,7 @@ def route(path):
 
 app.register_blueprint(basic, url_prefix='/payment/basic')
 app.register_blueprint(enhanced, url_prefix='/payment/enhanced')
+app.register_blueprint(mobile, url_prefix='/payment/mobile')
 
 
 #
