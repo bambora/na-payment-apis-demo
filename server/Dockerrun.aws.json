@@ -3,13 +3,13 @@
   "containerDefinitions": [
     {
       "name": "na-merchant-api-demo",
-      "image": "056252067802.dkr.ecr.us-west-2.amazonaws.com/beanstream/na-merchant-api-demo:VERSION",
+      "image": "056252067802.dkr.ecr.us-west-2.amazonaws.com/bambora/na-merchant-api-demo:VERSION",
       "essential": true,
       "memory": 128,
       "portMappings": [
         {
           "hostPort": 80,
-          "containerPort": 5000
+          "containerPort": 8080
         }
       ]
     }

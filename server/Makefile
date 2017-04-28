@@ -45,9 +45,9 @@ run_latest:
 
 deploy: login
 	# Upload zipped Dockerrun file to S3
-	sed -i'.orig' -e "s/<VERSION>/$(VERSION)/g" app/server.py
+	sed -i'.orig' -e "s/VERSION/$(VERSION)/g" Dockerrun.aws.json
 	zip -r $(ZIP) Dockerrun.aws.json
-	mv app/server.py.orig app/server.py
+	mv Dockerrun.aws.json.orig Dockerrun.aws.json
 
 	aws s3 cp $(ZIP) s3://$(EB_BUCKET)/$(ZIP)
 
