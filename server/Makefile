@@ -1,7 +1,7 @@
 REPO_BASE=056252067802.dkr.ecr.us-west-2.amazonaws.com
 APP_NAME=na-merchant-api-demo
 IMAGE_NAME=bambora/$(APP_NAME)
-VERSION=0.0.3
+VERSION=0.0.4
 EB_BUCKET=eb-docker-deploy
 EB_APP_ENV_NAME=$(APP_NAME)
 ZIP=$(EB_APP_ENV_NAME).zip
@@ -52,13 +52,13 @@ deploy: login
 	aws s3 cp $(ZIP) s3://$(EB_BUCKET)/$(ZIP)
 
 	# Create new app version with zipped Dockerrun file
-	aws elasticbeanstalk create-application-version --application-name $(APP_NAME) \
+	aws elasticbeanstalk create-application-version --application-name merchant-api-demo \
 	--version-label $(VERSION) \
 	--source-bundle S3Bucket=$(EB_BUCKET),S3Key=$(ZIP) \
 	--region us-west-2
 
 	# Update the environment to use the new app version
-	aws elasticbeanstalk update-environment --application-name $(APP_NAME) \
+	aws elasticbeanstalk update-environment --application-name merchant-api-demo \
 	--environment-name $(EB_APP_ENV_NAME) \
 	--version-label $(VERSION) \
 	--region us-west-2
