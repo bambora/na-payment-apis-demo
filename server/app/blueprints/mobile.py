@@ -156,6 +156,31 @@ def process_payment(wallet_type):
         return error400(message)
 
 
+@payments.route('/apple-pay-session', methods=['POST'])
+def get_apple_pay_session():
+    json_params = request.get_json(silent=True)
+    apple_pay_url = json_params['url']
+    # We need a URL from the client to call
+    if not apple_pay_url:
+        return error400("No URL param found.")
+
+    # We must provide our Apple Pay certificate, merchant ID, domain name, and display name
+    payload = {
+        'merchantIdentifier': 'merchant.com.beanstream.apbeanstream',
+        'domainName': 'demo.na.bambora.com',
+        'displayName': 'Merchant API Demo',
+    }
+
+    # Send the request to the Apple Pay server and return the response to the client
+    response = requests.post(apple_pay_url, json=payload)
+
+    if response.status_code == 200:
+        return response.text, response.status_code, response.headers.items()
+    else:
+        print('Error generating Apple Pay session!')
+        return response.text, response.status_code, response.headers.items()
+
+
 # HELPER FUNCTIONS
 
 # Used for custom error handling

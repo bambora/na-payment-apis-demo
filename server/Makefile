@@ -1,6 +1,6 @@
 REPO_BASE=056252067802.dkr.ecr.us-west-2.amazonaws.com
 APP_NAME=na-merchant-api-demo
-IMAGE_NAME=beanstream/$(APP_NAME)
+IMAGE_NAME=bambora/$(APP_NAME)
 VERSION=0.0.3
 EB_BUCKET=eb-docker-deploy
 EB_APP_ENV_NAME=$(APP_NAME)

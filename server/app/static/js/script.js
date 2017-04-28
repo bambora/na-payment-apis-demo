@@ -19,7 +19,9 @@
         },
         addListeners: function () {
             console.log('tabController.addListeners()');
-            this.cardTag.addEventListener('click', this.setPaymentMethod.bind(this));
+            if (this.cardTag != null) {
+                this.cardTag.addEventListener('click', this.setPaymentMethod.bind(this));
+            }
             if (this.interacTag != null) {
                 this.interacTag.addEventListener('click', this.setPaymentMethod.bind(this));
             }
@@ -38,8 +40,8 @@
 
 (function () {
     // Pre-populate fields
-    document.getElementById('amount').value = 100;
-    document.getElementById('name').value = 'Jane Doe';
+    document.getElementById('amount').value = '1.00';
+    document.getElementById('name').value = 'Jane Smith';
 })();
 
 (function () {
@@ -66,9 +68,11 @@
             document.addEventListener('beanstream_payfields_tokenRequested', this.onTokenRequested.bind(this));
             document.addEventListener('beanstream_payfields_tokenUpdated', this.onTokenUpdated.bind(this));
             document.addEventListener('beanstream_payfields_inputValidityChanged', this.onValidityChanged.bind(this));
-            this.cardPaymentForm.addEventListener('submit', function preventDefault(e) {
-                e.preventDefault();
-            });
+            if (this.cardPaymentForm != null) {
+                this.cardPaymentForm.addEventListener('submit', function preventDefault(e) {
+                    e.preventDefault();
+                });
+            }
         },
         onFieldsInjected: function () {
             console.log('cardFormController.onFieldsInjected()');
