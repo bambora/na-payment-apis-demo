@@ -7,7 +7,7 @@ RUN mkdir -p /deploy/app
 COPY app/*.* /deploy/app/
 ADD app/blueprints /deploy/app/
 ADD app/static /deploy/app/
-Add app/temlates /deploy/app/
+Add app/templates /deploy/app/
 
 RUN apk add --no-cache --update python3 \
   && python3 -m ensurepip \
