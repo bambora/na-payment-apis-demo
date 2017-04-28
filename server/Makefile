@@ -10,7 +10,7 @@ all:
 
 build:
 	sed -i'.orig' -e "s/<VERSION>/$(VERSION)/g" app/server.py
-	docker build -t $(NAME):$(VERSION) --rm .
+	docker build -t $(IMAGE_NAME):$(VERSION) --rm .
 	mv app/server.py.orig app/server.py
 
 build_no_cache:
