@@ -38,10 +38,10 @@ shell_latest:
 	docker run -it $(NAME):$(VERSION) /bin/ash
 
 run:
-	docker run -p 5000:5000 $(IMAGE_NAME):$(VERSION)
+	docker run -p 80:8080 $(IMAGE_NAME):$(VERSION)
 
 run_latest:
-	docker run -p 5000:5000 $(IMAGE_NAME):latest
+	docker run -p 80:8080 $(IMAGE_NAME):latest
 
 deploy: login
 	# Upload zipped Dockerrun file to S3
