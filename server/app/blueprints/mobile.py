@@ -39,7 +39,7 @@ payments_dao = db.PaymentsDAO()
 
 # Setup a logger
 logger = logging.getLogger('Mobile-Payments')
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.WARNING)
 
 ch = logging.StreamHandler(sys.stdout)
 ch.setLevel(logging.DEBUG)
@@ -186,7 +186,7 @@ def get_apple_pay_session():
 # Used for custom error handling
 def error400(e):
 
-    logger.warning(e)
+    # logger.warning(e)
     return jsonify(error=400, message=str(e)), 400
 
 
