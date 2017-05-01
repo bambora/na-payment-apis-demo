@@ -64,7 +64,7 @@ def error500(e):
 
 @app.route('/version')
 def version():
-    return '0.0.3'
+    return '<VERSION>'
 
 
 @app.route('/', defaults={'path': 'index.html'})
