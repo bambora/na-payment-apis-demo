@@ -27,10 +27,11 @@ on a merchants CRM (as an example), and then a request to process the payment us
 would then be made to the Bambora Merchant API. Upon success or failure to process the payment, the 
 merchant’s CRM could be updated and the originating mobile client would then receive a response.
 
-
+## Apple Pay Developer Guide
 
 For details on how to develop Apple Pay enabled apps please visit:
-- https://developer.apple.com/library/content/ApplePay_Guide/index.html#//apple_ref/doc/uid/TP40014764-CH1-SW1
+
+https://developer.apple.com/library/content/ApplePay_Guide/index.html#//apple_ref/doc/uid/TP40014764-CH1-SW1
 
 # Server
 
