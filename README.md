@@ -11,9 +11,9 @@ implementation.
 
 # Client
 
-<img width="180" align="left" src="client/ios/screenshot.png">
-
 The iOS client project was built with XCode 8 and requires Swift 3.0.
+
+<img width="180" align="left" src="client/ios/screenshot.png">
 
 <img width="83" height="53" align="right" src="http://images.apple.com/v/apple-pay/f/images/overview/apple_pay_logo_large_2x.png">
 
@@ -38,7 +38,9 @@ The server project requires Python 3. To build & run the server for local dev yo
 try the server out by just setting your Bambora Merchant API Passcode as a server side environment variable 
 and then start up as follows.
 
-When the client makes a payment request, it first gets an Apple Pay payment token using standard Apple SDK 
+## Apple Pay in the Bambora Merchant API
+
+When an Apple Pay client makes a payment request, it first gets an Apple Pay payment token using standard Apple SDK 
 APIs. It then communicates this info to the Demo Server which is responsible for interacting with the 
 Bambora Merchant API. The Bambora Merchant API has been updated to allow for Apple Pay transactions 
 and the following is a sample POST parameter to use with a RESTful invocation of the Payments API.
@@ -60,7 +62,7 @@ payload = {
 * Execute a git clone command on this repo and in a terminal cd into the root project directory.
 ```bash
 $ git clone https://github.com/Bambora/na-mobilepayments-demo.git
-$ cd mobilepayments-demo/server/app
+$ cd na-mobilepayments-demo/server/app
 ```
 
 * Install virtualenv (if not already available)
