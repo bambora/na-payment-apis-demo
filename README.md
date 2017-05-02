@@ -4,8 +4,8 @@
 
 Copyright © 2017 Bambora Inc.
 
-This repo contains a simple merchant Python/Flask server to help process payments. The demo clients and server are intended to be simple examples to help you with your production 
-implementation.
+This repo contains a simple merchant Python/Flask server and associated Web and iOS clients to help process payments. 
+The demo server & clients are intended to be simple examples that can help you with your production implementation.
 
 :-)
 
@@ -16,25 +16,6 @@ Feel free to [view and try out](https://demo.na.bambora.com) the Merchant API De
 The server project requires Python 3. To build & run the server for local dev you can use a SQLite DB and 
 try the server out by just setting your Bambora Merchant API Passcode as a server side environment variable 
 and then start up as follows.
-
-## Apple Pay and the Bambora Merchant API
-
-When an Apple Pay client makes a payment request, it first gets an Apple Pay payment token using standard Apple SDK 
-APIs. It then communicates this info to the Demo Server which is responsible for interacting with the 
-Bambora Merchant API. The Bambora Merchant API has been updated to allow for Apple Pay transactions 
-and the following is a sample POST parameter to use with a RESTful invocation of the Payments API.
-
-```
-payload = {
-    'amount': float(<purchase_amount>),
-    'payment_method': 'apple_pay',
-    'apple_pay': {
-        'apple_pay_merchant_id': <your_apple_pay_merchant_id>,
-        'payment_token': <apple_pay_base64_encoded_token>,
-        'complete': <true (Defaults to true if omitted. Used for a purchase) | false (Used for a Pre-Auth.)>
-    }
-}
-```
 
 ## Server Setup & Installation
 
@@ -96,6 +77,25 @@ merchant’s CRM could be updated and the originating mobile client would then r
 For details on how to develop Apple Pay enabled apps please visit:
 
 https://developer.apple.com/library/content/ApplePay_Guide/index.html#//apple_ref/doc/uid/TP40014764-CH1-SW1
+
+## Apple Pay and the Bambora Merchant API
+
+When an Apple Pay client makes a payment request, it first gets an Apple Pay payment token using standard Apple SDK 
+APIs. It then communicates this info to the Demo Server which is responsible for interacting with the 
+Bambora Merchant API. The Bambora Merchant API has been updated to allow for Apple Pay transactions 
+and the following is a sample POST parameter to use with a RESTful invocation of the Payments API.
+
+```
+payload = {
+    'amount': float(<purchase_amount>),
+    'payment_method': 'apple_pay',
+    'apple_pay': {
+        'apple_pay_merchant_id': <your_apple_pay_merchant_id>,
+        'payment_token': <apple_pay_base64_encoded_token>,
+        'complete': <true (Defaults to true if omitted. Used for a purchase) | false (Used for a Pre-Auth.)>
+    }
+}
+```
 
 ---
 
