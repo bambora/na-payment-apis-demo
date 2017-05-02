@@ -9,30 +9,6 @@ implementation.
 
 :-)
 
-# Client
-
-The iOS client project was built with XCode 8 and requires Swift 3.0.
-
-<img width="180" src="client/ios/screenshot.png">
-
-<img width="83" height="53" align="right" src="http://images.apple.com/v/apple-pay/f/images/overview/apple_pay_logo_large_2x.png">
-
-The Apple Pay payment request flows from the iOS client and then, if successful, an Apple Pay token is 
-transmitted to the demo merchant server, which records the payment request and executes the Bambora 
-Merchant API.
-
-In your production flow, a mobile client might transmit other info such as the customer identifier, 
-detailed sales/inventory data, and related shipping and billing addresses. This info might be recorded 
-on a merchants CRM (as an example), and then a request to process the payment using the Apple Pay token 
-would then be made to the Bambora Merchant API. Upon success or failure to process the payment, the 
-merchant’s CRM could be updated and the originating mobile client would then receive a response.
-
-## Apple Pay Developer Guide
-
-For details on how to develop Apple Pay enabled apps please visit:
-
-https://developer.apple.com/library/content/ApplePay_Guide/index.html#//apple_ref/doc/uid/TP40014764-CH1-SW1
-
 # Server
 
 Feel free to [view and try out](https://demo.na.bambora.com) the Merchant API Demo web app now!
@@ -100,6 +76,26 @@ Or if on Windows follow the same as above except set your environment variables 
 (venv) app$ $env:BIC_MERCHANT_ID = "<your_bambora_merchant_id>"
 (venv) app$ $env:DATABASE_URL = "sqlite:////users/<your_user>/appdata/local/temp/mobilepay-demo.db"
 ```
+
+# iOS Client
+
+The iOS client project was built with XCode 8 and requires Swift 3.0.
+
+<img width="83" height="53" align="right" src="http://images.apple.com/v/apple-pay/f/images/overview/apple_pay_logo_large_2x.png">
+
+The Apple Pay payment request flows from the iOS client and then, if successful, an Apple Pay token is 
+transmitted to the demo merchant server, which records the payment request and executes the Bambora 
+Merchant API.
+
+In your production flow, a mobile client might transmit other info such as the customer identifier, 
+detailed sales/inventory data, and related shipping and billing addresses. This info might be recorded 
+on a merchants CRM (as an example), and then a request to process the payment using the Apple Pay token 
+would then be made to the Bambora Merchant API. Upon success or failure to process the payment, the 
+merchant’s CRM could be updated and the originating mobile client would then receive a response.
+
+For details on how to develop Apple Pay enabled apps please visit:
+
+https://developer.apple.com/library/content/ApplePay_Guide/index.html#//apple_ref/doc/uid/TP40014764-CH1-SW1
 
 ---
 
