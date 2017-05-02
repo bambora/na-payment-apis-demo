@@ -121,14 +121,82 @@ function applePayButtonClicked() {
     * status in session.completePayment()
     */
     session.onpaymentauthorized = (event) => {
+        const amount = document.getElementById('amount').value;
+        const name = document.getElementById('name').value;
+
         // Send payment for processing...
         const payment = event.payment;
+        const token = payment.token;
+
+        makeApplePayPaymentRequest(amount, name, token);
 
         // ...return a status and redirect to a confirmation page
         session.completePayment(ApplePaySession.STATUS_SUCCESS);
-        window.location.href = "/success.html";
     }
 
     // All our handlers are setup - start the Apple Pay payment
     session.begin();
+}
+
+// Returns true if payment request is successful otherwise returns false
+function makeApplePayPaymentRequest(amount, name, paymentToken) {
+
+    console.log('makeApplePayRequest()');
+
+    const paymentData = paymentToken.paymentData;
+    var encodedPaymentData = Base64.encode(JSON.stringify(paymentData));
+
+    var xhr = new XMLHttpRequest();
+    var method = "POST";
+    var url = "/payment/mobile/process/apple-pay";
+
+    var data = JSON.stringify({
+        'name': name,
+        'amount': amount,
+        'payment-token': encodedPaymentData
+    });
+
+    setRequestStr(data);
+
+    xhr.open(method, url, true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            var json = null;
+            var jsonStr = '';
+
+            try {
+                json = JSON.parse(xhr.responseText);
+                jsonStr = JSON.stringify(json, undefined, 2);
+                setResponseStr(jsonStr);
+            }
+            catch (ex) {
+                console.log(ex);
+                setResponseStr(ex.message);
+            }
+
+            if (xhr.status === 200) {
+                this.invoice.innerHTML = JSON.parse(xhr.responseText).order_number;
+                this.transaction.innerHTML = JSON.parse(xhr.responseText).id;
+                this.errorFeedback.classList.remove('visible');
+                this.successFeedback.classList.add('visible');
+                this.processingScreen.classList.toggle('visible');
+            }
+            else {
+                var message = xhr.responseText;
+                try {
+                    message = JSON.parse(xhr.responseText).message;
+                }
+                catch (ex) {
+                    console.log('Parsing exception: ' + ex.message);
+                }
+                this.message.innerHTML = JSON.parse(xhr.responseText).message;
+                this.successFeedback.classList.remove('visible');
+                this.errorFeedback.classList.add('visible');
+                this.processingScreen.classList.toggle('visible');
+            }
+        }
+    }.bind(this);
+
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(data);
 }

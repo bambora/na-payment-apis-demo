@@ -58,10 +58,11 @@ def process_payment(wallet_type):
 
     logger.debug(request.form)
 
-    amount = request.form.get('amount')
-    transaction_type = request.form.get('transaction-type')
-    ap_merchant_id = request.form.get('apple-wallet[apple-pay-merchant-id]')
-    ap_token = request.form.get('apple-wallet[payment-token]')
+    amount = request.json.get('amount')
+    # name = request.json.get('name')
+    transaction_type = 'purchase'  # request.json.get('transaction-type')
+    ap_merchant_id = 'merchant.com.beanstream.apbeanstream'
+    ap_token = request.json.get('payment-token')
 
     if transaction_type != "purchase" and transaction_type != "pre-auth":
         transaction_type = None
