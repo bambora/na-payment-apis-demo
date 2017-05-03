@@ -1,0 +1,21 @@
+<nav class="nav-pane">
+    <div class="pull-left nav-links">
+        <a href="" class="logo">
+            <img src="{{ url_for('static', filename='images/zebraffe-dark.svg') }}">
+        </a>
+        <a href="/index.html" class="{{ 'active' if (tab == null or tab == 'basic') else '' }}">Basic</a>
+        <a href="/3ds.html" class="{{ 'active' if (tab == '3ds') else '' }}">3D Secure &amp; Interac Online</a>
+
+        <!--
+          DISABLED APPLE PAY FOR WEB (JS)
+          CREATED JIRA PAY-1497 Investigate and fix SSLV3 Handshake exception
+        <a href="/apple-pay.html" class="{{ 'active' if (tab == 'apple-pay') else '' }}">Apple Pay</a>
+        -->
+
+        <!--
+        <a href="" class="">Wallets</a>
+        <a href="" class="">Wallets + 3D Secure</a>
+        <a href="" class="">Hosted Checkout</a>
+        -->
+    </div>
+</nav>
