@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2017 - Bambora Inc. <http://developer.na.bambora.com>
+# Copyright (c) 2017 - Bambora Inc. <http://dev.na.bambora.com>
 # MIT licensed. Feel free to use and abuse.
 #
 
@@ -15,7 +15,7 @@ if base_url is None:
     base_url = 'https://api.na.bambora.com'
 
 # Bambora params needed for authentication include Merchant ID & API Passcode.
-# --> More info here: https://developer.na.bambora.com/docs/guides/merchant_quickstart/
+# --> More info here: https://dev.na.bambora.com/docs/guides/merchant_quickstart/
 merchant_id = os.environ.get('MERCHANT_ID')
 api_passcode = os.environ.get('API_PASSCODE')
 
