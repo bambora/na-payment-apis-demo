@@ -3,7 +3,7 @@
 {% include 'snippets/head.html' %}
 {% with tab='basic' %}
     {% include 'snippets/main-nav.html' %}
-{%  endwith %}
+{% endwith %}
 
 <div class="main">
     <header class='display'>Payments</header>
@@ -59,33 +59,105 @@
         </div>
     </nav>
     <div id="card-block" class="block visible">
-        <!-- This form uses PayFields -->
-        <form id="cardPaymentForm">
-                    <div class="form-group">
-                        <label for="card_number">Card Number</label>
-                        <div data-beanstream-target='ccNumber_input'></div>
-                        <div data-beanstream-target='ccNumber_error' class=''></div>
-                    </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="card_expiry">Expiry (mm / yyyy)</label>
-                        <div data-beanstream-target='ccExp_input'></div>
-                        <div data-beanstream-target='ccExp_error' class=''></div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="card_cvv">CVV</label>
-                        <div data-beanstream-target='ccCvv_input'></div>
-                        <div data-beanstream-target='ccCvv_error' class=''></div>
-                    </div>
-                </div>
+        <!-- This form uses CheckoutFields -->
+
+        <script src='https://libs.na.bambora.com/checkoutfields/2.0.0/checkoutfields.js'></script>
+
+        <form action="#" method="POST" id="checkout-fields">
+            <div class="form-group">
+                <label for="card-number">Card number</label>
+                <div id="card-number"></div>
+
+                <label for="card-cvv">CVV</label>
+                <div id="card-cvv"></div>
+
+                <label for="card-expiry">Expiry date</label>
+                <div id="card-expiry"></div>
+
+                <input type="button" class="btn btn-default" id="submit" value="Pay">
             </div>
-            <input type="submit" class="btn btn-default" value="Pay"/>
-            <script src='https://payform.beanstream.com/payfields/beanstream_payfields.js' id="payfieldsScript"
-                    data-submitForm="false"></script>
         </form>
+
+        <script>
+            // Initialize the library
+            var checkoutFields = checkoutfields();
+
+            var style = {
+                base: {
+                    fontFamily: '"Fakt Pro", "HelveticaNeue-Light", \
+                        "Helvetica Neue Light", "Helvetica Neue", Helvetica, \
+                        Arial, "Lucida Grande", sans-serif',
+                    fontSize: '15px',
+                    color: 'rgba(30, 30, 30, 1)'
+                },
+                invalid: {
+                    color: 'red'
+                }
+            };
+
+            /* Card input */
+            var options = {
+                style: style
+            };
+
+            // Create and mount the checkoutFields inputs
+            var cardNumber = checkoutFields.create('card-number', options);
+            cardNumber.mount('#card-number');
+
+            var cvv = checkoutFields.create('cvv', options);
+            cvv.mount('#card-cvv');
+
+            var expiry = checkoutFields.create('expiry', options);
+            expiry.mount('#card-expiry');
+
+            // add event listeners
+            checkoutFields.on('brand', function (event) {
+                var eventType = 'brand';
+                console.log(eventType + ': ' + JSON.stringify(event));
+
+                if (event.brand && event.brand !== 'unknown') {
+                    var filePath = "/static/images/" + event.brand + ".svg";
+                    cardLogo = "url(" + filePath + ")";
+                } else {
+                    cardLogo = "url('/static/images/card-outline.svg')";
+                }
+                document.getElementById('card-number').style.backgroundImage = cardLogo;
+            });
+
+            checkoutFields.on('blur', function (event) {
+                var eventType = 'blur';
+                console.log(eventType + ': ' + JSON.stringify(event));
+            });
+
+            checkoutFields.on('focus', function (event) {
+                var eventType = 'focus';
+                console.log(eventType + ': ' + JSON.stringify(event));
+            });
+
+            checkoutFields.on('empty', function (event) {
+                var eventType = 'empty';
+                console.log(eventType + ': ' + JSON.stringify(event));
+            });
+
+            checkoutFields.on('complete', function (event) {
+                var eventType = 'complete';
+                console.log(eventType + ': ' + JSON.stringify(event));
+            });
+
+            checkoutFields.on('error', function (event) {
+                var eventType = 'error';
+                console.log(eventType + ': ' + JSON.stringify(event));
+            });
+
+            // Tokenize on button submit
+            document.getElementById('submit').onclick = function () {
+                var callback = function (result) {
+                    var eventType = 'token';
+                    console.log(eventType + ': ' + JSON.stringify(result));
+                };
+                checkoutFields.createToken(callback);
+            };
+        </script>
     </div>
 
     {% include 'snippets/feedback.html' %}
@@ -96,7 +168,7 @@
         </div>
         <div id='grow'>
             <div class='measuringWrapper'>
-                    Request:
+                Request:
                 <pre id="raw-json-request" class="prettyprint lang-js">
 {
   "amount": 100
@@ -107,7 +179,7 @@
   }
 }
                 </pre>
-                    Response:
+                Response:
                 <pre id="raw-json-response" class="prettyprint lang-js">
 /* Not yet set */
                 </pre>
