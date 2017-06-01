@@ -64,6 +64,15 @@ table.table.table-highlight, .nav-pane {
   background-repeat: no-repeat;
   background-size: contain;
 }
+
+.error {
+  width: calc(100%);
+  min-height: 5px;
+  display: block;
+  margin: 0px;
+  padding: 0px;
+  color: red;
+}
 /* CheckoutFields */
 
 .processing-screen.visible {

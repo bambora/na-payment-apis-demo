@@ -14,6 +14,43 @@
         You can view the source <a href="https://github.com/bambora/na-merchant-api-demo" target="_blank">here</a>.
     </p>
 
+    <form>
+        <h4>Order Summary</h4>
+        <div class="form-group">
+            <label for="amount">Amount (CAD)</label>
+            <input id="amount" type="text" name="amount" placeholder=""/>
+        </div>
+        <h4>Your Details</h4>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input id="name" type="text" name="name" placeholder=""/>
+        </div>
+    </form>
+    <h4>Payment Method</h4>
+    <nav class="nav-pane secondary">
+        <div class="pull-left nav-links">
+            <a id="card-tag" href="javascript:void(0)" class="active">Credit or Debit Card</a>
+        </div>
+    </nav>
+
+    {% include 'snippets/checkout-fields.html' %}
+
+    {% include 'snippets/feedback.html' %}
+
+    <div id="raw-json-wrapper" class="block visible">
+        <div id="more-button-area">
+            <input type="button" class="btn btn-default" onclick="toggleGrowDiv()" value="Show JSON" id="more-button">
+        </div>
+        <div id='grow'>
+            <div class='measuringWrapper'>
+                Request:
+                <pre id="raw-json-request" class="prettyprint lang-js">/* Not yet set */</pre>
+                Response:
+                <pre id="raw-json-response" class="prettyprint lang-js">/* Not yet set */</pre>
+            </div>
+        </div>
+    </div>
+
     <h5>Test Cards</h5>
     <table class="table table-highlight">
         <thead>
@@ -39,153 +76,6 @@
         </tr>
         </tbody>
     </table>
-
-    <form>
-        <h4>Order Summary</h4>
-        <div class="form-group">
-            <label for="amount">Amount (CAD)</label>
-            <input id="amount" type="text" name="amount" placeholder=""/>
-        </div>
-        <h4>Your Details</h4>
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input id="name" type="text" name="name" placeholder=""/>
-        </div>
-    </form>
-    <h4>Payment Method</h4>
-    <nav class="nav-pane secondary">
-        <div class="pull-left nav-links">
-            <a id="card-tag" href="javascript:void(0)" class="active">Credit or Debit Card</a>
-        </div>
-    </nav>
-    <div id="card-block" class="block visible">
-        <!-- This form uses CheckoutFields -->
-
-        <script src='https://libs.na.bambora.com/checkoutfields/2.0.0/checkoutfields.js'></script>
-
-        <form action="#" method="POST" id="checkout-fields">
-            <div class="form-group">
-                <label for="card-number">Card number</label>
-                <div id="card-number"></div>
-
-                <label for="card-cvv">CVV</label>
-                <div id="card-cvv"></div>
-
-                <label for="card-expiry">Expiry date</label>
-                <div id="card-expiry"></div>
-
-                <input type="button" class="btn btn-default" id="submit" value="Pay">
-            </div>
-        </form>
-
-        <script>
-            // Initialize the library
-            var checkoutFields = checkoutfields();
-
-            var style = {
-                base: {
-                    fontFamily: '"Fakt Pro", "HelveticaNeue-Light", \
-                        "Helvetica Neue Light", "Helvetica Neue", Helvetica, \
-                        Arial, "Lucida Grande", sans-serif',
-                    fontSize: '15px',
-                    color: 'rgba(30, 30, 30, 1)'
-                },
-                invalid: {
-                    color: 'red'
-                }
-            };
-
-            /* Card input */
-            var options = {
-                style: style
-            };
-
-            // Create and mount the checkoutFields inputs
-            var cardNumber = checkoutFields.create('card-number', options);
-            cardNumber.mount('#card-number');
-
-            var cvv = checkoutFields.create('cvv', options);
-            cvv.mount('#card-cvv');
-
-            var expiry = checkoutFields.create('expiry', options);
-            expiry.mount('#card-expiry');
-
-            // add event listeners
-            checkoutFields.on('brand', function (event) {
-                var eventType = 'brand';
-                console.log(eventType + ': ' + JSON.stringify(event));
-
-                if (event.brand && event.brand !== 'unknown') {
-                    var filePath = "/static/images/" + event.brand + ".svg";
-                    cardLogo = "url(" + filePath + ")";
-                } else {
-                    cardLogo = "url('/static/images/card-outline.svg')";
-                }
-                document.getElementById('card-number').style.backgroundImage = cardLogo;
-            });
-
-            checkoutFields.on('blur', function (event) {
-                var eventType = 'blur';
-                console.log(eventType + ': ' + JSON.stringify(event));
-            });
-
-            checkoutFields.on('focus', function (event) {
-                var eventType = 'focus';
-                console.log(eventType + ': ' + JSON.stringify(event));
-            });
-
-            checkoutFields.on('empty', function (event) {
-                var eventType = 'empty';
-                console.log(eventType + ': ' + JSON.stringify(event));
-            });
-
-            checkoutFields.on('complete', function (event) {
-                var eventType = 'complete';
-                console.log(eventType + ': ' + JSON.stringify(event));
-            });
-
-            checkoutFields.on('error', function (event) {
-                var eventType = 'error';
-                console.log(eventType + ': ' + JSON.stringify(event));
-            });
-
-            // Tokenize on button submit
-            document.getElementById('submit').onclick = function () {
-                var callback = function (result) {
-                    var eventType = 'token';
-                    console.log(eventType + ': ' + JSON.stringify(result));
-                };
-                checkoutFields.createToken(callback);
-            };
-        </script>
-    </div>
-
-    {% include 'snippets/feedback.html' %}
-
-    <div id="raw-json-wrapper" class="block visible">
-        <div id="more-button-area">
-            <input type="button" class="btn btn-default" onclick="toggleGrowDiv()" value="Show JSON" id="more-button">
-        </div>
-        <div id='grow'>
-            <div class='measuringWrapper'>
-                Request:
-                <pre id="raw-json-request" class="prettyprint lang-js">
-{
-  "amount": 100
-  "payment_method": "token",
-  "token": {
-    "code": "c51-0431b873-4fae-4eca-b99e-9b4eeb5a84b0",
-    "name": "Jane Doe"
-  }
-}
-                </pre>
-                Response:
-                <pre id="raw-json-response" class="prettyprint lang-js">
-/* Not yet set */
-                </pre>
-            </div>
-        </div>
-    </div>
 
 </div>
 {% include 'snippets/footer.html' %}
