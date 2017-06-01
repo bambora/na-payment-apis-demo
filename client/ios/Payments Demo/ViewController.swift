@@ -111,10 +111,7 @@ extension ViewController: PKPaymentAuthorizationViewControllerDelegate {
         var parameters = [
             "amount": self.paymentAmount,
             "transaction-type": transactionType,
-            "apple-wallet": [
-                "payment-token": b64TokenStr,
-                "apple-pay-merchant-id": ApplePayMerchantID
-            ]
+            "payment-token": b64TokenStr
         ] as [String : Any]
 
         // Get shipping and billing address fields
@@ -138,7 +135,7 @@ extension ViewController: PKPaymentAuthorizationViewControllerDelegate {
         
         self.hud = MBProgressHUD.showAdded(to: self.view, animated: true)
 
-        Alamofire.request(DemoServerURLBase + "/payment/mobile/process/apple-pay", method: .post, parameters: parameters, encoding: URLEncoding.httpBody).responseJSON {
+        Alamofire.request(DemoServerURLBase + "/payment/mobile/process/apple-pay", method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON {
             response in
 
             if let _ = self.hud {
