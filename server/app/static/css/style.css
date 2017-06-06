@@ -42,39 +42,6 @@ table.table.table-highlight, .nav-pane {
   display:block;
 }
 
-/* CheckoutFields */
-.form-group > div {
-  font-family: "Fakt Pro", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-  font-size: 15px;
-  color: rgba(30, 30, 30, 1);
-  display: block;
-  width: calc(100%);
-  border-radius: 2px;
-  border: 1px solid rgba(200, 200, 200, 1);
-  padding: 14px 60px 13px 20px;
-  margin-bottom: 5px;
-  transition: all 100ms ease-out;
-}
-
-#card-number {
-  background-image: url('../images/card-outline.svg');
-
-  background-origin: content-box;
-  background-position: calc(100% + 40px) center;
-  background-repeat: no-repeat;
-  background-size: contain;
-}
-
-.error {
-  width: calc(100%);
-  min-height: 5px;
-  display: block;
-  margin: 0px;
-  padding: 0px;
-  color: red;
-}
-/* CheckoutFields */
-
 .processing-screen.visible {
   display:flex;
 }
