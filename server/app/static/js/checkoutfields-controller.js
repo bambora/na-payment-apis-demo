@@ -20,8 +20,13 @@
     };
 
     var checkoutFields = checkoutfields();
+    
+    var isCardNumberComplete = false;
+    var isCVVComplete = false;
+    var isExpiryComplete = false;
 
     var checkoutFieldsController = {
+
         init: function () {
             console.log('checkoutFields.init()');
             this.mountFields();
@@ -68,6 +73,15 @@
             checkoutFields.on('empty', function (event) {
                 var eventType = 'empty';
                 console.log(eventType + ': ' + JSON.stringify(event));
+
+                if (event.field === 'card-number') {
+                    isCardNumberComplete = false;
+                } else if (event.field === 'cvv') {
+                    isCVVComplete = false;
+                } else if (event.field === 'expiry') {
+                    isExpiryComplete = false;
+                }
+                self.updatePayButton();
             });
 
             checkoutFields.on('complete', function (event) {
@@ -76,11 +90,15 @@
 
                 if (event.field === 'card-number') {
                     self.hideFieldError(event);
+                    isCardNumberComplete = true;
                 } else if (event.field === 'cvv') {
                     self.hideFieldError(event);
+                    isCVVComplete = true;
                 } else if (event.field === 'expiry') {
                     self.hideFieldError(event);
+                    isExpiryComplete = true;
                 }
+                self.updatePayButton();
             });
 
             checkoutFields.on('error', function (event) {
@@ -88,18 +106,28 @@
                 console.log(eventType + ': ' + JSON.stringify(event));
 
                 if (event.field === 'card-number') {
+                    isCardNumberComplete = false;
                     self.showFieldError(event);
                 } else if (event.field === 'cvv') {
+                    isCVVComplete = false;
                     self.showFieldError(event);
                 } else if (event.field === 'expiry') {
+                    isExpiryComplete = false;
                     self.showFieldError(event);
                 }
+                self.updatePayButton();
             });
 
             if (document.getElementById('checkoutfields-form') !== null) {
-                document.getElementById('checkoutfields-form').addEventListener('submit', this.onSubmit.bind(this));
+                document.getElementById('checkoutfields-form').addEventListener('submit', self.onSubmit.bind(self));
             }
         },
+        onSubmit: function (event) {
+            console.log('checkoutFields.onSubmit()');
+            event.preventDefault();
+            this.processPayment();
+        },
+
         hideFieldError: function (event) {
             console.log('hideFieldError: ' + event.field);
             document.getElementById(event.field).classList.remove('invalid');
@@ -112,10 +140,23 @@
             document.getElementById(event.field + '-error').classList.add('invalid');
             document.getElementById(event.field + '-error').innerHTML = event.message;
         },
-        onSubmit: function (event) {
-            console.log('checkoutFields.onSubmit()');
-            event.preventDefault();
-            this.processPayment();
+        setPayButton: function (enabled) {
+            console.log('checkoutFields.setPayButton()');
+
+            var payButton = document.getElementById('pay-button');
+            payButton.disabled = !enabled;
+            if (enabled) {
+                payButton.className = "btn";
+            console.log('checkoutFields.setPayButton() default');
+            } else {
+                payButton.className = "btn-disabled";
+            console.log('checkoutFields.setPayButton() disabled');
+            }
+        },
+        updatePayButton: function () {
+            console.log('checkoutFields.updatePayButton()');
+
+            this.setPayButton(isCardNumberComplete && isCVVComplete && isExpiryComplete);
         },
         processPayment: function () {
             var self = this;
@@ -218,9 +259,11 @@
             xhr.send(data);
         },
         showProcessingScreen: function () {
+            this.setPayButton(false);
             document.getElementById('processing-screen').classList.add('visible');
         },
         hideProcessingScreen: function () {
+            this.updatePayButton();
             document.getElementById('processing-screen').classList.remove('visible');
         },
         showError: function (message) {
