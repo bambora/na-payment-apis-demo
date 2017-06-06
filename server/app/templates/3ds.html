@@ -34,39 +34,12 @@
         </div>
     </nav>
     <div id="card-block" class="block visible">
-        <!-- This form uses PayFields -->
-        <form id="cardPaymentForm">
-                    <div class="checkbox 3ds">
-                        <input type="checkbox" id="3ds-checkbox" checked>
-                        <label for="3ds-checkbox">
-                            3D Secure Enabled Flow
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label for="card_number">Card Number</label>
-                        <div data-beanstream-target='ccNumber_input'></div>
-                        <div data-beanstream-target='ccNumber_error' class=''></div>
-                    </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="card_expiry">Expiry (mm / yyyy)</label>
-                        <div data-beanstream-target='ccExp_input'></div>
-                        <div data-beanstream-target='ccExp_error' class=''></div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="card_cvv">CVV</label>
-                        <div data-beanstream-target='ccCvv_input'></div>
-                        <div data-beanstream-target='ccCvv_error' class=''></div>
-                    </div>
-                </div>
-            </div>
-            <input type="submit" class="btn btn-default" value="Pay"/>
-            <script src='https://payform.beanstream.com/payfields/beanstream_payfields.js' id="payfieldsScript"
-                    data-submitForm="false"></script>
-        </form>
+        <div class="checkbox 3ds">
+            <input type="checkbox" id="3ds-checkbox" checked>
+            <label for="3ds-checkbox">3D Secure Enabled Flow</label>
+        </div>
+
+        {% include 'snippets/checkoutfields.html' %}
     </div>
     <div id="interac-block" class="block">
         <p>The INTERAC Online service is a payment option that allows you to pay for goods and services on the Internet
@@ -122,39 +95,7 @@
         </div>
     </div>
 
-    <h5>Test Cards</h5>
-    <table class="table table-highlight">
-        <thead>
-        <tr>
-            <th style="white-space:nowrap;">Card Scheme</th>
-            <th>Number</th>
-            <th>CVV</th>
-            <th>Description</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr onclick="javascript:copyToClipboard('4030000010001234');">
-            <td>Visa</td>
-            <td>4030000010001234</td>
-            <td>123</td>
-            <td>Approved</td>
-        </tr>
-        <tr onclick="javascript:copyToClipboard('4003050500040005');">
-            <td>Visa</td>
-            <td>4003050500040005</td>
-            <td>123</td>
-            <td>Declined</td>
-        </tr>
-        <tr onclick="javascript:copyToClipboard('4123450131003312');">
-            <td>Visa</td>
-            <td>4123450131003312</td>
-            <td>123</td>
-            <td>Approved only when you have implemented Verified by VISA (VbV) and provided a correct password.
-                Password: 12345.
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    {% include 'snippets/test-cards.html' %}
 </div>
 {% include 'snippets/footer.html' %}
 {% include 'snippets/processing-screen.html' %}
