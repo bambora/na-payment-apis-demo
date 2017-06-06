@@ -13,7 +13,7 @@
 }
 
 #card-number {
-  background-image: url('../images/card-outline.svg');
+  background-image: none;
 
   background-origin: content-box;
   background-position: calc(100% + 40px) center;

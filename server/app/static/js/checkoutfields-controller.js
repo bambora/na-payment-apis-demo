@@ -50,7 +50,7 @@
                     var filePath = "/static/images/" + event.brand + ".svg";
                     cardLogo = "url(" + filePath + ")";
                 } else {
-                    cardLogo = "url('/static/images/card-outline.svg')";
+                    cardLogo = "none";
                 }
                 document.getElementById('card-number').style.backgroundImage = cardLogo;
             });
