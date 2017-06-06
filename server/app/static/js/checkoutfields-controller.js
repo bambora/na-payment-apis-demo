@@ -167,7 +167,7 @@
                 "name": name,
                 "amount": amount,
                 "token": token
-            });
+            }, undefined, 2);
 
             setDisplayedRequest(data);
 

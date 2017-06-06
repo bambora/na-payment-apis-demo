@@ -154,7 +154,7 @@ function makeApplePayPaymentRequest(amount, name, paymentToken) {
         'name': name,
         'amount': amount,
         'payment-token': encodedPaymentData
-    });
+    }, undefined, 2);
 
     setDisplayedRequest(data);
 

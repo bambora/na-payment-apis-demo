@@ -19,10 +19,10 @@
         },
         addListeners: function () {
             console.log('tabController.addListeners()');
-            if (this.cardTag != null) {
+            if (this.cardTag !== null) {
                 this.cardTag.addEventListener('click', this.setPaymentMethod.bind(this));
             }
-            if (this.interacTag != null) {
+            if (this.interacTag !== null) {
                 this.interacTag.addEventListener('click', this.setPaymentMethod.bind(this));
             }
         },
@@ -60,7 +60,7 @@
         },
         addListeners: function () {
             console.log('interacFormController.addListeners()');
-            if (document.getElementById('interacPaymentForm') != null) {
+            if (document.getElementById('interacPaymentForm') !== null) {
                 document.getElementById('interacPaymentForm').addEventListener('submit', this.onSubmit.bind(this));
             }
         },
@@ -115,7 +115,7 @@ function toggleGrowDiv() {
         growDiv.scrollIntoView();
     }
     var moreButton = document.getElementById('more-button');
-    moreButton.value = moreButton.value == 'Show JSON' ? 'Hide JSON' : 'Show JSON';
+    moreButton.value = moreButton.value === 'Show JSON' ? 'Hide JSON' : 'Show JSON';
 }
 
 function collapseGrowDiv() {
