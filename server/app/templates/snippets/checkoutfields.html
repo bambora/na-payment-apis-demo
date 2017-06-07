@@ -1,0 +1,23 @@
+ <div id="card-block" class="block visible">
+
+    <script src='https://libs.na.bambora.com/checkoutfields/2.0.0/checkoutfields.js'></script>
+
+    <form id="checkoutfields-form">
+        <div class="form-group">
+            <label for="card-number">Card number</label>
+            <div id="card-number"></div>
+            <label for="card-number" id="card-number-error"></label>
+
+            <label for="cvv">CVV</label>
+            <div id="cvv"></div>
+            <label for="cvv" id="cvv-error"></label>
+
+            <label for="expiry">Expiry date</label>
+            <div id="expiry"></div>
+            <label for="expiry" id="expiry-error"></label>
+        </div>
+
+        <input id="pay-button" type="submit" class="btn-disabled" value="Pay" disabled="true"/>
+    </form>
+    <script src="{{ url_for('static', filename='js/checkoutfields-controller.js') }}"></script>
+</div>

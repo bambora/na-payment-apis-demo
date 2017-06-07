@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Copyright (c) 2017 - Bambora Inc. <http://developer.na.bambora.com>
+# Copyright (c) 2017 - Bambora Inc. <http://dev.na.bambora.com>
 # MIT licensed. Feel free to use and abuse.
 #
 

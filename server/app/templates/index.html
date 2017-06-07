@@ -3,7 +3,7 @@
 {% include 'snippets/head.html' %}
 {% with tab='basic' %}
     {% include 'snippets/main-nav.html' %}
-{%  endwith %}
+{% endwith %}
 
 <div class="main">
     <header class='display'>Payments</header>
@@ -13,32 +13,6 @@
         The open code base is intended to act as a sample integration for developers to reference.
         You can view the source <a href="https://github.com/bambora/na-merchant-api-demo" target="_blank">here</a>.
     </p>
-
-    <h5>Test Cards</h5>
-    <table class="table table-highlight">
-        <thead>
-        <tr>
-            <th style="white-space:nowrap;">Card Scheme</th>
-            <th>Number</th>
-            <th>CVV</th>
-            <th>Description</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr onclick="javascript:copyToClipboard('4030000010001234');">
-            <td>Visa</td>
-            <td>4030000010001234</td>
-            <td>123</td>
-            <td>Approved</td>
-        </tr>
-        <tr onclick="javascript:copyToClipboard('4003050500040005');">
-            <td>Visa</td>
-            <td>4003050500040005</td>
-            <td>123</td>
-            <td>Declined</td>
-        </tr>
-        </tbody>
-    </table>
 
     <form>
         <h4>Order Summary</h4>
@@ -58,35 +32,8 @@
             <a id="card-tag" href="javascript:void(0)" class="active">Credit or Debit Card</a>
         </div>
     </nav>
-    <div id="card-block" class="block visible">
-        <!-- This form uses PayFields -->
-        <form id="cardPaymentForm">
-                    <div class="form-group">
-                        <label for="card_number">Card Number</label>
-                        <div data-beanstream-target='ccNumber_input'></div>
-                        <div data-beanstream-target='ccNumber_error' class=''></div>
-                    </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="card_expiry">Expiry (mm / yyyy)</label>
-                        <div data-beanstream-target='ccExp_input'></div>
-                        <div data-beanstream-target='ccExp_error' class=''></div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="card_cvv">CVV</label>
-                        <div data-beanstream-target='ccCvv_input'></div>
-                        <div data-beanstream-target='ccCvv_error' class=''></div>
-                    </div>
-                </div>
-            </div>
-            <input type="submit" class="btn btn-default" value="Pay"/>
-            <script src='https://payform.beanstream.com/payfields/beanstream_payfields.js' id="payfieldsScript"
-                    data-submitForm="false"></script>
-        </form>
-    </div>
+
+    {% include 'snippets/checkoutfields.html' %}
 
     {% include 'snippets/feedback.html' %}
 
@@ -96,25 +43,15 @@
         </div>
         <div id='grow'>
             <div class='measuringWrapper'>
-                    Request:
-                <pre id="raw-json-request" class="prettyprint lang-js">
-{
-  "amount": 100
-  "payment_method": "token",
-  "token": {
-    "code": "c51-0431b873-4fae-4eca-b99e-9b4eeb5a84b0",
-    "name": "Jane Doe"
-  }
-}
-                </pre>
-                    Response:
-                <pre id="raw-json-response" class="prettyprint lang-js">
-/* Not yet set */
-                </pre>
+                Request:
+                <pre id="raw-json-request" class="prettyprint lang-js">/* Not yet set */</pre>
+                Response:
+                <pre id="raw-json-response" class="prettyprint lang-js">/* Not yet set */</pre>
             </div>
         </div>
     </div>
 
+    {% include 'snippets/test-cards.html' %}
 </div>
 {% include 'snippets/footer.html' %}
 {% include 'snippets/processing-screen.html' %}

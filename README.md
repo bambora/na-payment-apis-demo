@@ -1,13 +1,11 @@
 <img src="https://cdn.na.bambora.com/resources/logos/bambora-logo180x92.png" />
 
-# Mobile Payments Demo Merchant Client & Server
+# Merchant API Demo Client & Server
 
 Copyright © 2017 Bambora Inc.
 
 This repo contains a simple merchant Python/Flask server and associated Web and iOS clients to help process payments. 
 The demo server & clients are intended to be simple examples that can help you with your production implementation.
-
-:-)
 
 # Server
 
@@ -21,8 +19,8 @@ and then start up as follows.
 
 * Execute a git clone command on this repo and in a terminal cd into the root project directory.
 ```bash
-$ git clone https://github.com/Bambora/na-mobilepayments-demo.git
-$ cd na-mobilepayments-demo/server/app
+$ git clone https://github.com/Bambora/na-merchant-api-demo.git
+$ cd na-merchant-api-demo/server/app
 ```
 
 * Install virtualenv (if not already available)
@@ -41,21 +39,28 @@ $ source venv/bin/activate
 (venv) app$ pip install -r requirements.txt
 ```
 
-## Execution
+## Execution (Development Only)
 
-* To run the flask app just for development only (not for production) just do this:
+### Set up Environment Variables
+#### Mac/Linux
 ```bash
+(venv) app$ export SERVER_URL_BASE="https://api.na.bambora.com"  # Defaults to this and can be ommitted
 (venv) app$ export DATABASE_URL=sqlite:////tmp/mobilepay-demo.db  # Defaults to this and can be ommitted
-(venv) app$ export BIC_API_PASSCODE=<your_merchant_passcode>
-(venv) app$ export BIC_MERCHANT_ID=<your_bambora_merchant_id>
-(venv) app$ python server.py
+(venv) app$ export API_PASSCODE=<your_merchant_payments_passcode>
+(venv) app$ export MERCHANT_ID=<your_bambora_merchant_id>
 ```
 
-Or if on Windows follow the same as above except set your environment variables via PowerShell as follows.
+#### Windows
 ```
-(venv) app$ $env:BIC_API_PASSCODE = "<your_merchant_passcode>"
-(venv) app$ $env:BIC_MERCHANT_ID = "<your_bambora_merchant_id>"
+(venv) app$ $env:SERVER_URL_BASE ="https://api.na.bambora.com"  # Defaults to this and can be ommitted
 (venv) app$ $env:DATABASE_URL = "sqlite:////users/<your_user>/appdata/local/temp/mobilepay-demo.db"
+(venv) app$ $env:API_PASSCODE = "<your_merchant_payments_passcode>"
+(venv) app$ $env:MERCHANT_ID = "<your_bambora_merchant_id>"
+```
+
+### Run 
+```
+(venv) app$ python server.py
 ```
 
 # iOS Client
@@ -103,15 +108,15 @@ payload = {
 
 ## Building Locally and Contributing
 
- * Check out repo: `$ git clone https://github.com/Bambora/na-mobilepayments-demo.git`
+ * Check out this repository
  * Fork the repo to commit changes to and issue Pull Requests as needed.
 
 ---
 
 # API References
-* [Mercant Quickstart](https://developer.na.bambora.com/docs/guides/merchant_quickstart/)
-* [Merchant API](https://developer.na.bambora.com/docs/references/merchant_API)
- * [Apple Pay @ Bambora](https://developer.na.bambora.com/docs/guides/apple_pay/)
+* [Mercant Quickstart](https://dev.na.bambora.com/docs/guides/merchant_quickstart/)
+* [Merchant API](https://dev.na.bambora.com/docs/references/merchant_API)
+ * [Apple Pay @ Bambora](https://dev.na.bambora.com/docs/guides/apple_pay/)
 * [Getting Started with Apple Pay](https://developer.apple.com/apple-pay/get-started/)
 * [Apple Pay Programming Guide](https://developer.apple.com/library/content/ApplePay_Guide/)
 * [Apple Pay Sandbox Testing](https://developer.apple.com/support/apple-pay-sandbox/)

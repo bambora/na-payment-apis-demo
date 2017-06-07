@@ -154,9 +154,9 @@ function makeApplePayPaymentRequest(amount, name, paymentToken) {
         'name': name,
         'amount': amount,
         'payment-token': encodedPaymentData
-    });
+    }, undefined, 2);
 
-    setRequestStr(data);
+    setDisplayedRequest(data);
 
     xhr.open(method, url, true);
     xhr.onreadystatechange = function () {
@@ -167,11 +167,11 @@ function makeApplePayPaymentRequest(amount, name, paymentToken) {
             try {
                 json = JSON.parse(xhr.responseText);
                 jsonStr = JSON.stringify(json, undefined, 2);
-                setResponseStr(jsonStr);
+                setDisplayedResponse(jsonStr);
             }
             catch (ex) {
                 console.log(ex);
-                setResponseStr(ex.message);
+                setDisplayedResponse(ex.message);
             }
 
             if (xhr.status === 200) {
