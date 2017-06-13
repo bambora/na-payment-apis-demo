@@ -34,8 +34,7 @@
     </nav>
 
     {% include 'snippets/checkoutfields.html' %}
-
-    {% include 'snippets/feedback.html' %}
+    <script src="{{ url_for('static', filename='js/checkoutfields-controller.js') }}"></script>
 
     <div id="raw-json-wrapper" class="block visible">
         <div id="more-button-area">

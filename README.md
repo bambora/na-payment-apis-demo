@@ -19,7 +19,7 @@ and then start up as follows.
 
 * Execute a git clone command on this repo and in a terminal cd into the root project directory.
 ```bash
-$ git clone https://github.com/Bambora/na-merchant-api-demo.git
+$ git clone https://github.com/bambora/na-merchant-api-demo.git
 $ cd na-merchant-api-demo/server/app
 ```
 
