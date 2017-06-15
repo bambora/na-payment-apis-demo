@@ -139,12 +139,12 @@
                 console.log('token result : ' + JSON.stringify(result));
 
                 if (result.error) {
-                    var error = 'Error creating token: </br></br>' + result.error;
+                    var error = 'Error creating token: </br>' + result.error;
                     self.showErrorFeedback(error);
                     self.updatePayButton();
                     self.toggleProcessingScreen();
                 } else {
-                    self.showSuccessFeedback('Created token: ' + result.token);
+                    self.showSuccessFeedback('Success! Created token:</br>' + result.token);
                     self.makeTokenPayment(result.token);
                 }
             };

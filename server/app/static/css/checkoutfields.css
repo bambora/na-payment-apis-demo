@@ -1,25 +1,16 @@
 #checkout-form {
     position: relative;
-    margin-bottom: 28px;
+    width: calc(95%);
 }
 
 #checkout-form label {
     display: block;
-    font-size: 12px;
-    line-height: 12px;
-    color: rgba(200, 200, 200, 1);
-    text-transform: uppercase;
-    padding: 0 0 9px 0;
-    font-weight: 500;
-    -webkit-tap-highlight-color: transparent;
-}
+    min-height: 25px;
 
-#checkout-form label.invalid {
-    width: calc(100%);
-    min-height: 5px;
-    display: block;
-    margin: 0px;
-    padding: 5px;
+    font-size: 12px;
+    font-weight: 500;
+    margin: 5px 0;
+    padding: 0;
     color: red;
 }
 
@@ -32,8 +23,7 @@
     border-radius: 2px;
     border: 1px solid rgba(200, 200, 200, 1);
     padding: 14px 60px 13px 20px;
-    margin-bottom: 5px;
-    margin-right: 5px;
+    margin: 5px 0;
     transition: all 100ms ease-out;
 }
 
@@ -47,7 +37,10 @@
 }
 
 .button {
-    position: relative;
+    position: absolute;
+    margin: auto;
+    min-width: 25%;
+
     z-index: 1;
     border: none;
     border-radius: 4px;
@@ -60,10 +53,7 @@
     line-height: 24px;
     text-decoration: none;
     transition: all 100ms ease-out;
-    padding-top: 11px;
-    padding-bottom: 12px;
-    padding-left: 25px;
-    padding-right: 25px;
+    padding: 11px 0;
 }
 
 .button:hover {
@@ -84,13 +74,13 @@
 
 #feedback {
     display: none;
+    position: relative;
+    left: 25%;
     background-color: transparent;
     border: 1px solid rgba(200, 200, 200, 1);
-    position: relative;
-    padding: 24px;
-    width: calc(95%);
+    padding: 11px;
+    width: calc(60%);
     border-radius: 4px;
-    margin-bottom: 10px;
     transition: all 100ms ease-out;
 }
 
