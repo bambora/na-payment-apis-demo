@@ -1,0 +1,29 @@
+#checkout-form {
+  margin: 10px;
+}
+
+.has-feedback, .feedback-success, feedback-error {
+		display: block;
+}
+
+/* feedback is displayed after tokenization */
+#feedback {
+    position: relative;
+    left: 15px;
+    display: inline-block;
+    background-color: transparent;
+    border: 0px solid rgba(200, 200, 200, 1);
+    border-radius: 4px;
+    transition: all 100ms ease-out;
+    padding: 11px;
+}
+
+#feedback.error {
+    color: red;
+    border: 1px solid;
+}
+
+#feedback.success {
+    color: seagreen;
+    border: 1px solid;
+}

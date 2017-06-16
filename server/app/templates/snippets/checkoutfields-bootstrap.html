@@ -1,0 +1,29 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script src='https://s3.ca-central-1.amazonaws.com/na-checkoutfields.dev/2.0.0/checkoutfields.js'></script>
+
+<!-- import Bootstrap -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- Add form -->
+<form id="checkout-form">
+  <div class="form-group" id="card-number-bootstrap">
+    <label class="control-label" for="card-number">Card Number:</label>
+    <div id="card-number" class="form-control"></div>
+    <label for="card-number" class="form-control-feedback" id="card-number-error"></label>
+  </div>
+  <div class="form-group" id="card-cvv-bootstrap">
+    <label class="control-label" for="card-cvv">CVV:</label>
+    <div id="card-cvv" class="form-control"></div>
+    <label for="card-cvv" id="card-cvv-error"></label>
+  </div>
+  <div class="form-group" id="card-expiry-bootstrap">
+    <label class="control-label" for="card-expiry">Expiry:</label>
+    <div id="card-expiry" class="form-control"></div>
+    <label for="card-expiry" id="card-expiry-error"></label>
+  </div>
+
+  <button id="pay-button" type="submit" class="btn btn-primary disabled" disabled="true">Pay</button>
+
+  <div id="feedback"></div>
+</form>
