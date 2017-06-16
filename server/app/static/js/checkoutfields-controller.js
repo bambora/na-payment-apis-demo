@@ -1,24 +1,4 @@
-/*
- * Copyright (c) 2017 - Bambora Inc. <http://dev.na.bambora.com>
- * MIT licensed. Feel free to use and abuse.
- */
 (function () {
-    var style = {
-        base: {
-            fontFamily: '"Fakt Pro", "HelveticaNeue-Light", \
-                        "Helvetica Neue Light", "Helvetica Neue", Helvetica, \
-                        Arial, "Lucida Grande", sans-serif',
-            fontSize: '15px',
-            color: 'rgba(30, 30, 30, 1)'
-        },
-        invalid: {
-            color: 'red'
-        }
-    };
-    var options = {
-        style: style
-    };
-
     var checkoutFields = checkoutfields();
 
     var isCardNumberComplete = false;
@@ -28,36 +8,34 @@
     var checkoutFieldsController = {
 
         init: function () {
-            console.log('checkoutFields.init()');
+            console.log('checkout.init()');
             this.createInputs();
             this.addListeners();
         },
         createInputs: function () {
-            console.log('checkoutFields.createInputs()');
+            console.log('checkout.createInputs()');
+            var options = {};
 
             // Create and mount the inputs
             options.placeholder = 'Card number';
-            var cardNumber = checkoutFields.create('card-number', options);
-            cardNumber.mount('#card-number');
+            var cardNumber = checkoutFields.create('card-number', options).mount('#card-number');
 
             options.placeholder = 'CVV';
-            var cvv = checkoutFields.create('cvv', options);
-            cvv.mount('#card-cvv');
+            var cvv = checkoutFields.create('cvv', options).mount('#card-cvv');
 
             options.placeholder = 'MM / YY';
-            var expiry = checkoutFields.create('expiry', options);
-            expiry.mount('#card-expiry');
+            var expiry = checkoutFields.create('expiry', options).mount('#card-expiry');
         },
         addListeners: function () {
             var self = this;
 
+            // listen for submit button
             if (document.getElementById('checkout-form') !== null) {
                 document.getElementById('checkout-form').addEventListener('submit', self.onSubmit.bind(self));
             }
 
             checkoutFields.on('brand', function (event) {
-                var eventType = 'brand';
-                console.log(eventType + ': ' + JSON.stringify(event));
+                console.log('brand: ' + JSON.stringify(event));
 
                 if (event.brand && event.brand !== 'unknown') {
                     var filePath = "/static/images/" + event.brand + ".svg";
@@ -69,32 +47,30 @@
             });
 
             checkoutFields.on('blur', function (event) {
-                var eventType = 'blur';
-                console.log(eventType + ': ' + JSON.stringify(event));
+                console.log('blur: ' + JSON.stringify(event));
             });
 
             checkoutFields.on('focus', function (event) {
-                var eventType = 'focus';
-                console.log(eventType + ': ' + JSON.stringify(event));
+                console.log('focus: ' + JSON.stringify(event));
             });
 
             checkoutFields.on('empty', function (event) {
-                var eventType = 'empty';
-                console.log(eventType + ': ' + JSON.stringify(event));
+                console.log('empty: ' + JSON.stringify(event));
 
-                if (event.field === 'card-number') {
-                    isCardNumberComplete = false;
-                } else if (event.field === 'cvv') {
-                    isCVVComplete = false;
-                } else if (event.field === 'expiry') {
-                    isExpiryComplete = false;
+                if (event.empty) {
+                    if (event.field === 'card-number') {
+                        isCardNumberComplete = false;
+                    } else if (event.field === 'cvv') {
+                        isCVVComplete = false;
+                    } else if (event.field === 'expiry') {
+                        isExpiryComplete = false;
+                    }
+                    self.setPayButton(false);
                 }
-                self.updatePayButton();
             });
 
             checkoutFields.on('complete', function (event) {
-                var eventType = 'complete';
-                console.log(eventType + ': ' + JSON.stringify(event));
+                console.log('complete: ' + JSON.stringify(event));
 
                 if (event.field === 'card-number') {
                     self.hideErrorForId('card-number');
@@ -106,12 +82,12 @@
                     self.hideErrorForId('card-expiry');
                     isExpiryComplete = true;
                 }
-                self.updatePayButton();
+
+                self.setPayButton(isCardNumberComplete && isCVVComplete && isExpiryComplete);
             });
 
             checkoutFields.on('error', function (event) {
-                var eventType = 'error';
-                console.log(eventType + ': ' + JSON.stringify(event));
+                console.log('error: ' + JSON.stringify(event));
 
                 if (event.field === 'card-number') {
                     isCardNumberComplete = false;
@@ -123,13 +99,13 @@
                     isExpiryComplete = false;
                     self.showErrorForId('card-expiry', event.message);
                 }
-                self.updatePayButton();
+                self.setPayButton(false);
             });
         },
         onSubmit: function (event) {
             var self = this;
 
-            console.log('checkoutFields.onSubmit()');
+            console.log('checkout.onSubmit()');
 
             event.preventDefault();
             self.setPayButton(false);
@@ -139,45 +115,36 @@
                 console.log('token result : ' + JSON.stringify(result));
 
                 if (result.error) {
-                    var error = 'Error creating token: </br>' + result.error;
-                    self.showErrorFeedback(error);
-                    self.updatePayButton();
-                    self.toggleProcessingScreen();
+                    self.processTokenError(result.error);
                 } else {
-                    self.showSuccessFeedback('Success! Created token:</br>' + result.token);
-                    self.makeTokenPayment(result.token);
+                    self.processTokenSuccess(result.token);
                 }
             };
 
-            console.log('checkoutFields.createToken()');
+            console.log('checkout.createToken()');
             checkoutFields.createToken(callback);
         },
         hideErrorForId: function (id) {
             console.log('hideErrorForId: ' + id);
-            document.getElementById(id).classList.remove('invalid');
+            document.getElementById(id).classList.remove('error');
             document.getElementById(id + '-error').innerHTML = '';
         },
         showErrorForId: function (id, message) {
             console.log('showErrorForId: ' + id);
-            document.getElementById(id).classList.add('invalid');
-            document.getElementById(id + '-error').classList.add('invalid');
+            document.getElementById(id).classList.add('error');
             document.getElementById(id + '-error').innerHTML = message;
         },
         setPayButton: function (enabled) {
-            console.log('checkoutFields.setPayButton() enabled: ' + enabled);
+            console.log('checkout.setPayButton() enabled: ' + enabled);
 
             var payButton = document.getElementById('pay-button');
-            payButton.disabled = !enabled;
             if (enabled) {
-                payButton.className = "button";
+                payButton.disabled = false;
+                payButton.className = "btn";
             } else {
-                payButton.className = "button button-disabled";
+                payButton.disabled = true;
+                payButton.className = "btn disabled";
             }
-        },
-        updatePayButton: function () {
-            console.log('checkoutFields.updatePayButton()');
-
-            this.setPayButton(isCardNumberComplete && isCVVComplete && isExpiryComplete);
         },
         toggleProcessingScreen: function () {
             var processingScreen = document.getElementById('processing-screen');
@@ -197,10 +164,29 @@
             this.feedback.innerHTML = checkMark + ' ' + message;
             this.feedback.classList.add('success');
         },
+        processTokenError: function (error) {
+            error = JSON.stringify(error, undefined, 2);
+            console.log('processTokenError: ' + id);
+
+            this.showErrorFeedback('Error creating token: </br>' + JSON.stringify(error, null, 4));
+            this.setPayButton(true);
+            this.toggleProcessingScreen();
+        },
+        processTokenSuccess: function (token) {
+            console.log('processTokenSuccess: ' + token);
+
+            this.showSuccessFeedback('Success! Created token: ' + token);
+            this.setPayButton(true);
+            this.toggleProcessingScreen();
+
+            // Use token to call payments api
+            this.makeTokenPayment(token);
+        },
         makeTokenPayment: function (token) {
             var self = this;
 
-            console.log('checkoutFields.makeTokenPayment()');
+            console.log('checkout.makeTokenPayment()');
+
             var amount = document.getElementById('amount').value;
             var name = document.getElementById('name').value;
 
@@ -265,7 +251,7 @@
                             }
                             self.showErrorFeedback(message);
                         }
-                        self.updatePayButton();
+                        self.setPayButton(true);
                         self.toggleProcessingScreen();
                     }
 
