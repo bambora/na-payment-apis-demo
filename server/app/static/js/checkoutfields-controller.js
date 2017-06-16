@@ -38,7 +38,7 @@
                 console.log('brand: ' + JSON.stringify(event));
 
                 if (event.brand && event.brand !== 'unknown') {
-                    var filePath = "/static/images/" + event.brand + ".svg";
+                    var filePath = "https://cdn.na.bambora.com/downloads/images/cards/" + event.brand + ".svg";
                     cardLogo = "url(" + filePath + ")";
                 } else {
                     cardLogo = "none";
@@ -208,7 +208,7 @@
             this.toggleProcessingScreen();
 
             // Use token to call payments api
-            // this.makeTokenPayment(token);
+            this.makeTokenPayment(token);
         },
         makeTokenPayment: function (token) {
             var self = this;
