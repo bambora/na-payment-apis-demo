@@ -34,9 +34,10 @@
     </nav>
 
     {% include 'snippets/checkoutfields.html' %}
+    <script src="{{ url_for('static', filename='js/checkoutfields-controller.js') }}"></script>
 
-    {% include 'snippets/feedback.html' %}
-
+    <br>
+    <br>
     <div id="raw-json-wrapper" class="block visible">
         <div id="more-button-area">
             <input type="button" class="btn btn-default" onclick="toggleGrowDiv()" value="Show JSON" id="more-button">

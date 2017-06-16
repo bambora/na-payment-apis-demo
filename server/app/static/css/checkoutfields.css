@@ -1,53 +1,95 @@
-/* Checkout Fields */
-.form-group > div {
-  font-family: "Fakt Pro", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-  font-size: 15px;
-  color: rgba(30, 30, 30, 1);
-  display: block;
-  width: calc(100%);
-  border-radius: 2px;
-  border: 1px solid rgba(200, 200, 200, 1);
-  padding: 14px 60px 13px 20px;
-  margin-bottom: 5px;
-  transition: all 100ms ease-out;
+#checkout-form {
+    position: relative;
+    width: calc(95%);
 }
 
-.btn-disabled {
-  position: relative;
-  z-index: 1;
-  border: none;
-  border-radius: 4px;
-  background-color: rgba(255, 255, 255, 1);
-  border: 1px solid rgba(120, 71, 181, 1);
-  color: rgba(120, 71, 181, 1);
-  cursor: pointer;
-  display: inline-block;
-  font-weight: 400;
-  font-size: 15px;
-  line-height: 24px;
-  text-decoration: none;
-  transition: all 100ms ease-out;
+#checkout-form label {
+    display: block;
+    min-height: 25px;
 
-  padding-top: 11px;
-  padding-bottom: 12px;
-  padding-left: 25px;
-  padding-right: 25px;
+    font-size: 12px;
+    font-weight: 500;
+    margin: 5px 0;
+    padding: 0;
+    color: red;
+}
+
+#card-number, #card-cvv, #card-expiry {
+    font-family: "Fakt Pro", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-size: 15px;
+    color: rgba(30, 30, 30, 1);
+    display: block;
+    width: calc(95%);
+    border-radius: 2px;
+    border: 1px solid rgba(200, 200, 200, 1);
+    padding: 14px 60px 13px 20px;
+    margin: 5px 0;
+    transition: all 100ms ease-out;
 }
 
 #card-number {
-  background-image: none;
+    background-image: none;
 
-  background-origin: content-box;
-  background-position: calc(100% + 40px) center;
-  background-repeat: no-repeat;
-  background-size: contain;
+    background-origin: content-box;
+    background-position: calc(100% + 40px) center;
+    background-repeat: no-repeat;
+    background-size: contain;
 }
 
-.error {
-  width: calc(100%);
-  min-height: 5px;
-  display: block;
-  margin: 0px;
-  padding: 0px;
-  color: red;
+.button {
+    position: absolute;
+    margin: auto;
+    min-width: 25%;
+
+    z-index: 1;
+    border: none;
+    border-radius: 4px;
+    background-color: rgba(120, 71, 181, 1);
+    font-weight: 400;
+    color: rgba(255, 255, 255, 1);
+    display: inline-block;
+    cursor: pointer;
+    font-size: 15px;
+    line-height: 24px;
+    text-decoration: none;
+    transition: all 100ms ease-out;
+    padding: 11px 0;
+}
+
+.button:hover {
+    background-color: rgba(69, 36, 89, 1);
+    color: rgba(255, 255, 255, 1);
+}
+
+.button:active {
+    background-color: rgba(69, 36, 89, 1);
+    box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.3);
+}
+
+.button-disabled, .button-disabled:hover, .button-disabled:active {
+    background-color: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(120, 71, 181, 1);
+    color: rgba(120, 71, 181, 1);
+}
+
+#feedback {
+    display: none;
+    position: relative;
+    left: 25%;
+    background-color: transparent;
+    border: 1px solid rgba(200, 200, 200, 1);
+    padding: 11px;
+    width: calc(60%);
+    border-radius: 4px;
+    transition: all 100ms ease-out;
+}
+
+#feedback.error {
+    display: block;
+    color: red;
+}
+
+#feedback.success {
+    display: block;
+    color: seagreen;
 }
