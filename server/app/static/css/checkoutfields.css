@@ -1,53 +1,87 @@
-/* Checkout Fields */
-.form-group > div {
-  font-family: "Fakt Pro", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-  font-size: 15px;
-  color: rgba(30, 30, 30, 1);
-  display: block;
-  width: calc(100%);
-  border-radius: 2px;
-  border: 1px solid rgba(200, 200, 200, 1);
-  padding: 14px 60px 13px 20px;
-  margin-bottom: 5px;
-  transition: all 100ms ease-out;
+#checkout-form {
+    position: relative;
+    width: calc(95%);
 }
 
-.btn-disabled {
+#checkout-form label {
+    display: block;
+    min-height: 25px;
+
+    font-size: 15px;
+    font-weight: 500;
+    margin: 5px 0;
+    padding: 0;
+    color: red;
+}
+
+#card-number, #card-cvv, #card-expiry {
+    display: block;
+    width: calc(95%);
+    border-radius: 2px;
+    border: 1px solid rgba(200, 200, 200, 1);
+    padding: 14px 60px 13px 20px;
+    margin: 5px 0;
+    transition: all 100ms ease-out;
+}
+
+/* card images are added to card number */
+#card-number {
+    background-image: none;
+
+    background-origin: content-box;
+    background-position: calc(100% + 40px) center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+/* buttons */
+.btn {
+    vertical-align:top;
+}
+
+.btn {
   position: relative;
-  z-index: 1;
   border: none;
   border-radius: 4px;
-  background-color: rgba(255, 255, 255, 1);
-  border: 1px solid rgba(120, 71, 181, 1);
-  color: rgba(120, 71, 181, 1);
-  cursor: pointer;
+  background-color: rgba(120, 71, 181, 1);
+  color: rgba(255, 255, 255, 1);
   display: inline-block;
-  font-weight: 400;
-  font-size: 15px;
-  line-height: 24px;
-  text-decoration: none;
   transition: all 100ms ease-out;
-
-  padding-top: 11px;
-  padding-bottom: 12px;
-  padding-left: 25px;
-  padding-right: 25px;
+  padding: 11px 25px;
 }
 
-#card-number {
-  background-image: none;
-
-  background-origin: content-box;
-  background-position: calc(100% + 40px) center;
-  background-repeat: no-repeat;
-  background-size: contain;
+.btn:hover, .btn:active {
+    background-color: rgba(69, 36, 89, 1);
 }
 
-.error {
-  width: calc(100%);
-  min-height: 5px;
-  display: block;
-  margin: 0px;
-  padding: 0px;
-  color: red;
+.btn:active {
+    box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.3);
+}
+
+.btn:disabled {
+    background-color: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(120, 71, 181, 1);
+    color: rgba(120, 71, 181, 1);
+}
+
+/* feedback is displayed after tokenization */
+#feedback {
+    position: relative;
+    left: 15px;
+    display: inline-block;
+    background-color: transparent;
+    border: 0px solid rgba(200, 200, 200, 1);
+    border-radius: 4px;
+    transition: all 100ms ease-out;
+    padding: 11px;
+}
+
+#feedback.error {
+    color: red;
+    border: 1px solid;
+}
+
+#feedback.success {
+    color: seagreen;
+    border: 1px solid;
 }

@@ -1,26 +1,6 @@
-/*
- * Copyright (c) 2017 - Bambora Inc. <http://dev.na.bambora.com>
- * MIT licensed. Feel free to use and abuse.
- */
 (function () {
-    var style = {
-        base: {
-            fontFamily: '"Fakt Pro", "HelveticaNeue-Light", \
-                        "Helvetica Neue Light", "Helvetica Neue", Helvetica, \
-                        Arial, "Lucida Grande", sans-serif',
-            fontSize: '15px',
-            color: 'rgba(30, 30, 30, 1)'
-        },
-        invalid: {
-            color: 'red'
-        }
-    };
-    var options = {
-        style: style
-    };
-
     var checkoutFields = checkoutfields();
-    
+
     var isCardNumberComplete = false;
     var isCVVComplete = false;
     var isExpiryComplete = false;
@@ -28,28 +8,34 @@
     var checkoutFieldsController = {
 
         init: function () {
-            console.log('checkoutFields.init()');
-            this.mountFields();
+            console.log('checkout.init()');
+            this.createInputs();
             this.addListeners();
         },
-        mountFields: function () {
-            console.log('checkoutFields.mountFields()');
+        createInputs: function () {
+            console.log('checkout.createInputs()');
+            var options = {};
 
-            // Create and mount the checkoutFields inputs
-            var cardNumber = checkoutFields.create('card-number', options);
-            cardNumber.mount('#card-number');
+            // Create and mount the inputs
+            options.placeholder = 'Card number';
+            var cardNumber = checkoutFields.create('card-number', options).mount('#card-number');
 
-            var cvv = checkoutFields.create('cvv', options);
-            cvv.mount('#cvv');
+            options.placeholder = 'CVV';
+            var cvv = checkoutFields.create('cvv', options).mount('#card-cvv');
 
-            var expiry = checkoutFields.create('expiry', options);
-            expiry.mount('#expiry');
+            options.placeholder = 'MM / YY';
+            var expiry = checkoutFields.create('expiry', options).mount('#card-expiry');
         },
         addListeners: function () {
             var self = this;
+
+            // listen for submit button
+            if (document.getElementById('checkout-form') !== null) {
+                document.getElementById('checkout-form').addEventListener('submit', self.onSubmit.bind(self));
+            }
+
             checkoutFields.on('brand', function (event) {
-                var eventType = 'brand';
-                console.log(eventType + ': ' + JSON.stringify(event));
+                console.log('brand: ' + JSON.stringify(event));
 
                 if (event.brand && event.brand !== 'unknown') {
                     var filePath = "/static/images/" + event.brand + ".svg";
@@ -61,139 +47,152 @@
             });
 
             checkoutFields.on('blur', function (event) {
-                var eventType = 'blur';
-                console.log(eventType + ': ' + JSON.stringify(event));
+                console.log('blur: ' + JSON.stringify(event));
             });
 
             checkoutFields.on('focus', function (event) {
-                var eventType = 'focus';
-                console.log(eventType + ': ' + JSON.stringify(event));
+                console.log('focus: ' + JSON.stringify(event));
             });
 
             checkoutFields.on('empty', function (event) {
-                var eventType = 'empty';
-                console.log(eventType + ': ' + JSON.stringify(event));
+                console.log('empty: ' + JSON.stringify(event));
 
-                if (event.field === 'card-number') {
-                    isCardNumberComplete = false;
-                } else if (event.field === 'cvv') {
-                    isCVVComplete = false;
-                } else if (event.field === 'expiry') {
-                    isExpiryComplete = false;
+                if (event.empty) {
+                    if (event.field === 'card-number') {
+                        isCardNumberComplete = false;
+                    } else if (event.field === 'cvv') {
+                        isCVVComplete = false;
+                    } else if (event.field === 'expiry') {
+                        isExpiryComplete = false;
+                    }
+                    self.setPayButton(false);
                 }
-                self.updatePayButton();
             });
 
             checkoutFields.on('complete', function (event) {
-                var eventType = 'complete';
-                console.log(eventType + ': ' + JSON.stringify(event));
+                console.log('complete: ' + JSON.stringify(event));
 
                 if (event.field === 'card-number') {
-                    self.hideFieldError(event);
+                    self.hideErrorForId('card-number');
                     isCardNumberComplete = true;
                 } else if (event.field === 'cvv') {
-                    self.hideFieldError(event);
+                    self.hideErrorForId('card-cvv');
                     isCVVComplete = true;
                 } else if (event.field === 'expiry') {
-                    self.hideFieldError(event);
+                    self.hideErrorForId('card-expiry');
                     isExpiryComplete = true;
                 }
-                self.updatePayButton();
+
+                self.setPayButton(isCardNumberComplete && isCVVComplete && isExpiryComplete);
             });
 
             checkoutFields.on('error', function (event) {
-                var eventType = 'error';
-                console.log(eventType + ': ' + JSON.stringify(event));
+                console.log('error: ' + JSON.stringify(event));
 
                 if (event.field === 'card-number') {
                     isCardNumberComplete = false;
-                    self.showFieldError(event);
+                    self.showErrorForId('card-number', event.message);
                 } else if (event.field === 'cvv') {
                     isCVVComplete = false;
-                    self.showFieldError(event);
+                    self.showErrorForId('card-cvv', event.message);
                 } else if (event.field === 'expiry') {
                     isExpiryComplete = false;
-                    self.showFieldError(event);
+                    self.showErrorForId('card-expiry', event.message);
                 }
-                self.updatePayButton();
+                self.setPayButton(false);
             });
-
-            if (document.getElementById('checkoutfields-form') !== null) {
-                document.getElementById('checkoutfields-form').addEventListener('submit', self.onSubmit.bind(self));
-            }
         },
         onSubmit: function (event) {
-            console.log('checkoutFields.onSubmit()');
-            event.preventDefault();
-            this.processPayment();
-        },
-
-        hideFieldError: function (event) {
-            console.log('hideFieldError: ' + event.field);
-            document.getElementById(event.field).classList.remove('invalid');
-            document.getElementById(event.field + '-error').classList.remove('invalid');
-            document.getElementById(event.field + '-error').innerHTML = '';
-        },
-        showFieldError: function (event) {
-            console.log('showFieldError: ' + event.field);
-            document.getElementById(event.field).classList.add('invalid');
-            document.getElementById(event.field + '-error').classList.add('invalid');
-            document.getElementById(event.field + '-error').innerHTML = event.message;
-        },
-        setPayButton: function (enabled) {
-            console.log('checkoutFields.setPayButton()');
-
-            var payButton = document.getElementById('pay-button');
-            payButton.disabled = !enabled;
-            if (enabled) {
-                payButton.className = "btn";
-            console.log('checkoutFields.setPayButton() default');
-            } else {
-                payButton.className = "btn-disabled";
-            console.log('checkoutFields.setPayButton() disabled');
-            }
-        },
-        updatePayButton: function () {
-            console.log('checkoutFields.updatePayButton()');
-
-            this.setPayButton(isCardNumberComplete && isCVVComplete && isExpiryComplete);
-        },
-        processPayment: function () {
             var self = this;
 
-            console.log('checkoutFields.processPayment()');
-            self.showProcessingScreen();
+            console.log('checkout.onSubmit()');
+
+            event.preventDefault();
+            self.setPayButton(false);
+            self.toggleProcessingScreen();
 
             var callback = function (result) {
-                console.log('checkoutFields.tokenCallback()');
+                console.log('token result : ' + JSON.stringify(result));
 
-                var eventType = 'token';
-                console.log(eventType + ': ' + JSON.stringify(result));
-
-                // if token is success
-                if (result.code === 200) {
-                    console.log('successToken()');
-                    self.makeTokenPayment(result.token);
+                if (result.error) {
+                    self.processTokenError(result.error);
                 } else {
-                    self.hideProcessingScreen();
-                    self.showError(result.error);
-                    console.log('failToken()');
+                    self.processTokenSuccess(result.token);
                 }
             };
 
-            console.log('checkoutFields.createToken()');
+            console.log('checkout.createToken()');
             checkoutFields.createToken(callback);
+        },
+        hideErrorForId: function (id) {
+            console.log('hideErrorForId: ' + id);
+            document.getElementById(id).classList.remove('error');
+            document.getElementById(id + '-error').innerHTML = '';
+        },
+        showErrorForId: function (id, message) {
+            console.log('showErrorForId: ' + id);
+            document.getElementById(id).classList.add('error');
+            document.getElementById(id + '-error').innerHTML = message;
+        },
+        setPayButton: function (enabled) {
+            console.log('checkout.setPayButton() enabled: ' + enabled);
+
+            var payButton = document.getElementById('pay-button');
+            if (enabled) {
+                payButton.disabled = false;
+                payButton.className = "btn";
+            } else {
+                payButton.disabled = true;
+                payButton.className = "btn disabled";
+            }
+        },
+        toggleProcessingScreen: function () {
+            var processingScreen = document.getElementById('processing-screen');
+            if (processingScreen) {
+                processingScreen.classList.toggle('visible');
+            }
+        },
+        showErrorFeedback: function (message) {
+            var xMark = '\u2718';
+            this.feedback = document.getElementById('feedback');
+            this.feedback.innerHTML = xMark + ' ' + message;
+            this.feedback.classList.add('error');
+        },
+        showSuccessFeedback: function (message) {
+            var checkMark = '\u2714';
+            this.feedback = document.getElementById('feedback');
+            this.feedback.innerHTML = checkMark + ' ' + message;
+            this.feedback.classList.add('success');
+        },
+        processTokenError: function (error) {
+            error = JSON.stringify(error, undefined, 2);
+            console.log('processTokenError: ' + id);
+
+            this.showErrorFeedback('Error creating token: </br>' + JSON.stringify(error, null, 4));
+            this.setPayButton(true);
+            this.toggleProcessingScreen();
+        },
+        processTokenSuccess: function (token) {
+            console.log('processTokenSuccess: ' + token);
+
+            this.showSuccessFeedback('Success! Created token: ' + token);
+            this.setPayButton(true);
+            this.toggleProcessingScreen();
+
+            // Use token to call payments api
+            this.makeTokenPayment(token);
         },
         makeTokenPayment: function (token) {
             var self = this;
 
-            console.log('checkoutFields.makeTokenPayment()');
+            console.log('checkout.makeTokenPayment()');
+
             var amount = document.getElementById('amount').value;
             var name = document.getElementById('name').value;
 
             var xhr = new XMLHttpRequest();
             var method = "POST";
-            var url = "/payment/basic/token"
+            var url = "/payment/basic/token";
 
             if (document.getElementById('3ds-checkbox') !== null) {
                 if (document.getElementById('3ds-checkbox').checked) {
@@ -234,61 +233,33 @@
                         var formStr = contents_decoded.match("<FORM(.*)<\/FORM>");
                         document.body.insertAdjacentHTML('afterbegin', formStr);
                         document.form1.submit();
-                    }
-                    else if (xhr.status === 200) {
-                        var invoiceMessage = JSON.parse(xhr.responseText).order_number;
-                        var transactionMessage = JSON.parse(xhr.responseText).id;
-                        self.showSuccess(invoiceMessage, transactionMessage);
-                        self.hideProcessingScreen();
-                    }
-                    else {
-                        var message = xhr.responseText;
-                        try {
-                            message = JSON.parse(xhr.responseText).message;
+                    } else {
+                        var message;
+                        if (xhr.status === 200) {
+                            var invoice = JSON.parse(xhr.responseText).order_number;
+                            var transactionId = JSON.parse(xhr.responseText).id;
+                            message = 'Made a payment using token.</br></br>' + transactionId + '</br></br>' + invoice;
+                            self.showSuccessFeedback(message);
                         }
-                        catch (ex) {
-                            console.log('Parsing exception: ' + ex.message);
+                        else {
+                            message = xhr.responseText;
+                            try {
+                                message = JSON.parse(xhr.responseText).message;
+                            }
+                            catch (ex) {
+                                console.log('Parsing exception: ' + ex.message);
+                            }
+                            self.showErrorFeedback(message);
                         }
-                        self.showError(JSON.parse(xhr.responseText).message);
-                        self.hideProcessingScreen();
+                        self.setPayButton(true);
+                        self.toggleProcessingScreen();
                     }
+
                 }
             }.bind(this);
 
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.send(data);
-        },
-        showProcessingScreen: function () {
-            this.setPayButton(false);
-            document.getElementById('processing-screen').classList.add('visible');
-        },
-        hideProcessingScreen: function () {
-            this.updatePayButton();
-            document.getElementById('processing-screen').classList.remove('visible');
-        },
-        showError: function (message) {
-            console.log('checkoutFields.showError(): ' + message);
-
-            this.successFeedback = document.getElementById('success-feedback');
-            this.errorFeedback = document.getElementById('error-feedback');
-            this.message = this.errorFeedback.getElementsByClassName('error-message')[0];
-
-            this.message.innerHTML = message;
-            this.successFeedback.classList.remove('visible');
-            this.errorFeedback.classList.add('visible');
-        },
-        showSuccess: function (invoice, transaction) {
-            console.log('checkoutFields.showSuccess(): invoice: ' + invoice + 'transaction: ' + transaction);
-
-            this.successFeedback = document.getElementById('success-feedback');
-            this.errorFeedback = document.getElementById('error-feedback');
-            this.invoice = this.successFeedback.getElementsByClassName('invoice')[0];
-            this.transaction = this.successFeedback.getElementsByClassName('transaction')[0];
-
-            this.invoice.innerHTML = invoice;
-            this.transaction.innerHTML = transaction;
-            this.successFeedback.classList.add('visible');
-            this.errorFeedback.classList.remove('visible');
         },
     };
 
