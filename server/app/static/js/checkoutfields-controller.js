@@ -18,13 +18,13 @@
 
             // Create and mount the inputs
             options.placeholder = 'Card number';
-            var cardNumber = checkoutFields.create('card-number', options).mount('#card-number');
+            checkoutFields.create('card-number', options).mount('#card-number');
 
             options.placeholder = 'CVV';
-            var cvv = checkoutFields.create('cvv', options).mount('#card-cvv');
+            checkoutFields.create('cvv', options).mount('#card-cvv');
 
             options.placeholder = 'MM / YY';
-            var expiry = checkoutFields.create('expiry', options).mount('#card-expiry');
+            checkoutFields.create('expiry', options).mount('#card-expiry');
         },
         addListeners: function () {
             var self = this;
@@ -38,7 +38,7 @@
                 console.log('brand: ' + JSON.stringify(event));
 
                 if (event.brand && event.brand !== 'unknown') {
-                    var filePath = "/static/images/" + event.brand + ".svg";
+                    var filePath = "https://cdn.na.bambora.com/downloads/images/cards/" + event.brand + ".svg";
                     cardLogo = "url(" + filePath + ")";
                 } else {
                     cardLogo = "none";
@@ -73,14 +73,14 @@
                 console.log('complete: ' + JSON.stringify(event));
 
                 if (event.field === 'card-number') {
-                    self.hideErrorForId('card-number');
                     isCardNumberComplete = true;
+                    self.hideErrorForId('card-number');
                 } else if (event.field === 'cvv') {
-                    self.hideErrorForId('card-cvv');
                     isCVVComplete = true;
+                    self.hideErrorForId('card-cvv');
                 } else if (event.field === 'expiry') {
-                    self.hideErrorForId('card-expiry');
                     isExpiryComplete = true;
+                    self.hideErrorForId('card-expiry');
                 }
 
                 self.setPayButton(isCardNumberComplete && isCVVComplete && isExpiryComplete);
@@ -126,24 +126,52 @@
         },
         hideErrorForId: function (id) {
             console.log('hideErrorForId: ' + id);
-            document.getElementById(id).classList.remove('error');
-            document.getElementById(id + '-error').innerHTML = '';
+
+            var element = document.getElementById(id);
+
+            if (element !== null) {
+                var errorElement = document.getElementById(id + '-error');
+                if (errorElement !== null) {
+                    errorElement.innerHTML = '';
+                }
+
+                var bootStrapParent = document.getElementById(id + '-bootstrap');
+                if (bootStrapParent !== null) {
+                    bootStrapParent.className = "form-group has-feedback has-success";
+                }
+            } else {
+                console.log('showErrorForId: Could not find ' + id);
+            }
         },
         showErrorForId: function (id, message) {
-            console.log('showErrorForId: ' + id);
-            document.getElementById(id).classList.add('error');
-            document.getElementById(id + '-error').innerHTML = message;
+            console.log('showErrorForId: ' + id + ' ' + message);
+
+            var element = document.getElementById(id);
+
+            if (element !== null) {
+                var errorElement = document.getElementById(id + '-error');
+                if (errorElement !== null) {
+                    errorElement.innerHTML = message;
+                }
+
+                var bootStrapParent = document.getElementById(id + '-bootstrap');
+                if (bootStrapParent !== null) {
+                    bootStrapParent.className = "form-group has-feedback has-error ";
+                }
+            } else {
+                console.log('showErrorForId: Could not find ' + id);
+            }
         },
         setPayButton: function (enabled) {
-            console.log('checkout.setPayButton() enabled: ' + enabled);
+            console.log('checkout.setPayButton() disabled: ' + !enabled);
 
             var payButton = document.getElementById('pay-button');
             if (enabled) {
                 payButton.disabled = false;
-                payButton.className = "btn";
+                payButton.className = "btn btn-primary";
             } else {
                 payButton.disabled = true;
-                payButton.className = "btn disabled";
+                payButton.className = "btn btn-primary disabled";
             }
         },
         toggleProcessingScreen: function () {
