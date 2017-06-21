@@ -205,7 +205,6 @@
 
             this.showSuccessFeedback('Success! Created token: ' + token);
             this.setPayButton(true);
-            this.toggleProcessingScreen();
 
             // Use token to call payments api
             this.makeTokenPayment(token);
