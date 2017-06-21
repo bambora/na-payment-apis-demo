@@ -1,0 +1,39 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script src='https://s3.ca-central-1.amazonaws.com/na-checkoutfields.dev/2.0.0/checkoutfields.js'></script>
+
+<!-- import Bootstrap -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- Add form -->
+<div class="row">
+  <form id="checkout-form" class="form-inline">
+    <div class="col-lg-3 text-center">
+      <div class="form-group has-feedback" id="card-number-bootstrap">
+        <div id="card-number" class="form-control"></div>
+        <label class="help-block" for="card-number" id="card-number-error"></label>
+      </div>
+    </div>
+    <div class="col-lg-3 text-center">
+      <div class="form-group has-feedback" id="card-cvv-bootstrap">
+        <div id="card-cvv" class="form-control"></div>
+        <label class="help-block" for="card-cvv" id="card-cvv-error"></label>
+      </div>
+    </div>
+    <div class="col-lg-3 text-center">
+      <div class="form-group has-feedback" id="card-expiry-bootstrap">
+        <div id="card-expiry" class="form-control"></div>
+        <label class="help-block" for="card-expiry" id="card-expiry-error"></label>
+      </div>
+    </div>
+    <div class="col-lg-3 text-center">
+      <button id="pay-button" type="submit" class="btn btn-primary disabled" disabled="true">Pay</button>
+    </div>
+  </form>
+</div>
+
+<div class="row">
+  <div class="col-lg-12 text-center">
+    <div id="feedback"></div>
+  </div>
+</div>

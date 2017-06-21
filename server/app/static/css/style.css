@@ -1,0 +1,105 @@
+
+@media only screen and (min-width: 800px) {
+    /* tablets and desktop */
+    .main {
+      width: 800px;
+      margin: 0 auto;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    /* phones */
+    .main {
+      margin: 0 9px;
+    }
+
+}
+
+table.table.table-highlight, .nav-pane {
+  margin-bottom: 24px;
+}
+
+.nav-pane.secondary {
+  box-shadow: none;
+  padding: 0;
+  margin-bottom: 12px;
+}
+
+.nav-pane.secondary > .pull-left.nav-links > a:first-child {
+  padding-left: 0;
+}
+
+.nav-pane.secondary > .pull-left.nav-links > a:first-child:after {
+  left: 0;
+}
+
+.block {
+  display:none;
+  margin-bottom: 24px;
+}
+
+.block.visible {
+  display:block;
+}
+
+.processing-screen.visible {
+  display:flex;
+}
+
+.processing-screen {
+  display:none;
+  z-index:1000000;
+  background: rgba(0,0,0,.1);
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.message {
+  display: none;
+}
+
+.message.visible {
+  display: block;
+}
+
+#raw-json-wrapper {
+}
+
+#more-button-area {
+  text-align: center;
+}
+
+#more-button {
+  border-style: none;
+  background: none;
+  color: rgba(120, 71, 181, 1);
+  margin: 0 0 10px 0;
+}
+
+#more-button:hover {font-weight: bold;}
+
+#grow {
+  text-align: left;
+  -moz-transition: height .5s;
+  -ms-transition: height .5s;
+  -o-transition: height .5s;
+  -webkit-transition: height .5s;
+  transition: height .5s;
+  height: 0;
+  overflow: hidden;
+}
+
+pre.prettyprint {
+  border: 0 !important;
+}
+
+.checkbox {
+  padding-top: 20px;
+}

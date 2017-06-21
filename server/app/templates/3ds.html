@@ -1,0 +1,81 @@
+<!doctype html>
+
+{% include 'snippets/head.html' %}
+{% with tab='3ds' %}
+    {% include 'snippets/main-nav.html' %}
+{%  endwith %}
+
+<div class="main">
+    <header class='display'>Payments</header>
+    <h1>Merchant API Demo</h1>
+    <p>This payment form is for demo purposes only. It will not charge any cards.
+        The UI is intended to demonstrate the different payment experiences for end user.
+        The open code base is intended to act as a sample integration for developers to reference.
+        You can view the source <a href="https://github.com/bambora/na-merchant-api-demo" target="_blank">here</a>.
+    </p>
+
+    <form>
+        <h4>Order Summary</h4>
+        <div class="form-group">
+            <label for="amount">Amount (CAD)</label>
+            <input id="amount" type="text" name="amount" placeholder=""/>
+        </div>
+        <h4>Your Details</h4>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input id="name" type="text" name="name" placeholder=""/>
+        </div>
+    </form>
+    <h4>Payment Method</h4>
+    <nav class="nav-pane secondary">
+        <div class="pull-left nav-links">
+            <a id="card-tag" href="javascript:void(0)" class="active">Credit or Debit Card</a>
+            <a id="interac-tag" href="javascript:void(0)">Interac Online</a>
+        </div>
+    </nav>
+    <div id="card-block" class="block visible">
+        <div class="checkbox 3ds">
+            <input type="checkbox" id="3ds-checkbox" checked>
+            <label for="3ds-checkbox">3D Secure Enabled Flow</label>
+        </div>
+
+        {% include 'snippets/checkoutfields.html' %}
+        <script src="{{ url_for('static', filename='js/checkoutfields-controller.js') }}"></script>
+    </div>
+
+    {% include 'snippets/interac.html' %}
+    {% include 'snippets/feedback.html' %}
+    <script src="{{ url_for('static', filename='js/interac-controller.js') }}"></script>
+
+    <br>
+    <br>
+    <div id="raw-json-wrapper" class="block visible">
+        <div id="more-button-area">
+            <input type="button" class="btn btn-default" onclick="toggleGrowDiv()" value="Show JSON" id="more-button">
+        </div>
+        <div id='grow'>
+            <div class='measuringWrapper'>
+                    Request:
+                <pre id="raw-json-request" class="prettyprint lang-js">
+{
+  "amount": 100
+  "payment_method": "token",
+  "token": {
+    "code": "c51-0431b873-4fae-4eca-b99e-9b4eeb5a84b0",
+    "name": "Jane Doe"
+  }
+}
+                </pre>
+                    Response:
+                <pre id="raw-json-response" class="prettyprint lang-js">
+/* Not yet set */
+                </pre>
+            </div>
+        </div>
+    </div>
+
+    {% include 'snippets/test-cards.html' %}
+</div>
+{% include 'snippets/footer.html' %}
+{% include 'snippets/processing-screen.html' %}
+{% include 'snippets/scripts.html' %}
