@@ -42,6 +42,9 @@
     // Pre-populate fields
     document.getElementById('amount').value = '1.00';
     document.getElementById('name').value = 'Jane Smith';
+	if (document.getElementById('postal') !== null) {
+		document.getElementById('postal').value = 'V8T 4M3';
+	}
 })();
 
 function toggleGrowDiv() {
