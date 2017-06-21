@@ -28,7 +28,7 @@ $ cd na-merchant-api-demo/server/app
 $ [sudo] pip install virtualenv
 ```
 
-* Create (if not already create) and/or Activate project environment
+* Create (if not already created) and/or Activate project environment
 ```bash
 $ virtualenv -p python3 venv
 $ source venv/bin/activate
