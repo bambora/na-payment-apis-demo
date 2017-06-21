@@ -263,9 +263,9 @@
                     } else {
                         var message;
                         if (xhr.status === 200) {
-                            var invoice = JSON.parse(xhr.responseText).order_number;
+                            var orderNumber = JSON.parse(xhr.responseText).order_number;
                             var transactionId = JSON.parse(xhr.responseText).id;
-                            message = 'Made a payment using token.</br></br>' + transactionId + '</br></br>' + invoice;
+                            message = 'Made a payment using token.</br></br>Transaction Id:</br>' + transactionId + '</br></br>Order Number:</br>' + orderNumber;
                             self.showSuccessFeedback(message);
                         }
                         else {
