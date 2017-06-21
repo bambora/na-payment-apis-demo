@@ -44,15 +44,15 @@ $ source venv/bin/activate
 ### Set up Environment Variables
 #### Mac/Linux
 ```bash
-(venv) app$ export SERVER_URL_BASE="https://api.na.bambora.com"  # Defaults to this and can be ommitted
-(venv) app$ export DATABASE_URL=sqlite:////tmp/mobilepay-demo.db  # Defaults to this and can be ommitted
+(venv) app$ export SERVER_URL_BASE="https://api.na.bambora.com"  # Defaults to this and can be omitted
+(venv) app$ export DATABASE_URL=sqlite:////tmp/mobilepay-demo.db  # Defaults to this and can be omitted
 (venv) app$ export API_PASSCODE=<your_merchant_payments_passcode>
 (venv) app$ export MERCHANT_ID=<your_bambora_merchant_id>
 ```
 
 #### Windows
 ```
-(venv) app$ $env:SERVER_URL_BASE ="https://api.na.bambora.com"  # Defaults to this and can be ommitted
+(venv) app$ $env:SERVER_URL_BASE ="https://api.na.bambora.com"  # Defaults to this and can be omitted
 (venv) app$ $env:DATABASE_URL = "sqlite:////users/<your_user>/appdata/local/temp/mobilepay-demo.db"
 (venv) app$ $env:API_PASSCODE = "<your_merchant_payments_passcode>"
 (venv) app$ $env:MERCHANT_ID = "<your_bambora_merchant_id>"
