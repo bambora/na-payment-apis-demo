@@ -15,6 +15,7 @@ from werkzeug.exceptions import default_exceptions
 from werkzeug.exceptions import HTTPException
 
 from blueprints.basic import payments as basic
+from blueprints.checkout import payments as checkout
 from blueprints.enhanced import payments as enhanced
 from blueprints.mobile import payments as mobile
 
@@ -74,6 +75,7 @@ def route(path):
 
 
 app.register_blueprint(basic, url_prefix='/payment/basic')
+app.register_blueprint(checkout, url_prefix='/payment/checkout')
 app.register_blueprint(enhanced, url_prefix='/payment/enhanced')
 app.register_blueprint(mobile, url_prefix='/payment/mobile')
 
