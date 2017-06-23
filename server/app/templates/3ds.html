@@ -39,8 +39,8 @@
             <label for="3ds-checkbox">3D Secure Enabled Flow</label>
         </div>
 
-        {% include 'snippets/checkoutfields.html' %}
-        <script src="{{ url_for('static', filename='js/checkoutfields-controller.js') }}"></script>
+        {% include 'snippets/customcheckout.html' %}
+        <script src="{{ url_for('static', filename='js/customcheckout-controller.js') }}"></script>
     </div>
 
     {% include 'snippets/interac.html' %}

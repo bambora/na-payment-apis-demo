@@ -1,11 +1,11 @@
 (function () {
-    var checkoutFields = checkoutfields();
+    var customCheckout = customcheckout();
 
     var isCardNumberComplete = false;
     var isCVVComplete = false;
     var isExpiryComplete = false;
 
-    var checkoutFieldsController = {
+    var customCheckoutController = {
 
         init: function () {
             console.log('checkout.init()');
@@ -18,13 +18,13 @@
 
             // Create and mount the inputs
             options.placeholder = 'Card number';
-            checkoutFields.create('card-number', options).mount('#card-number');
+            customCheckout.create('card-number', options).mount('#card-number');
 
             options.placeholder = 'CVV';
-            checkoutFields.create('cvv', options).mount('#card-cvv');
+            customCheckout.create('cvv', options).mount('#card-cvv');
 
             options.placeholder = 'MM / YY';
-            checkoutFields.create('expiry', options).mount('#card-expiry');
+            customCheckout.create('expiry', options).mount('#card-expiry');
         },
         addListeners: function () {
             var self = this;
@@ -34,7 +34,7 @@
                 document.getElementById('checkout-form').addEventListener('submit', self.onSubmit.bind(self));
             }
 
-            checkoutFields.on('brand', function (event) {
+            customCheckout.on('brand', function (event) {
                 console.log('brand: ' + JSON.stringify(event));
 
                 if (event.brand && event.brand !== 'unknown') {
@@ -46,15 +46,15 @@
                 document.getElementById('card-number').style.backgroundImage = cardLogo;
             });
 
-            checkoutFields.on('blur', function (event) {
+            customCheckout.on('blur', function (event) {
                 console.log('blur: ' + JSON.stringify(event));
             });
 
-            checkoutFields.on('focus', function (event) {
+            customCheckout.on('focus', function (event) {
                 console.log('focus: ' + JSON.stringify(event));
             });
 
-            checkoutFields.on('empty', function (event) {
+            customCheckout.on('empty', function (event) {
                 console.log('empty: ' + JSON.stringify(event));
 
                 if (event.empty) {
@@ -69,7 +69,7 @@
                 }
             });
 
-            checkoutFields.on('complete', function (event) {
+            customCheckout.on('complete', function (event) {
                 console.log('complete: ' + JSON.stringify(event));
 
                 if (event.field === 'card-number') {
@@ -86,7 +86,7 @@
                 self.setPayButton(isCardNumberComplete && isCVVComplete && isExpiryComplete);
             });
 
-            checkoutFields.on('error', function (event) {
+            customCheckout.on('error', function (event) {
                 console.log('error: ' + JSON.stringify(event));
 
                 if (event.field === 'card-number') {
@@ -122,7 +122,7 @@
             };
 
             console.log('checkout.createToken()');
-            checkoutFields.createToken(callback);
+            customCheckout.createToken(callback);
         },
         hideErrorForId: function (id) {
             console.log('hideErrorForId: ' + id);
@@ -290,5 +290,5 @@
         },
     };
 
-    checkoutFieldsController.init();
+    customCheckoutController.init();
 })();
