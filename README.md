@@ -71,9 +71,9 @@ Payments API.
 
 In your production flow, a mobile client might transmit other info such as the customer identifier, 
 detailed sales/inventory data, and related shipping and billing addresses. This info might be recorded 
-on a merchants CRM (as an example), and then a request to process the payment using the Apple Pay or 
+on a merchant's CRM (as an example), and then a request to process the payment using the Apple Pay or 
 Android Pay token would then be made to the Bambora Payments API. Upon success or failure to process 
-the payment, the merchant’s CRM could be updated and the originating mobile client would then receive a response.
+the payment, the merchant's CRM could be updated and the originating mobile client would then receive a response.
 
 # iOS Client
 
