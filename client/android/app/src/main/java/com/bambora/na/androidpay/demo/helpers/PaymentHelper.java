@@ -35,9 +35,9 @@ import retrofit2.http.POST;
 
 public class PaymentHelper {
 
-    // For a sample Merchant Server implementation check out:
-    // https://github.com/bambora/na-merchant-api-demo
-    private static String baseURL = "https://your.merchant.server.com";
+    // For a sample Payment APIs Server implementation check out:
+    // https://github.com/bambora/na-payment-apis-demo
+    private static String baseURL = "https://your.payment.server.com";
 
     public interface PaymentService {
         @POST("/payment/mobile/process/android-pay")

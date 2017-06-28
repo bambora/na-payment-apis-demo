@@ -69,7 +69,7 @@ def process_payment(wallet_type):
     # name = request.json.get('name')
     transaction_type = request.json.get('transaction-type')
     apple_merchant_id = 'merchant.com.beanstream.apbeanstream'
-    android_app_id = 'com.bambora.na.mobilepay'
+    android_merchant_id = 'com.bambora.na.mobilepay'
     payment_token = request.json.get('payment-token')
 
     if transaction_type != "purchase" and transaction_type != "pre-auth":
@@ -79,7 +79,7 @@ def process_payment(wallet_type):
     if amount is None \
             or transaction_type is None \
             or (payment_method == db.WalletType.apple_pay and apple_merchant_id is None) \
-            or (payment_method == db.WalletType.android_pay and android_app_id is None) \
+            or (payment_method == db.WalletType.android_pay and android_merchant_id is None) \
             or payment_token is None:
 
         return error400('Expected params not found.')
@@ -112,7 +112,7 @@ def process_payment(wallet_type):
             'amount': float(amount),
             'payment_method': 'android_pay',
             'android_pay': {
-                'android_pay_app_id': android_app_id,
+                'android_pay_merchant_id': android_merchant_id,
                 'payment_token': payment_token,
                 'complete': complete
             }
