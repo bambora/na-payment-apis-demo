@@ -206,7 +206,7 @@
             this.showSuccessFeedback('Success! Created token: ' + token);
             this.setPayButton(true);
 
-            // Use token to call payments api
+            // Use token to call Payments API
             this.makeTokenPayment(token);
         },
         makeTokenPayment: function (token) {
