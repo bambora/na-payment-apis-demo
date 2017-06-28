@@ -19,8 +19,8 @@ and then start up as follows.
 
 * Execute a git clone command on this repo and in a terminal cd into the root project directory.
 ```bash
-$ git clone https://github.com/bambora/na-merchant-api-demo.git
-$ cd na-merchant-api-demo/server/app
+$ git clone https://github.com/bambora/na-payment-apis-demo.git
+$ cd na-payment-apis-demo/server/app
 ```
 
 * Install virtualenv (if not already available)
