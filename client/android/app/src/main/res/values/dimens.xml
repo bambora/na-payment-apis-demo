@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="default_margin">5dp</dimen>
+    <dimen name="left_margin">5dp</dimen>
+    <dimen name="right_margin">5dp</dimen>
+    <dimen name="top_margin">5dp</dimen>
+    <dimen name="bottom_margin">5dp</dimen>
+
+    <dimen name="button_height_android_pay">50dp</dimen>
+    <dimen name="button_height_buy">54dp</dimen>
+
+</resources>
+
+

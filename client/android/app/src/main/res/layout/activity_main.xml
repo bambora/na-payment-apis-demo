@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bambora_purple"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/item_sale"
+        android:layout_width="match_parent"
+        android:layout_height="210dp"
+        android:layout_alignParentTop="true"
+        android:layout_margin="@dimen/default_margin"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:choiceMode="singleChoice" />
+
+        <TextView
+            android:id="@+id/sale_total"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="@string/zero_sale_text"
+            android:textAlignment="center"
+            android:textColor="@color/light_text"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:checkedButton="@+id/radio_purchase"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@id/radio_purchase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/colorPrimary"
+                android:text="@string/purchase"
+                android:textColor="@color/light_text" />
+
+            <RadioButton
+                android:id="@+id/radio_auth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/colorPrimary"
+                android:text="@string/pre_auth"
+                android:textColor="@color/light_text" />
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/buy_button"
+        android:layout_below="@id/item_sale"
+        android:layout_marginBottom="@dimen/default_margin">
+
+        <FrameLayout
+            android:id="@+id/android_pay_card_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin" />
+
+    </ScrollView>
+
+    <FrameLayout
+        android:id="@+id/android_pay_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height_android_pay"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/default_margin" />
+
+    <Button
+        android:id="@id/buy_button"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height_buy"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/default_margin"
+        android:text="@string/confirm_payment"
+        android:textColor="@color/light_text" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/default_margin" />
+
+    <TextView
+        android:id="@+id/android_pay_unavailable"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/default_margin"
+        android:text="@string/android_pay_is_unavailable"
+        android:textAlignment="center"
+        android:textColor="@color/light_text"
+        android:visibility="gone" />
+
+</RelativeLayout>
