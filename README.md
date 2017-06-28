@@ -63,21 +63,23 @@ $ source venv/bin/activate
 (venv) app$ python server.py
 ```
 
+# Mobile Payment Clients
+
+Apple Pay or Android Pay payment requests are initiated from mobile clients and then, if successful, an Apple Pay or 
+Android Pay token is transmitted to the demo payment server, which records the payment request and executes the Bambora 
+Payments API.
+
+In your production flow, a mobile client might transmit other info such as the customer identifier, 
+detailed sales/inventory data, and related shipping and billing addresses. This info might be recorded 
+on a merchant's CRM (as an example), and then a request to process the payment using the Apple Pay or 
+Android Pay token would then be made to the Bambora Payments API. Upon success or failure to process 
+the payment, the merchant's CRM could be updated and the originating mobile client would then receive a response.
+
 # iOS Client
 
 The iOS client project was built with XCode 8 and requires Swift 3.0.
 
 <img width="83" height="53" align="right" src="http://images.apple.com/v/apple-pay/f/images/overview/apple_pay_logo_large_2x.png">
-
-The Apple Pay payment request flows from the iOS client and then, if successful, an Apple Pay token is 
-transmitted to the demo merchant server, which records the payment request and executes the Bambora 
-Payments API.
-
-In your production flow, a mobile client might transmit other info such as the customer identifier, 
-detailed sales/inventory data, and related shipping and billing addresses. This info might be recorded 
-on a merchants CRM (as an example), and then a request to process the payment using the Apple Pay token 
-would then be made to the Bambora Payments API. Upon success or failure to process the payment, the 
-merchant’s CRM could be updated and the originating mobile client would then receive a response.
 
 For details on how to develop Apple Pay enabled apps please visit:
 
@@ -102,6 +104,35 @@ payload = {
 }
 ```
 
+# Android Client
+
+The Android client project was built with Android Studio v2.3.1.
+
+<img width="120" align="right" src="https://www.android.com/static/2016/img/pay/androidpaylogo-outlined.png">
+
+For details on how to develop Android Pay enabled apps please visit:
+
+https://developers.google.com/android-pay/
+
+## Android Pay and the Bambora Payments API
+
+When an Android Pay client makes a payment request, it first gets an Android Pay payment token using standard Android 
+SDK APIs. It then communicates this info to the Demo Server which is responsible for interacting with the 
+Bambora Payments API. The Bambora Payments API has been updated to allow for Android Pay transactions 
+and the following is a sample POST parameter to use with a RESTful invocation of the Payments API.
+
+```
+payload = {
+    'amount': float(<purchase_amount>),
+    'payment_method': 'android_pay',
+    'android_pay': {
+        'apple_pay_merchant_id': <your_android_pay_merchant_id>,
+        'payment_token': <apple_pay_base64_encoded_token>,
+        'complete': <true (Defaults to true if omitted. Used for a purchase) | false (Used for a Pre-Auth.)>
+    }
+}
+```
+
 ---
 
 <a name="contributing"/>
@@ -120,3 +151,5 @@ payload = {
 * [Getting Started with Apple Pay](https://developer.apple.com/apple-pay/get-started/)
 * [Apple Pay Programming Guide](https://developer.apple.com/library/content/ApplePay_Guide/)
 * [Apple Pay Sandbox Testing](https://developer.apple.com/support/apple-pay-sandbox/)
+* [Android Pay @ Bambora](https://dev.na.bambora.com/docs/guides/android_pay/)
+* [Getting Started with Android Pay](https://www.android.com/pay/)

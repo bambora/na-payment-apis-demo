@@ -53,16 +53,24 @@ logger.addHandler(ch)
 
 @payments.route('/process/<wallet_type>', methods=['POST'])
 def process_payment(wallet_type):
-    if wallet_type != 'apple-pay':
-        return error400('Must use an Apple Pay wallet type.')
+
+    payment_method = None
+    if wallet_type == db.WalletType.apple_pay.value:
+        payment_method = db.PaymentMethod.apple_pay
+    elif wallet_type == db.WalletType.android_pay.value:
+        payment_method = db.PaymentMethod.android_pay
+
+    if not (payment_method == db.PaymentMethod.apple_pay or payment_method == db.PaymentMethod.android_pay):
+        return error400('Must use an Apple Pay or Android Pay wallet type.')
 
     logger.debug(request.form)
 
     amount = request.json.get('amount')
     # name = request.json.get('name')
-    transaction_type = 'purchase'  # request.json.get('transaction-type')
-    ap_merchant_id = 'merchant.com.beanstream.apbeanstream'
-    ap_token = request.json.get('payment-token')
+    transaction_type = request.json.get('transaction-type')
+    apple_merchant_id = 'merchant.com.beanstream.apbeanstream'
+    android_merchant_id = 'com.bambora.na.mobilepay'
+    payment_token = request.json.get('payment-token')
 
     if transaction_type != "purchase" and transaction_type != "pre-auth":
         transaction_type = None
@@ -70,15 +78,16 @@ def process_payment(wallet_type):
     # Ensure that POST params were all passed in OK.
     if amount is None \
             or transaction_type is None \
-            or ap_merchant_id is None \
-            or ap_token is None:
+            or (payment_method == db.WalletType.apple_pay and apple_merchant_id is None) \
+            or (payment_method == db.WalletType.android_pay and android_merchant_id is None) \
+            or payment_token is None:
 
         return error400('Expected params not found.')
 
     # Create a new payment record in the local database.
     payment_dict = payments_dao.create_payment(
         payment_amount=amount,
-        payment_method=db.PaymentMethod.apple_pay
+        payment_method=payment_method
     )
 
     payment_id = payment_dict["id"]
@@ -88,15 +97,26 @@ def process_payment(wallet_type):
         complete = False
 
     # Call on Payments API to process the payment.
-    payload = {
-        'amount': float(amount),
-        'payment_method': 'apple_pay',
-        'apple_pay': {
-            'apple_pay_merchant_id': ap_merchant_id,
-            'payment_token': ap_token,
-            'complete': complete
+    if wallet_type == db.WalletType.apple_pay.value:
+        payload = {
+            'amount': float(amount),
+            'payment_method': 'apple_pay',
+            'apple_pay': {
+                'apple_pay_merchant_id': apple_merchant_id,
+                'payment_token': payment_token,
+                'complete': complete
+            }
         }
-    }
+    elif wallet_type == db.WalletType.android_pay.value:
+        payload = {
+            'amount': float(amount),
+            'payment_method': 'android_pay',
+            'android_pay': {
+                'android_pay_merchant_id': android_merchant_id,
+                'payment_token': payment_token,
+                'complete': complete
+            }
+        }
 
     print(payload)
 

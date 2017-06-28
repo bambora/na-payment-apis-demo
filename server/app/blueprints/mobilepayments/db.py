@@ -54,6 +54,11 @@ class PaymentStatus(enum.Enum):
     error = "error"
 
 
+class WalletType(enum.Enum):
+    apple_pay = "apple-pay"
+    android_pay = "android-pay"
+
+
 ##########################
 # Data Model classes
 
