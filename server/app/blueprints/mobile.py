@@ -87,7 +87,7 @@ def process_payment(wallet_type):
     if transaction_type == 'pre-auth':
         complete = False
 
-    # Call on Merchant API to process the payment.
+    # Call on Payments API to process the payment.
     payload = {
         'amount': float(amount),
         'payment_method': 'apple_pay',
@@ -169,7 +169,7 @@ def get_apple_pay_session():
     payload = {
         'merchantIdentifier': 'merchant.com.beanstream.apbeanstream',
         'domainName': 'demo.na.bambora.com',
-        'displayName': 'Merchant API Demo',
+        'displayName': 'Payment APIs Demo',
     }
 
     # Send the request to the Apple Pay server and return the response to the client
