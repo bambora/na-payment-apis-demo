@@ -15,6 +15,10 @@
 
 }
 
+.main {
+  min-height: calc(100vh - 166px); /* for sticky footer */
+}
+
 table.table.table-highlight, .nav-pane {
   margin-bottom: 24px;
 }

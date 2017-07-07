@@ -1,7 +1,9 @@
 <!doctype html>
 
 {% include 'snippets/head.html' %}
-{% include 'snippets/main-nav.html' %}
+{% with tab='interacOnline' %}
+    {% include 'snippets/main-nav.html' %}
+{%  endwith %}
 
 <div class="main">
   {% include 'snippets/feedback-interac.html' %}

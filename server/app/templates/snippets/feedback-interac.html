@@ -19,6 +19,18 @@
               <td>Transaction ID</td>
               <td class="transaction"> {{ feedback['transaction_id'] }} </td>
           </tr>
+          <tr>
+              <td>Amount</td>
+              <td>{{ feedback['amount'] }}</td>
+          </tr>
+          <tr>
+              <td>Confirmation code</td>
+              <td>{{ feedback['idebit_issconf'] }}</td>
+          </tr>
+          <tr>
+              <td>Institution name</td>
+              <td>{{ feedback['idebit_issname'] }}</td>
+          </tr>
       </tbody>
   </table>
 </div>
