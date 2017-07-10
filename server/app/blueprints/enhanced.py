@@ -102,7 +102,14 @@ def interac_callback():
         content = json.loads(response.content.decode("utf-8"))
 
         if status == 200:
-            feedback = {'success': True, 'invoice_id': content.get('order_number'), 'transaction_id': content.get('id')}
+            feedback = { 
+                'success': True, 
+                'invoice_id': content.get('order_number'), 
+                'transaction_id': content.get('id'),
+                'amount': content.get('amount'),
+                'idebit_issconf': content.get('interac_online').get('idebit_issconf'),
+                'idebit_issname': content.get('interac_online').get('idebit_issname'), 
+            }
         else:
             feedback = {'success': False, 'message': content.get('message')}
 
