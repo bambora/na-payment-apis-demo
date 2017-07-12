@@ -12,3 +12,30 @@
 {% include 'snippets/footer.html' %}
 {% include 'snippets/processing-screen.html' %}
 {% include 'snippets/scripts.html' %}
+
+<script>
+// https://stackoverflow.com/questions/5796718/html-entity-decode
+var decodeEntities = (function() {
+  // this prevents any overhead from creating the object each time
+  var element = document.createElement('div');
+
+  function decodeHTMLEntities (str) {
+    if(str && typeof str === 'string') {
+      // strip script/html tags
+      str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, '');
+      str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, '');
+      element.innerHTML = str;
+      str = element.textContent;
+      element.textContent = '';
+    }
+
+    return str;
+  }
+
+  return decodeHTMLEntities;
+})();
+
+json = JSON.parse(decodeEntities("{{ feedback['raw'] }}"));
+jsonStr = JSON.stringify(json, undefined, 2);
+setDisplayedResponse(jsonStr);
+</script>
