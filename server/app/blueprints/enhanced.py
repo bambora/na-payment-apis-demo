@@ -107,8 +107,7 @@ def interac_callback():
                 'invoice_id': content.get('order_number'), 
                 'transaction_id': content.get('id'),
                 'amount': content.get('amount'),
-                'idebit_issconf': content.get('interac_online').get('idebit_issconf'),
-                'idebit_issname': content.get('interac_online').get('idebit_issname'), 
+                'raw': response.content.decode("utf-8"),
             }
         else:
             feedback = {'success': False, 'message': content.get('message')}
