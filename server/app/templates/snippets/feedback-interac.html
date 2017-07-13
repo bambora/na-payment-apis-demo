@@ -1,7 +1,3 @@
-
-
-
-
 {% if feedback['success'] %}
 
 <div id="success-feedback" class="message visible">
@@ -10,17 +6,33 @@
       Payment Successful
     </h4>
     <table class="table table-highlight">
-      <tbody>
-          <tr>
-              <td>Invoice ID</td>
-              <td class="invoice"> {{ feedback['invoice_id'] }} </td>
-          </tr>
-          <tr>
-              <td>Transaction ID</td>
-              <td class="transaction"> {{ feedback['transaction_id'] }} </td>
-          </tr>
-      </tbody>
-  </table>
+        <tbody>
+            <tr>
+                <td>Invoice ID</td>
+                <td class="invoice"> {{ feedback['invoice_id'] }} </td>
+            </tr>
+            <tr>
+                <td>Transaction ID</td>
+                <td class="transaction"> {{ feedback['transaction_id'] }} </td>
+            </tr>
+            <tr>
+                <td>Amount</td>
+                <td>{{ feedback['amount'] }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="raw-json-wrapper" class="block visible">
+    <div id="more-button-area">
+        <input type="button" class="btn btn-default" onclick="toggleGrowDiv()" value="Show JSON" id="more-button">
+    </div>
+    <div id='grow'>
+        <div class='measuringWrapper'>
+            Response:
+            <pre id="raw-json-response" class="prettyprint lang-js">/* Not received yet */</pre>
+        </div>
+    </div>
 </div>
 
 {% else %}

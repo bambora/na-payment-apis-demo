@@ -8,7 +8,7 @@ import base64
 import decimal
 
 
-# Bambora Merchant API Server base URL. Defaults to 'https://api.na.bambora.com'
+# Bambora Payment APIs Server base URL. Defaults to 'https://api.na.bambora.com'
 base_url = os.environ.get('SERVER_URL_BASE')
 
 if base_url is None:

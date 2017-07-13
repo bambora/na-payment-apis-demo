@@ -21,7 +21,7 @@ from blueprints.mobile import payments as mobile
 
 
 # Setup a logger
-logger = logging.getLogger('Merchant-API-Demo')
+logger = logging.getLogger('Payment-APIs-Demo')
 logger.setLevel(logging.WARNING)
 
 # Create a Flask app.

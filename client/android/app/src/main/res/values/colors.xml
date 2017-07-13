@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#442358</color>
+    <color name="colorPrimaryDark">#2a1637</color>
+    <color name="colorAccent">#cb4670</color>
+
+    8247b5
+
+    <color name="white">#ffffff</color>
+    <color name="dark_button">#333333</color>
+
+    <color name="light_text">#bebebe</color>
+
+    <color name="faded_violet">#caacdf</color>
+    <color name="bambora_purple">#8247b5</color>
+
+
+</resources>
+
+

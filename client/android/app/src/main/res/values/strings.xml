@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">AndroidPayBambora</string>
+
+    <string name="public_key">BOpDrO2Mp4bcjqiAsnSiN3//fIagYPBl+tgU15BA/9E3dTKNxeAdAe1IQ0fWS1Bcwxxbm02HNeupjbDLJ3rNKrk=</string>
+    <string name="android_pay_is_unavailable">Android Pay Is Unavailable</string>
+    <string name="zero_items">0</string>
+    <string name="zero_sale_text">Sale Total: $0.00</string>
+    <string name="confirm_payment">Confirm Payment</string>
+    <string name="pre_auth">Pre-Auth</string>
+    <string name="purchase">Purchase</string>
+</resources>
