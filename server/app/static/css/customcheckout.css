@@ -27,11 +27,14 @@
 /* card images are added to card number */
 #card-number {
     background-image: none;
-
     background-origin: content-box;
-    background-position: calc(100% + 40px) center;
+    background-position: calc(100% - 15px);
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: 50px;
+}
+
+iframe[name='bambora-card-number-iframe'] {
+    width: calc(100% - 75px);
 }
 
 .field-error {
