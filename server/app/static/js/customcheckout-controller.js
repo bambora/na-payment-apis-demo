@@ -14,7 +14,24 @@
         },
         createInputs: function () {
             console.log('checkout.createInputs()');
-            var options = {};
+            var options = {
+                style: {
+                    base: {
+                        fontSize: '15px',
+                        padding: '15px 60px 14px 20px',
+                    },
+                    error: {
+                        color: 'rgba(224, 80, 67, 1)',
+                    },
+                },
+                classes: {
+                    base: 'field-base',
+                    complete: 'field-complete',
+                    empty: 'field-empty',
+                    focus: 'field-focus',
+                    error: 'field-error',
+                },
+            };
 
             // Create and mount the inputs
             options.placeholder = 'Card number';
