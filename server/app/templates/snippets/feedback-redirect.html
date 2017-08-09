@@ -1,0 +1,49 @@
+{% if feedback['success'] %}
+<div id="response-panel-success" class="container">
+  <div class="message">
+      <div class="response message-content">
+
+          <h3>Payment approved - hooray!</h3>
+          <table class="table">
+            <tbody>
+              <tr>
+                <td>Transaction ID</td>
+                <td id="response-id"> {{ feedback['transaction_id'] }} </td>
+              </tr>
+              <tr>
+                <td>Bank response</td>
+                <td id="response-bank"> {{ feedback['message_id'] }} </td>
+              </tr>
+              <tr>
+                <td>CVV response</td>
+                <td id="response-cvv"> {{ feedback['cvv'] }} </td>
+              </tr>
+              <tr>
+                <td>AVS response</td>
+                <td id="response-avs"> {{ feedback['avs'] }} </td>
+              </tr>
+            </tbody>
+          </table>
+
+      </div>
+  </div>
+</div>
+{% else %}
+<div id="response-panel-fail" class="container">
+  <div class="message">
+      <div class="response message-content">
+
+          <h3>Payment declined - dohh!</h3>
+          <table class="table">
+            <tbody>
+              <tr>
+                <td>Error message</td>
+                <td id="response-error-message"> {{ feedback['message'] }} </td>
+              </tr>
+            </tbody>
+          </table>
+
+      </div>
+  </div>
+</div>
+{% endif %}

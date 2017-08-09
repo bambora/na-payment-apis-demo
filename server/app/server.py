@@ -16,8 +16,10 @@ from werkzeug.exceptions import HTTPException
 
 from blueprints.basic import payments as basic
 from blueprints.checkout import payments as checkout
-from blueprints.enhanced import payments as enhanced
 from blueprints.mobile import payments as mobile
+from blueprints.funds_transfer import payments as funds_transfer
+from blueprints.interac import payments as interac
+from blueprints.card import payments as card
 
 
 # Setup a logger
@@ -75,10 +77,11 @@ def route(path):
 
 
 app.register_blueprint(basic, url_prefix='/payment/basic')
-app.register_blueprint(checkout, url_prefix='/payment/checkout')
-app.register_blueprint(enhanced, url_prefix='/payment/enhanced')
+app.register_blueprint(card, url_prefix='/payment/card')
+app.register_blueprint(checkout, url_prefix='/checkout')
 app.register_blueprint(mobile, url_prefix='/payment/mobile')
-
+app.register_blueprint(funds_transfer, url_prefix='/payment/funds-transfer')
+app.register_blueprint(interac, url_prefix='/payment/interac')
 
 #
 # Start the app using the built-in Flask (non-production quality) server
@@ -94,3 +97,4 @@ if __name__ == '__main__':
     context = (os.path.join(app.root_path, 'domain.crt'),
                os.path.join(app.root_path, 'domain.key'))
     app.run(debug=True, host='0.0.0.0', ssl_context=context)
+    #app.run(debug=True, host='0.0.0.0')
