@@ -1,0 +1,51 @@
+<div class="message">
+  <div id="b4" class="message-title">
+    <form>
+      <div class="radio">
+        <input type="radio" name="radios">
+        <label>Funds transfer</label>
+      </div>
+    </form>
+    <div class="card-icon-row">
+      <img class="card-icon" src="{{ url_for('static', filename='images/bank.png') }}"/>
+    </div>
+  </div>
+  <div class="message-content">
+    <form id="form-funds-transfer">
+      <div class="form-group">
+          <label for="account-number">Account number</label>
+          <input required type="text" id="account-number" placeholder="1234567"
+          pattern="[0-9]{5,12}" title="5-12 digit number"/>
+          <label for="account-number" class="invalid">5-12 digit number</label>
+      </div>
+      <div class="input-row">
+        <div class="form-group">
+            <label for="transit-number">Transit number</label>
+            <input required type="text" id="transit-number"
+            placeholder="12345"
+            pattern="[0-9]{5}" title="5 digit number"/>
+            <label for="transit-number" class="invalid">5 digit number</label>
+        </div>
+        <div class="form-group">
+            <label for="institution-number">Institution number</label>
+            <input required type="text" id="institution-number" placeholder="123"
+            pattern="[0-9]{3}" title="3 digit number"/>
+            <label for="institution-number" class="invalid">3 digit number</label>
+        </div>
+      </div>
+      <div class="btn-row">
+          <button class="btn btn-small btn-min-width">Authorise transfer</button>
+      </div>
+    </form>
+    <div class="test-cards">
+      <p>A funds transfer (also known as a direct debit or an e-check) is a
+        payment that you make directly from your bank account.</p>
+      <p>Just like a paper check, it usually takes between 3 and 5 business
+        days for a payment to clear and the money to appear in your
+        bank account.</p>
+      <p>Try it out using the account number <strong>1234567</strong>, the
+        transit number <strong>12345</strong>, and the institution number
+        <strong>123</strong>.</p>
+    </div>
+  </div>
+</div>
