@@ -20,7 +20,7 @@ payments = Blueprint('card', __name__,)
 
 @payments.route('', methods=['POST'])
 def make_payment():
-    term_url = request.base_url + '/redirect'
+    term_url = request.base_url + '/callback'
 
     data = json.dumps({
         'amount': decimal.Decimal(request.json.get('amount')).quantize(settings.TWO_PLACES),
@@ -39,8 +39,8 @@ def make_payment():
     return response.content.decode("utf-8"), response.status_code
 
 
-@payments.route('/redirect', methods=['POST'])
-def redirect():
+@payments.route('/callback', methods=['POST'])
+def handle_callback():
     if '3d-secure-id' in session:
         url = '{}/{}/continue'.format(settings.base_url + '/v1/payments', session['3d-secure-id'])
         session.pop('3d-secure-id', None)

@@ -5,13 +5,13 @@
 
 import hashlib
 import urllib.parse
-import os
 import simplejson as json
 
 from flask import Blueprint
 from flask import render_template
 from flask import request
 
+import settings
 
 payments = Blueprint('checkout', __name__,)
 
@@ -23,13 +23,13 @@ def checkout():
 
 @payments.route('/redirect', methods=['POST'])
 def process_order():
-    merchant_id = os.environ.get('MERCHANT_ID')
-    #hash_key = os.environ.get('HASH_KEY')
-    hash_key = '46E664B4-396C-423D-90E6-430DCB06'
+    merchant_id = settings.sandbox_merchant_id
+    hash_key = settings.sandbox_hash_key
+
     amount = request.json.get('amount')
     name = urllib.parse.quote_plus(request.json.get('name'))
     postal = urllib.parse.quote_plus(request.json.get('postal'))
-    term_url = request.base_url.replace('redirect','response')
+    term_url = request.base_url.replace('redirect','callback')
 
     hash_data = ('merchant_id=' + merchant_id + '&trnAmount=' + amount +
                 '&ordName=' + name + '&ordPostalCode=' + postal +
@@ -38,7 +38,7 @@ def process_order():
 
     hash = hashlib.sha1(str(hash_data + hash_key).encode('utf-8')).hexdigest()
 
-    checkout_url = 'https://web.na.bambora.com/scripts/payment/payment.asp?'+ hash_data + "&hashValue=" + hash
+    checkout_url = '{}/scripts/payment/payment.asp?{}&hashValue={}'.format(settings.base_querystring_sandbox_url, hash_data, hash)
 
     data = json.dumps({
         'redirect_url': checkout_url
@@ -47,8 +47,8 @@ def process_order():
     return data
 
 
-@payments.route('/response', methods=['GET'])
-def response():
+@payments.route('/callback', methods=['GET'])
+def handle_callback():
     args = request.args
     if bool(args.get('messageId')):
         feedback = {

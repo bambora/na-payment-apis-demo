@@ -1,9 +1,9 @@
 REPO_BASE=056252067802.dkr.ecr.us-west-2.amazonaws.com
 APP_NAME=na-merchant-api-demo
 IMAGE_NAME=bambora/$(APP_NAME)
-VERSION=1.0.0
+VERSION=9.0.0
 EB_BUCKET=eb-docker-deploy
-EB_APP_ENV_NAME=$(APP_NAME)
+EB_APP_ENV_NAME=$(APP_NAME)-staging
 ZIP=$(EB_APP_ENV_NAME).zip
 
 all:
@@ -23,7 +23,7 @@ tag_latest:
 	docker tag $(IMAGE_NAME):$(VERSION) $(REPO_BASE)/$(IMAGE_NAME):latest
 
 login:
-	$(shell aws ecr get-login --region us-west-2)
+	$(shell aws ecr get-login --region us-west-2 --no-include-email)
 
 push: login
 	docker push $(REPO_BASE)/$(IMAGE_NAME):$(VERSION)

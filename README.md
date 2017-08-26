@@ -42,22 +42,32 @@ $ source venv/bin/activate
 ## Execution (Development Only)
 
 ### Set up Environment Variables
+We are using 2 test accounts in this demo app. One is on Production, the other is on Sandbox. All services, except Visa Checkout can be tested on Production. Visa Checkout mist be tested on Sandbox.
+
 #### Mac/Linux
 ```bash
 (venv) app$ export SERVER_URL_BASE="https://api.na.bambora.com"  # Defaults to this and can be omitted
 (venv) app$ export DATABASE_URL=sqlite:////tmp/mobilepay-demo.db  # Defaults to this and can be omitted
-(venv) app$ export API_PASSCODE=<your_merchant_payments_passcode>
 (venv) app$ export MERCHANT_ID=<your_bambora_merchant_id>
-(venv) app$ export HASH_KEY=<your_hash_key>
+(venv) app$ export API_PASSCODE=<your_payment_api_passcode>
+(venv) app$ export BATCH_PAYMENT_API_PASSCODE=<your_batch_payment_api_passcode>
+(venv) app$ export REPORT_API_PASSCODE=<report_api_passcode>
+(venv) app$ export SANDBOX_MERCHANT_ID=<your_bambora_sandbox_merchant_id>
+(venv) app$ export SANDBOX_API_PASSCODE=<your_sandbox_payment_api_passcode>
+(venv) app$ export SANDBOX_HASH_KEY=<your_sandbox_hash_key>
+(venv) app$ export SANDBOX_VISA_CHECKOUT_API_KEY=<your_sandbox_visa_checkout_api_key>
 ```
+
 
 #### Windows
 ```bash
 (venv) app$ $env:SERVER_URL_BASE ="https://api.na.bambora.com"  # Defaults to this and can be omitted
 (venv) app$ $env:DATABASE_URL = "sqlite:////users/<your_user>/appdata/local/temp/mobilepay-demo.db"
-(venv) app$ $env:API_PASSCODE = "<your_merchant_payments_passcode>"
 (venv) app$ $env:MERCHANT_ID = "<your_bambora_merchant_id>"
-(venv) app$ $env:HASH_KEY = "<your_hash_key>"
+(venv) app$ $env:API_PASSCODE = "<your_merchant_payments_passcode>"
+(venv) app$ $env:SANDBOX_MERCHANT_ID = "<your_bambora_sandbox_merchant_id>"
+(venv) app$ $env:SANDBOX_API_PASSCODE = "<your_sandbox_merchant_payments_passcode>"
+(venv) app$ $env:SANDBOX_HASH_KEY = "<your_sandbox_hash_key>"
 ```
 
 ### Run

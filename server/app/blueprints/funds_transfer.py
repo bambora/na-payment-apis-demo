@@ -52,6 +52,7 @@ def process_order():
         batch_id = report_response['batch_id']
     else:
         print('FAIL: edge case. batch request returned http status !200 or message !1')
+        print(batch_response)
 
     data = json.dumps({
         'success': success,
@@ -73,9 +74,10 @@ def submitBatch(transaction):
                 'Content-Type: text/plain\r\n\r\n'
                 +transaction+'\r\n'
                 '--CHEESE--\r\n')
+
     headers = {
         'content-type': "multipart/form-data; boundary=CHEESE",
-        'authorization': "Passcode  MzAwMjAyNzc5OkQwMEQ3OUY5ZDQwQTRCMWE5Y2VmRTExMzAxY2FEZkJl",
+        'authorization': settings.get_batch_paymemt_auth_header_value(),
         'filetype': "STD"
         }
 
@@ -92,23 +94,25 @@ def getReport(batch_id, attempt):
     success = 'false'
     trans_id = ''
 
-    url = "https://api.na.bambora.com/scripts/reporting/report.aspx"
+    url = '{}/scripts/reporting/report.aspx'.format(settings.base_querystring_url)
+    merchant_id = settings.merchant_id
+    report_api_passcode = settings.report_api_passcode
 
     payload = ('<?xml version=\'1.0\' encoding=\'utf-8\'?>\r\n'
                 '<request>\r\n<rptVersion>2.0</rptVersion>\r\n'
                 '<serviceName>BatchPaymentsEFT</serviceName>\r\n'
-                '<merchantId>300202779</merchantId>\r\n'
-                '<passCode>1a2c3B435A074fE5B69Fe4737dB2bAc5</passCode>\r\n'
+                '<merchantId>{}</merchantId>\r\n'
+                '<passCode>{}</passCode>\r\n'
                 '<rptFormat>JSON</rptFormat>\r\n'
                 '<rptFilterBy1>batch_id</rptFilterBy1>\r\n'
                 '<rptOperationType1>EQ</rptOperationType1>\r\n'
-                '<rptFilterValue1>{}</rptFilterValue1>\r\n</request>').format(batch_id)
+                '<rptFilterValue1>{}</rptFilterValue1>\r\n</request>').format(merchant_id, report_api_passcode, batch_id)
+
     headers = {
         'content-type': "application/xml"
         }
 
     response = requests.request("POST", url, data=payload, headers=headers)
-
     status = response.status_code
     content = json.loads(response.content.decode("utf-8")).get('response')
     code = content.get('code')
