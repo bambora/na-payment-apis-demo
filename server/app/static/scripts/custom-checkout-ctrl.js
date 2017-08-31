@@ -80,8 +80,11 @@
       this.customCheckout.createToken(
         function(result) {
           if (result.error) {
-            console.log('error making token. error: ', result.error);
-            this.updateFeedback({ success: false, message: result.error });
+            if (result.error.type !== 'TokenizationValidationFailed') {
+              this.updateFeedback({ success: false, message: result.error.message });
+            } else {
+              this.spinner.fadeOut('fast');
+            }
           } else {
             this.makePayment(result.token);
           }
