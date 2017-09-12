@@ -1,37 +1,48 @@
 #checkout-form {
     position: relative;
-    width: calc(95%);
+    margin-top: 30px;
+    width: 100%;
 }
 
 #checkout-form label {
     display: block;
     min-height: 25px;
-
     font-size: 15px;
     font-weight: 500;
     margin: 5px 0;
     padding: 0;
-    color: red;
+    color: rgba(224, 80, 67, 1);
 }
 
 #card-number, #card-cvv, #card-expiry {
     display: block;
-    width: calc(95%);
+    width: 100%;
     border-radius: 2px;
     border: 1px solid rgba(200, 200, 200, 1);
-    padding: 14px 60px 13px 20px;
     margin: 5px 0;
     transition: all 100ms ease-out;
+    line-height: 0;
 }
 
 /* card images are added to card number */
 #card-number {
     background-image: none;
-
     background-origin: content-box;
-    background-position: calc(100% + 40px) center;
+    background-position: calc(100% - 15px);
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: 50px;
+}
+
+iframe[name='bambora-card-number-iframe'] {
+    width: calc(100% - 75px);
+}
+
+.field-error {
+    border: 1px solid rgba(224, 80, 67, 1) !important;
+}
+
+.field-complete {
+    border: 1px solid rgba(91, 181, 99, 1) !important;
 }
 
 /* buttons */
@@ -77,7 +88,7 @@
 }
 
 #feedback.error {
-    color: red;
+    color: rgba(224, 80, 67, 1);
     border: 1px solid;
 }
 
