@@ -19,12 +19,6 @@ import settings
 payments = Blueprint('visa-checkout', __name__,)
 
 
-@payments.route('', methods=['GET'])
-def checkout():
-    visa_checkout_api_key = settings.sandbox_visa_checkout_api_key
-    return render_template('visa-checkout.html', api_key=visa_checkout_api_key)
-
-
 @payments.route('/capture', methods=['POST'])
 def make_payment():
 

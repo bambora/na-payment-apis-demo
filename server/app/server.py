@@ -23,6 +23,8 @@ from blueprints.card import payments as card
 from blueprints.visa_checkout import payments as visa_checkout
 from blueprints.masterpass import payments as masterpass
 
+import settings
+
 # Setup a logger
 logger = logging.getLogger('Payment-APIs-Demo')
 logger.setLevel(logging.WARNING)
@@ -68,12 +70,11 @@ def error500(e):
 
 @app.route('/version')
 def version():
-    return '9.0.0'
+    return '<VERSION>'
 
 @app.route('/')
 def get_landing_page():
-    #visa_checkout_api_key = os.environ.get('API_PASSCODE')
-    visa_checkout_api_key = 'OOPA7YDTG9VQZZXZNIKX21sAeeobYjl5Zs22Qat1oBp5KqNwI'
+    visa_checkout_api_key = settings.sandbox_visa_checkout_api_key
     return render_template('index.html', api_key=visa_checkout_api_key)
 
 @app.route('/<path:path>')
