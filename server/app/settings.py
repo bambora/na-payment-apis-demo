@@ -22,7 +22,6 @@ base_querystring_sandbox_url = 'https://sandbox-web.na.bambora.com'
 # --> More info here: https://dev.na.bambora.com/docs/guides/merchant_quickstart/
 merchant_id = os.environ.get('MERCHANT_ID')
 api_passcode = os.environ.get('API_PASSCODE')
-batch_payment_api_passcode = os.environ.get('BATCH_PAYMENT_API_PASSCODE')
 report_api_passcode = os.environ.get('REPORT_API_PASSCODE')
 
 sandbox_merchant_id = os.environ.get('SANDBOX_MERCHANT_ID')
@@ -47,11 +46,6 @@ print('-> Merchant ID: ' + merchant_id)
 # http://stackoverflow.com/questions/1995615/how-can-i-format-a-decimal-to-always-show-2-decimal-places
 TWO_PLACES = decimal.Decimal(10) ** -2       # same as Decimal('0.01')
 
-
-def get_batch_paymemt_auth_header_value():
-    passcode = merchant_id + ':' + batch_payment_api_passcode
-    passcode = base64.b64encode(passcode.encode('utf-8')).decode()
-    return 'Passcode {}'.format(passcode)
 
 def create_auth_headers() -> dict:
     passcode = merchant_id + ':' + api_passcode

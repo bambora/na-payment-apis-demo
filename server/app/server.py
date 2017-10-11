@@ -17,7 +17,6 @@ from werkzeug.exceptions import HTTPException
 from blueprints.basic import payments as basic
 from blueprints.checkout import payments as checkout
 from blueprints.mobile import payments as mobile
-from blueprints.funds_transfer import payments as funds_transfer
 from blueprints.interac import payments as interac
 from blueprints.card import payments as card
 from blueprints.visa_checkout import payments as visa_checkout
@@ -85,7 +84,6 @@ app.register_blueprint(basic, url_prefix='/payment/basic')
 app.register_blueprint(card, url_prefix='/payment/card')
 app.register_blueprint(checkout, url_prefix='/checkout')
 app.register_blueprint(mobile, url_prefix='/payment/mobile')
-app.register_blueprint(funds_transfer, url_prefix='/payment/funds-transfer')
 app.register_blueprint(interac, url_prefix='/payment/interac')
 app.register_blueprint(visa_checkout, url_prefix='/visa-checkout')
 app.register_blueprint(masterpass, url_prefix='/payment/masterpass')
