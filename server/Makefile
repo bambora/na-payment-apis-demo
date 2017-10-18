@@ -3,7 +3,7 @@ APP_NAME=na-merchant-api-demo
 IMAGE_NAME=bambora/$(APP_NAME)
 VERSION=9.0.0
 EB_BUCKET=eb-docker-deploy
-EB_APP_ENV_NAME=$(APP_NAME)-staging
+EB_APP_ENV_NAME=$(APP_NAME)
 ZIP=$(EB_APP_ENV_NAME).zip
 
 all:

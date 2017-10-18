@@ -8,6 +8,10 @@ import base64
 import decimal
 
 
+# NOTE: A merchant account on our sandbox env (sandbox-web.na.bambora.com) is only
+# required when testing Visa Checkout. All other payment types can be tested on
+# web.na.bambora.com / api.na.bambora.com.
+
 # Bambora Payment APIs Server base URL. Defaults to 'https://api.na.bambora.com'
 base_url = os.environ.get('SERVER_URL_BASE')
 
