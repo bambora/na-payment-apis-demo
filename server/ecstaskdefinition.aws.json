@@ -1,0 +1,27 @@
+{
+  "taskRoleArn": "arn:aws:iam::ACCOUNT:role/paymentapidemo",
+  "containerDefinitions": [
+    {
+      "name": "paymentapidemo",
+      "image": "ACCOUNT.dkr.ecr.ca-central-1.amazonaws.com/paymentapidemo-VNE-NOIGER:VERSION",
+      "essential": true,
+      "memory": 128,
+      "portMappings": [
+        {
+          "containerPort": 8080
+        }
+      ],
+      "command": ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"],
+      "environment" : [
+        {
+          "name": "APP_ENV",
+          "value": "VNE"
+        },
+        {
+          "name": "AWS_DEFAULT_REGION",
+          "value": "NOIGER"
+        }
+      ]
+    }
+  ]
+}
