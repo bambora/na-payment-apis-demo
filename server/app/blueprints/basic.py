@@ -3,6 +3,11 @@
 # MIT licensed. Feel free to use and abuse.
 #
 
+#
+# Note: This is example shows an endpoint that handles basic payment card 
+# transactions on a merchant account that has support 3D Secure disabled.
+#
+
 import decimal
 import requests
 import simplejson as json

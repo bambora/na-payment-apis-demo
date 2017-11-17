@@ -1,47 +1,19 @@
-<!doctype html>
-
-{% include 'snippets/head.html' %}
-{% with tab='checkout' %}
-    {% include 'snippets/main-nav.html' %}
-{% endwith %}
-
-<div class="main">
-    <header class='display'>Payments</header>
-    <h1>Payment APIs Demo</h1>
-    <p>This payment form is for demo purposes only. It will not charge any cards.
-        The UI is intended to demonstrate the different payment experiences for end user.
-        The open code base is intended to act as a sample integration for developers to reference.
-        You can view the source <a href="https://github.com/bambora/na-payment-apis-demo" target="_blank">here</a>.
-    </p>
-
-    <form id="order-form">
-        <h4>Order Summary</h4>
-        <div class="form-group">
-            <label for="amount">Amount (CAD)</label>
-            <input id="amount" type="text" name="amount" placeholder=""/>
-        </div>
-        <h4>Your Details</h4>
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input id="name" type="text" name="name" placeholder=""/>
-        </div>
-        <div class="form-group">
-            <label for="postal">Postal Code</label>
-            <input id="postal" type="text" name="postal" placeholder=""/>
-        </div>
-        <div class="form-group">
-            <input id="pay-button" type="submit" class="btn btn-primary" value="Pay Now"/>
-        </div>
-    </form>
-
-    <script src="{{ url_for('static', filename='js/checkout-controller.js') }}"></script>
-
-    <br>
-    <br>
-
-    {% include 'snippets/test-cards.html' %}
-    {% include 'snippets/pay-notes.html' %}
-</div>
-{% include 'snippets/footer.html' %}
-{% include 'snippets/processing-screen.html' %}
-{% include 'snippets/scripts.html' %}
+<!DOCTYPE html>
+<html>
+  {% include 'snippets/head.html' %}
+  <body>
+      {% include 'snippets/spinner.html' %}
+    <div id="page-wrapper" class="page-loading">
+      {% include 'snippets/header.html' %}
+      {% include 'snippets/panel-response.html' %}
+      <div id="payment-panels" class="container">
+        <p>Select a payment method.</p>
+        {% include 'snippets/panel-checkout.html' %}
+      </div>
+      {% include 'snippets/footer.html' %}
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src='https://libs.na.bambora.com/customcheckout/0.1.1/customcheckout.js'></script>
+    <script src="{{ url_for('static', filename='scripts/accordion-ctrl.js') }}"></script>
+    <script src="{{ url_for('static', filename='scripts/checkout-ctrl.js') }}"></script>
+</html>

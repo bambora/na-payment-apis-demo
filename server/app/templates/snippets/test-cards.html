@@ -1,35 +1,12 @@
-<div>
-    <h5>Test Cards</h5>
-    <table class="table table-highlight">
-        <thead>
-        <tr>
-            <th style="white-space:nowrap;">Card Scheme</th>
-            <th>Number</th>
-            <th>CVV</th>
-            <th>Description</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr onclick="javascript:copyToClipboard('4030000010001234');">
-            <td>Visa</td>
-            <td>4030000010001234</td>
-            <td>123</td>
-            <td>Approved</td>
-        </tr>
-        <tr onclick="javascript:copyToClipboard('4003050500040005');">
-            <td>Visa</td>
-            <td>4003050500040005</td>
-            <td>123</td>
-            <td>Declined</td>
-        </tr>
-        <tr onclick="javascript:copyToClipboard('4123450131003312');">
-            <td>Visa</td>
-            <td>4123450131003312</td>
-            <td>123</td>
-            <td>Approved only when you have implemented Verified by VISA (VbV) and provided a correct password.
-                Password: 12345.
-            </td>
-        </tr>
-        </tbody>
-    </table>
+<div class="test-cards">
+  <p>Try it out using the test card number <strong>4030 0000 1000 1234</strong>,
+    the security code <strong>123</strong>, and any expiration date in the future.</p>
+
+  <p>Try a
+    <a target="_blank" href="http://www.mastercard.com/gateway/implementation_guides/3D-Secure.html">
+      3D Secure</a> payment using the test card number
+      <strong>4123 4501 3100 3312</strong> and the password <strong>12345</strong>.</p>
+
+  <p>You can find a full list of test cards
+    <a target="_blank" href="https://dev.na.bambora.com/docs/references/payment_APIs/test_cards/">here</a>.</p>
 </div>
