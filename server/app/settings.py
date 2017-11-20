@@ -27,15 +27,15 @@ base_querystring_sandbox_url = 'https://sandbox-web.na.bambora.com'
 try:
     # Open a client connection to AWS SSM and get secrets
     ssmclient = boto3.client('ssm')
-    merchant_id = ssmclient.get_parameter(Name="merchant_id", WithDecryption=True)['Parameter']['Value']
-    api_passcode = ssmclient.get_parameter(Name="api_passcode", WithDecryption=True)['Parameter']['Value']
-    report_api_passcode = ssmclient.get_parameter(Name="report_api_passcode", WithDecryption=True)['Parameter']['Value']
-    sandbox_merchant_id = ssmclient.get_parameter(Name="sandbox_merchant_id", WithDecryption=True)['Parameter']['Value']
-    sandbox_api_passcode = ssmclient.get_parameter(Name="sandbox_api_passcode", WithDecryption=True)['Parameter'][
+    merchant_id = ssmclient.get_parameter(Name="paymentapidemo-MERCHANT_ID", WithDecryption=True)['Parameter']['Value']
+    api_passcode = ssmclient.get_parameter(Name="paymentapidemo-API_PASSCODE", WithDecryption=True)['Parameter']['Value']
+    report_api_passcode = ssmclient.get_parameter(Name="paymentapidemo-REPORT_API_PASSCODE", WithDecryption=True)['Parameter']['Value']
+    sandbox_merchant_id = ssmclient.get_parameter(Name="paymentapidemo-SANDBOX_MERCHANT_ID", WithDecryption=True)['Parameter']['Value']
+    sandbox_api_passcode = ssmclient.get_parameter(Name="paymentapidemo-SANDBOX_API_PASSCODE", WithDecryption=True)['Parameter'][
         'Value']
-    sandbox_hash_key = ssmclient.get_parameter(Name="sandbox_hash_key", WithDecryption=True)['Parameter']['Value']
+    sandbox_hash_key = ssmclient.get_parameter(Name="paymentapidemo-SANDBOX_HASH_KEY", WithDecryption=True)['Parameter']['Value']
     sandbox_visa_checkout_api_key = \
-    ssmclient.get_parameter(Name="sandbox_visa_checkout_api_key", WithDecryption=True)['Parameter']['Value']
+    ssmclient.get_parameter(Name="paymentapidemo-SANDBOX_VISA_CHECKOUT_API_KEY", WithDecryption=True)['Parameter']['Value']
 except Exception as e:
     merchant_id = os.environ.get('MERCHANT_ID')
     api_passcode = os.environ.get('API_PASSCODE')
