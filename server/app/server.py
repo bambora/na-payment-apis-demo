@@ -76,6 +76,11 @@ def get_landing_page():
     visa_checkout_api_key = settings.sandbox_visa_checkout_api_key
     return render_template('index.html', api_key=visa_checkout_api_key)
 
+@app.route('/health')
+def health():
+    response = {'status': 'OK'}
+    return jsonify(response)
+
 @app.route('/<path:path>')
 def route(path):
     return render_template(path)
