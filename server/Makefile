@@ -6,6 +6,8 @@ EB_BUCKET=eb-docker-deploy
 EB_APP_ENV_NAME=$(APP_NAME)
 ZIP=$(EB_APP_ENV_NAME).zip
 
+.PHONY: login
+
 all:
 
 build:
@@ -62,3 +64,4 @@ deploy: login
 	--environment-name $(EB_APP_ENV_NAME) \
 	--version-label $(VERSION) \
 	--region us-west-2
+
