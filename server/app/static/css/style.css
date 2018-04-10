@@ -106,8 +106,11 @@ body {
   padding: 34px;
 }
 
-#payment-panels .message-content{
-  display: none;
+#payment-panels .message-content.hidden {
+    visibility: hidden;
+    position: absolute;
+    height: 1px; width: 1px;
+    margin: -1px; padding: 0; border: 0;
 }
 
 .message > .message-title, .input-row {

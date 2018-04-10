@@ -9,6 +9,7 @@
     init: function() {
       this.cacheDom();
       this.addListeners();
+      this.expandableBlocks.addClass('hidden');
     },
 
     cacheDom: function() {
@@ -23,23 +24,29 @@
     },
 
     slide: function(event) {
+      var _this = this;
       var panel = $(event.target).parents('.message');
       var panelContent = panel.find('.message-content');
       var radio = panel.find('input:radio')[0];
 
-      if (panelContent.is(':visible')) {
-        // close current panel if expanded
-        panelContent.slideUp('fast');
-        radio.checked = false;
-      } else {
-        // collapse any open panels and expanded current panel
+      if (panelContent.hasClass('hidden')) {
         for (var i = 0; i < this.radios.length; i++) {
           this.radios[i].checked = false;
         }
         radio.checked = true;
+        this.expandableBlocks.slideUp('fast',function(){
+          _this.expandableBlocks.addClass('hidden').slideDown(0, function(){
+              panelContent.slideUp(0,function(){
+                panelContent.removeClass('hidden').slideDown('fast');
+              });
+          });
+        });
 
-        this.expandableBlocks.slideUp('fast');
-        panelContent.slideDown('fast');
+      } else {
+        panelContent.slideUp('fast',function(){
+          panelContent.addClass('hidden').slideDown(0);
+          radio.checked = false;
+        });
       }
 
       // prevent event from propagating to radio button
