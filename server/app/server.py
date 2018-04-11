@@ -16,9 +16,13 @@ from werkzeug.exceptions import HTTPException
 
 from blueprints.basic import payments as basic
 from blueprints.checkout import payments as checkout
-from blueprints.enhanced import payments as enhanced
 from blueprints.mobile import payments as mobile
+from blueprints.interac import payments as interac
+from blueprints.card import payments as card
+from blueprints.visa_checkout import payments as visa_checkout
+from blueprints.masterpass import payments as masterpass
 
+import settings
 
 # Setup a logger
 logger = logging.getLogger('Payment-APIs-Demo')
@@ -67,18 +71,27 @@ def error500(e):
 def version():
     return '<VERSION>'
 
+@app.route('/')
+def get_landing_page():
+    visa_checkout_api_key = settings.sandbox_visa_checkout_api_key
+    return render_template('index.html', api_key=visa_checkout_api_key)
 
-@app.route('/', defaults={'path': 'index.html'})
+@app.route('/health')
+def health():
+    response = {'status': 'OK'}
+    return jsonify(response)
+
 @app.route('/<path:path>')
 def route(path):
     return render_template(path)
 
-
 app.register_blueprint(basic, url_prefix='/payment/basic')
-app.register_blueprint(checkout, url_prefix='/payment/checkout')
-app.register_blueprint(enhanced, url_prefix='/payment/enhanced')
+app.register_blueprint(card, url_prefix='/payment/card')
+app.register_blueprint(checkout, url_prefix='/checkout')
 app.register_blueprint(mobile, url_prefix='/payment/mobile')
-
+app.register_blueprint(interac, url_prefix='/payment/interac')
+app.register_blueprint(visa_checkout, url_prefix='/visa-checkout')
+app.register_blueprint(masterpass, url_prefix='/payment/masterpass')
 
 #
 # Start the app using the built-in Flask (non-production quality) server
@@ -94,3 +107,4 @@ if __name__ == '__main__':
     context = (os.path.join(app.root_path, 'domain.crt'),
                os.path.join(app.root_path, 'domain.key'))
     app.run(debug=True, host='0.0.0.0', ssl_context=context)
+    #app.run(debug=True, host='0.0.0.0')

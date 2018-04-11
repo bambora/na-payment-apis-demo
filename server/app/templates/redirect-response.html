@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  {% include 'snippets/head.html' %}
+  <body>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/response-page-style.css') }}">
+    <div id="page-wrapper">
+      {% include 'snippets/header.html' %}
+      {% include 'snippets/feedback-redirect.html' %}
+      {% include 'snippets/back-button.html' %}
+      {% include 'snippets/footer.html' %}
+    </div>
+  </body>
+</html>

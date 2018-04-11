@@ -1,0 +1,76 @@
+#!groovy
+
+DEPLOY = true
+if("$BRANCH_NAME" == 'develop') {
+    ENV = 'dev-cde'
+} else if("$BRANCH_NAME" == 'master') {
+    ENV = 'prod-cde'
+} else {
+    DEPLOY = false
+    ENV = 'dev-cde'
+}
+
+REGION = 'ca-central-1'
+def ACCOUNTS = ['dev-cde': '708907206113','prod-cde': '399491208114']
+
+ACCOUNT = ACCOUNTS[ENV]
+REGISTRY = ACCOUNT + '.dkr.ecr.ca-central-1.amazonaws.com'
+
+node("$ENV") {
+        try {
+            stage('build-and-push') {
+                deleteDir()
+                checkout scm
+                dir("server") {
+                    def ret = sh script: "git rev-parse --short HEAD", returnStdout: true
+                    def sha = ret.trim()
+                    def image = "paymentapidemo-$ENV-$REGION:$sha"
+                    echo "Image: $image"
+                    sh """sed -i'.orig' -e 's/<VERSION>/$sha/g' app/server.py"""
+                    sh """\$(AWS_DEFAULT_REGION=$REGION aws ecr get-login --no-include-email)"""
+                    docker.withRegistry("https://$REGISTRY") {
+                        paymentapidemo = docker.build("$image")
+                        paymentapidemo.push()
+                        paymentapidemo.push('latest')
+                    }
+                    sh """docker rmi $image"""
+                    sh """mv app/server.py.orig app/server.py"""
+                }
+            }
+
+            stage('deploy') {
+                if(DEPLOY) {
+                    def ret = sh script: "git rev-parse --short HEAD", returnStdout: true
+                    def sha = ret.trim()
+                    dir("server") {
+                        sh """export AWS_DEFAULT_REGION=$REGION
+                            sed -i 's|ACCOUNT|$ACCOUNT|g' ecstaskdefinition.aws.json
+                            sed -i 's|VNE|$ENV|g' ecstaskdefinition.aws.json
+                            sed -i 's|NOIGER|$REGION|g' ecstaskdefinition.aws.json
+                            sed -i 's|VERSION|$sha|g' ecstaskdefinition.aws.json
+                            REVISION=\$(aws ecs register-task-definition --family paymentapidemo --cli-input-json file://ecstaskdefinition.aws.json | jq '.taskDefinition | .revision ')
+                            aws ecs update-service --cluster shared-$ENV-$REGION --service paymentapidemo --task-definition paymentapidemo:\$REVISION  --desired-count 1"""
+                    }
+                }
+            }
+
+            currentBuild.result = 'SUCCESS'
+        } catch (e) {
+            currentBuild.result = 'FAILURE'
+            throw e
+        } finally {
+            color = ""
+            message = ""
+            if(currentBuild.result == 'SUCCESS') {
+                color = "good"
+                message = "Build Successful"
+            }
+            else {
+                color = "danger"
+                message = "Build Failed"
+            }
+            withCredentials([usernamePassword(credentialsId: 'vic-payments-ci', usernameVariable: 'username', passwordVariable: 'TOKEN')]) {
+                slackSend color: "$color", message: "$message - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}console|Open>)", token: "$TOKEN", channel: "#vic-payments-ci"
+            }
+        }
+}

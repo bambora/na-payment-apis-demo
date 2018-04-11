@@ -1,4 +1,13 @@
-<script src="{{ url_for('static', filename='js/script.js') }}"></script>
-<script src="{{ url_for('static', filename='js/apple-pay-index.js') }}"></script>
-<script src="{{ url_for('static', filename='js/apple-pay-support.js') }}"></script>
-<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+<script>
+  var VISA_CHECKOUT_API_KEY = "{{ api_key }}";
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src='https://libs.na.bambora.com/customcheckout/1/customcheckout.js'></script>
+<script src="{{ url_for('static', filename='scripts/accordion-ctrl.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/custom-checkout-ctrl.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/interac-ctrl.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/checkout-ctrl.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/masterpass-ctrl.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/visa-checkout-ctrl.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/main.js') }}"></script>

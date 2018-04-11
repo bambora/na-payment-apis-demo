@@ -4,15 +4,15 @@
 
 Copyright © 2017 Bambora Inc.
 
-This repo contains a simple merchant Python/Flask server and associated Web and iOS clients to help process payments. 
+This repo contains a simple merchant Python/Flask server and associated Web and iOS clients to help process payments.
 The demo server & clients are intended to be simple examples that can help you with your production implementation.
 
 # Server
 
 Feel free to [view and try out](https://demo.na.bambora.com) the Payment APIs Demo web app now!
 
-The server project requires Python 3. To build & run the server for local dev you can use a SQLite DB and 
-try the server out by just setting your Bambora Payments API Passcode as a server side environment variable 
+The server project requires Python 3. To build & run the server for local dev you can use a SQLite DB and
+try the server out by just setting your Bambora Payments API Passcode as a server side environment variable
 and then start up as follows.
 
 ## Server Setup & Installation
@@ -42,37 +42,49 @@ $ source venv/bin/activate
 ## Execution (Development Only)
 
 ### Set up Environment Variables
+We are using 2 test accounts in this demo app. One is on Production, the other is on Sandbox. All services, except Visa Checkout can be tested on Production. Visa Checkout mist be tested on Sandbox.
+
 #### Mac/Linux
 ```bash
 (venv) app$ export SERVER_URL_BASE="https://api.na.bambora.com"  # Defaults to this and can be omitted
 (venv) app$ export DATABASE_URL=sqlite:////tmp/mobilepay-demo.db  # Defaults to this and can be omitted
-(venv) app$ export API_PASSCODE=<your_merchant_payments_passcode>
 (venv) app$ export MERCHANT_ID=<your_bambora_merchant_id>
+(venv) app$ export API_PASSCODE=<your_payment_api_passcode>
+(venv) app$ export BATCH_PAYMENT_API_PASSCODE=<your_batch_payment_api_passcode>
+(venv) app$ export REPORT_API_PASSCODE=<report_api_passcode>
+(venv) app$ export SANDBOX_MERCHANT_ID=<your_bambora_sandbox_merchant_id>
+(venv) app$ export SANDBOX_API_PASSCODE=<your_sandbox_payment_api_passcode>
+(venv) app$ export SANDBOX_HASH_KEY=<your_sandbox_hash_key>
+(venv) app$ export SANDBOX_VISA_CHECKOUT_API_KEY=<your_sandbox_visa_checkout_api_key>
 ```
+
 
 #### Windows
-```
+```bash
 (venv) app$ $env:SERVER_URL_BASE ="https://api.na.bambora.com"  # Defaults to this and can be omitted
 (venv) app$ $env:DATABASE_URL = "sqlite:////users/<your_user>/appdata/local/temp/mobilepay-demo.db"
-(venv) app$ $env:API_PASSCODE = "<your_merchant_payments_passcode>"
 (venv) app$ $env:MERCHANT_ID = "<your_bambora_merchant_id>"
+(venv) app$ $env:API_PASSCODE = "<your_merchant_payments_passcode>"
+(venv) app$ $env:SANDBOX_MERCHANT_ID = "<your_bambora_sandbox_merchant_id>"
+(venv) app$ $env:SANDBOX_API_PASSCODE = "<your_sandbox_merchant_payments_passcode>"
+(venv) app$ $env:SANDBOX_HASH_KEY = "<your_sandbox_hash_key>"
 ```
 
-### Run 
-```
+### Run
+```bash
 (venv) app$ python server.py
 ```
 
 # Mobile Payment Clients
 
-Apple Pay or Android Pay payment requests are initiated from mobile clients and then, if successful, an Apple Pay or 
-Android Pay token is transmitted to the demo payment server, which records the payment request and executes the Bambora 
+Apple Pay or Android Pay payment requests are initiated from mobile clients and then, if successful, an Apple Pay or
+Android Pay token is transmitted to the demo payment server, which records the payment request and executes the Bambora
 Payments API.
 
-In your production flow, a mobile client might transmit other info such as the customer identifier, 
-detailed sales/inventory data, and related shipping and billing addresses. This info might be recorded 
-on a merchant's CRM (as an example), and then a request to process the payment using the Apple Pay or 
-Android Pay token would then be made to the Bambora Payments API. Upon success or failure to process 
+In your production flow, a mobile client might transmit other info such as the customer identifier,
+detailed sales/inventory data, and related shipping and billing addresses. This info might be recorded
+on a merchant's CRM (as an example), and then a request to process the payment using the Apple Pay or
+Android Pay token would then be made to the Bambora Payments API. Upon success or failure to process
 the payment, the merchant's CRM could be updated and the originating mobile client would then receive a response.
 
 # iOS Client
@@ -87,9 +99,9 @@ https://developer.apple.com/library/content/ApplePay_Guide/index.html#//apple_re
 
 ## Apple Pay and the Bambora Payments API
 
-When an Apple Pay client makes a payment request, it first gets an Apple Pay payment token using standard Apple SDK 
-APIs. It then communicates this info to the Demo Server which is responsible for interacting with the 
-Bambora Payments API. The Bambora Payments API has been updated to allow for Apple Pay transactions 
+When an Apple Pay client makes a payment request, it first gets an Apple Pay payment token using standard Apple SDK
+APIs. It then communicates this info to the Demo Server which is responsible for interacting with the
+Bambora Payments API. The Bambora Payments API has been updated to allow for Apple Pay transactions
 and the following is a sample POST parameter to use with a RESTful invocation of the Payments API.
 
 ```
@@ -116,9 +128,9 @@ https://developers.google.com/android-pay/
 
 ## Android Pay and the Bambora Payments API
 
-When an Android Pay client makes a payment request, it first gets an Android Pay payment token using standard Android 
-SDK APIs. It then communicates this info to the Demo Server which is responsible for interacting with the 
-Bambora Payments API. The Bambora Payments API has been updated to allow for Android Pay transactions 
+When an Android Pay client makes a payment request, it first gets an Android Pay payment token using standard Android
+SDK APIs. It then communicates this info to the Demo Server which is responsible for interacting with the
+Bambora Payments API. The Bambora Payments API has been updated to allow for Android Pay transactions
 and the following is a sample POST parameter to use with a RESTful invocation of the Payments API.
 
 ```
