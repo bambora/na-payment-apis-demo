@@ -6,10 +6,12 @@
 
 import os
 import logging
+import requests
 
 from flask import Flask
 from flask import render_template
 from flask import jsonify
+from flask import request
 
 from werkzeug.exceptions import default_exceptions
 from werkzeug.exceptions import HTTPException
@@ -28,9 +30,15 @@ import settings
 logger = logging.getLogger('Payment-APIs-Demo')
 logger.setLevel(logging.WARNING)
 
+# Set apple global variables
+merchant_identifier = "merchant.com.bambora.na.test"
+merchant_domain="https://localhost:5000"
+
+with open("server.crt") as f:
+    apple_pay_cert = f.read()
+
 # Create a Flask app.
 app = Flask(__name__)
-
 
 ##########################
 # ERROR/EXCEPTION HANDLING
@@ -85,6 +93,22 @@ def health():
 def route(path):
     return render_template(path)
 
+# Start of translation
+
+# Accept a POST to /getApplePaySession
+@app.route('/getApplePaySession', methods=["POST"])
+def get_apple_pay_session():
+# Must contain apple url from onMerchantValidate event
+    url = request.form["url"]
+    #merchant ID, domain name, and display name
+    body = {
+        'merchantIdentifier': merchant_identifier,
+        'domainName': merchant_domain,
+        'displayName':'Payments Demo'
+    }
+    r = requests.post(url, cert=('testcert.pem', 'testkey.pem'), data=body)
+    return r
+
 app.register_blueprint(basic, url_prefix='/payment/basic')
 app.register_blueprint(card, url_prefix='/payment/card')
 app.register_blueprint(checkout, url_prefix='/checkout')
@@ -104,7 +128,7 @@ app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 # needs to use an IP address or name and not 0.0.0.0 or else
 # browser side security checks will likely fail.
 if __name__ == '__main__':
-    context = (os.path.join(app.root_path, 'domain.crt'),
-               os.path.join(app.root_path, 'domain.key'))
+    context = (os.path.join(app.root_path, 'server.crt'),
+               os.path.join(app.root_path, 'server.key'))
     app.run(debug=True, host='0.0.0.0', ssl_context=context)
     #app.run(debug=True, host='0.0.0.0')
