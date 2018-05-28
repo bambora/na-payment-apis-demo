@@ -49,7 +49,7 @@ pip install -r requirements.txt
 ### Set up Environment Variables
 
 We are using 2 test accounts in this demo app. One is on Production, the other is on Sandbox. All services,
-except Visa Checkout can be tested on Production. Visa Checkout mist be tested on Sandbox.
+except Visa Checkout can be tested on Production. Visa Checkout must be tested on Sandbox.
 
 #### Mac/Linux
 
@@ -88,7 +88,8 @@ python server.py
 
 ## Local Dev SSL Setup
 
-If you require HTTPS, then you'll need to create a local CA authority, trust it, and then generate certs to use.
+If you require HTTPS, then you'll need to create a local Certificate Authority (CA), trust it,
+and then generate certs to use.
 
 ### Generate the Root cert & App Cert
 
