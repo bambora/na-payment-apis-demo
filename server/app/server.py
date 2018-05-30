@@ -9,6 +9,7 @@ import logging
 import requests
 
 from flask import Flask
+from flask_featureflags import FeatureFlag
 from flask import render_template
 from flask import jsonify
 from flask import request
@@ -34,11 +35,21 @@ logger.setLevel(logging.WARNING)
 merchant_identifier = "merchant.com.bambora.na.test"
 merchant_domain="https://localhost:5000"
 
-with open("server.crt") as f:
-    apple_pay_cert = f.read()
 
 # Create a Flask app.
 app = Flask(__name__)
+
+feature_flags = FeatureFlag(app)
+
+#TODO: load config dynamically somehow
+#TODO: add if checks anywhere apple pay code is used/loaded
+app.config['FEATURE_FLAGS'] = {
+    'apple_pay' : False
+}
+
+
+with open("server.crt") as f:
+    apple_pay_cert = f.read()
 
 ##########################
 # ERROR/EXCEPTION HANDLING
@@ -131,4 +142,4 @@ if __name__ == '__main__':
     context = (os.path.join(app.root_path, 'server.crt'),
                os.path.join(app.root_path, 'server.key'))
     app.run(debug=True, host='0.0.0.0', ssl_context=context)
-    #app.run(debug=True, host='0.0.0.0')
+    # app.run(debug=True, host='0.0.0.0')
