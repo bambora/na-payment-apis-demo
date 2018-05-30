@@ -18,48 +18,56 @@ and then start up as follows.
 ## Server Setup & Installation
 
 * Execute a git clone command on this repo and in a terminal cd into the root project directory.
+
 ```bash
-$ git clone https://github.com/bambora/na-payment-apis-demo.git
-$ cd na-payment-apis-demo/server/app
+git clone https://github.com/bambora/na-payment-apis-demo.git
+cd na-payment-apis-demo/server/app
 ```
 
 * Install virtualenv (if not already available)
+
 ```bash
-$ [sudo] pip install virtualenv
+[sudo] pip install virtualenv
 ```
 
 * Create (if not already created) and/or Activate project environment
+
 ```bash
-$ virtualenv -p python3 venv
-$ source venv/bin/activate
+virtualenv -p python3 venv
+source venv/bin/activate
 ```
 
 * Install/update project dependencies
+
 ```bash
-(venv) app$ pip install -r requirements.txt
+cd server/app
+pip install -r requirements.txt
 ```
 
 ## Execution (Development Only)
 
 ### Set up Environment Variables
-We are using 2 test accounts in this demo app. One is on Production, the other is on Sandbox. All services, except Visa Checkout can be tested on Production. Visa Checkout mist be tested on Sandbox.
+
+We are using 2 test accounts in this demo app. One is on Production, the other is on Sandbox. All services,
+except Visa Checkout can be tested on Production. Visa Checkout must be tested on Sandbox.
 
 #### Mac/Linux
+
 ```bash
-(venv) app$ export SERVER_URL_BASE="https://api.na.bambora.com"  # Defaults to this and can be omitted
-(venv) app$ export DATABASE_URL=sqlite:////tmp/mobilepay-demo.db  # Defaults to this and can be omitted
-(venv) app$ export MERCHANT_ID=<your_bambora_merchant_id>
-(venv) app$ export API_PASSCODE=<your_payment_api_passcode>
-(venv) app$ export BATCH_PAYMENT_API_PASSCODE=<your_batch_payment_api_passcode>
-(venv) app$ export REPORT_API_PASSCODE=<report_api_passcode>
-(venv) app$ export SANDBOX_MERCHANT_ID=<your_bambora_sandbox_merchant_id>
-(venv) app$ export SANDBOX_API_PASSCODE=<your_sandbox_payment_api_passcode>
-(venv) app$ export SANDBOX_HASH_KEY=<your_sandbox_hash_key>
-(venv) app$ export SANDBOX_VISA_CHECKOUT_API_KEY=<your_sandbox_visa_checkout_api_key>
+export SERVER_URL_BASE="https://api.na.bambora.com"  # Defaults to this and can be omitted
+export DATABASE_URL=sqlite:////tmp/mobilepay-demo.db  # Defaults to this and can be omitted
+export MERCHANT_ID=<your_bambora_merchant_id>
+export API_PASSCODE=<your_payment_api_passcode>
+export BATCH_PAYMENT_API_PASSCODE=<your_batch_payment_api_passcode>
+export REPORT_API_PASSCODE=<report_api_passcode>
+export SANDBOX_MERCHANT_ID=<your_bambora_sandbox_merchant_id>
+export SANDBOX_API_PASSCODE=<your_sandbox_payment_api_passcode>
+export SANDBOX_HASH_KEY=<your_sandbox_hash_key>
+export SANDBOX_VISA_CHECKOUT_API_KEY=<your_sandbox_visa_checkout_api_key>
 ```
 
-
 #### Windows
+
 ```bash
 (venv) app$ $env:SERVER_URL_BASE ="https://api.na.bambora.com"  # Defaults to this and can be omitted
 (venv) app$ $env:DATABASE_URL = "sqlite:////users/<your_user>/appdata/local/temp/mobilepay-demo.db"
@@ -71,9 +79,31 @@ We are using 2 test accounts in this demo app. One is on Production, the other i
 ```
 
 ### Run
+
+From within the server/app directory:
+
 ```bash
-(venv) app$ python server.py
+python server.py
 ```
+
+## Local Dev SSL Setup
+
+If you require HTTPS, then you'll need to create a local Certificate Authority (CA), trust it,
+and then generate certs to use.
+
+### Generate the Root cert & App Cert
+
+Run the supplied `gen-cert.sh` script.  This creates the root CA & cert for the app.
+
+### Trust the Cert
+
+#### Mac
+
+```bash
+sudo security add-trusted-cert -d -r trustAsRoot -k /Library/Keychains/System.keychain server/app/domain.crt
+```
+
+Once this is done, going to https://0.0.0.0:5000 should resolve without error.
 
 # Mobile Payment Clients
 

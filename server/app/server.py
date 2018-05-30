@@ -48,8 +48,8 @@ app.config['FEATURE_FLAGS'] = {
 }
 
 
-with open("server.crt") as f:
-    apple_pay_cert = f.read()
+# with open(os.path.join(app.root_path, 'domain.crt')) as f:
+#     apple_pay_cert = f.read()
 
 ##########################
 # ERROR/EXCEPTION HANDLING
@@ -139,7 +139,12 @@ app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 # needs to use an IP address or name and not 0.0.0.0 or else
 # browser side security checks will likely fail.
 if __name__ == '__main__':
-    context = (os.path.join(app.root_path, 'server.crt'),
-               os.path.join(app.root_path, 'server.key'))
-    app.run(debug=True, host='0.0.0.0', ssl_context=context)
-    # app.run(debug=True, host='0.0.0.0')
+    # if cert exists, use it for SSL, else just run plain HTTP
+    cert_file = os.path.join(app.root_path, 'domain.crt')
+    key_file = os.path.join(app.root_path, 'domain.key')
+    if os.path.exists(cert_file) and os.path.exists(key_file):
+        context = (os.path.join(app.root_path, 'domain.crt'),
+                os.path.join(app.root_path, 'domain.key'))
+        app.run(debug=True, host='0.0.0.0', ssl_context=context)
+    else:
+        app.run(debug=True, host='0.0.0.0')
