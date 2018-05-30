@@ -6,11 +6,8 @@ FROM python:3.6.0-alpine
 RUN mkdir -p /deploy/app/blueprints \
   && mkdir -p /deploy/app/static \
   && mkdir -p /deploy/app/templates
+
 COPY app/requirements.txt /deploy/app/
-COPY app/*.py /deploy/app/
-COPY app/blueprints /deploy/app/blueprints
-COPY app/static /deploy/app/static
-COPY app/templates /deploy/app/templates
 
 RUN apk add --no-cache --update python3 \
   && python3 -m ensurepip \
@@ -26,6 +23,11 @@ RUN apk add --no-cache --update python3 \
     build-base python3-dev \
   && apk add logrotate \
   && rm -rf /var/cache/apk/*
+
+COPY app/*.py /deploy/app/
+COPY app/blueprints /deploy/app/blueprints
+COPY app/static /deploy/app/static
+COPY app/templates /deploy/app/templates
 
 # Setup nginx
 RUN mkdir -p /run/nginx \
