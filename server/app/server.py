@@ -143,8 +143,7 @@ if __name__ == '__main__':
     cert_file = os.path.join(app.root_path, 'domain.crt')
     key_file = os.path.join(app.root_path, 'domain.key')
     if os.path.exists(cert_file) and os.path.exists(key_file):
-        context = (os.path.join(app.root_path, 'domain.crt'),
-                os.path.join(app.root_path, 'domain.key'))
+        context = (cert_file, key_file)
         app.run(debug=True, host='0.0.0.0', ssl_context=context)
     else:
         app.run(debug=True, host='0.0.0.0')
