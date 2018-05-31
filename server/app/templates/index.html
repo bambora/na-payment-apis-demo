@@ -9,8 +9,11 @@
       <div id="payment-panels" class="container">
         <p>Select a payment method.</p>
         {% include 'snippets/panel-card.html' %}
-        <!--
+
+        {% if 'apple_pay' is active_feature %}
         {% include 'snippets/panel-apple-pay.html' %}
+        {% endif %}
+        <!--
         {% include 'snippets/panel-android-pay.html' %}
         -->
         {% include 'snippets/panel-visa-checkout.html' %}
@@ -20,5 +23,8 @@
       {% include 'snippets/footer.html' %}
     </div>
     {% include 'snippets/scripts.html' %}
+    {% if 'apple_pay' is active_feature %}
+    {% include 'snippets/apple-pay-scripts.html' %}
+    {% endif %}
   </body>
 </html>
