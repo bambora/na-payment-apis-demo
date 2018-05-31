@@ -39,14 +39,11 @@ merchant_domain="https://localhost:5000"
 # Create a Flask app.
 app = Flask(__name__)
 
+# Grab config setup
+app.config.from_object('config')
+
+# Set up feature flagging
 feature_flags = FeatureFlag(app)
-
-#TODO: load config dynamically somehow
-#TODO: add if checks anywhere apple pay code is used/loaded
-app.config['FEATURE_FLAGS'] = {
-    'apple_pay' : False
-}
-
 
 # with open(os.path.join(app.root_path, 'domain.crt')) as f:
 #     apple_pay_cert = f.read()
@@ -62,7 +59,6 @@ app.config['FEATURE_FLAGS'] = {
 # type, and will contain JSON like this (just an example):
 #
 # { "message": "405: Method Not Allowed" }
-
 
 def make_json_error(ex):
     response = jsonify(message=str(ex))
@@ -109,16 +105,16 @@ def route(path):
 # Accept a POST to /getApplePaySession
 @app.route('/getApplePaySession', methods=["POST"])
 def get_apple_pay_session():
-# Must contain apple url from onMerchantValidate event
-    url = request.form["url"]
-    #merchant ID, domain name, and display name
-    body = {
-        'merchantIdentifier': merchant_identifier,
-        'domainName': merchant_domain,
-        'displayName':'Payments Demo'
-    }
-    r = requests.post(url, cert=('testcert.pem', 'testkey.pem'), data=body)
-    return r
+        # Must contain apple url from onMerchantValidate event
+        url = request.form["url"]
+        #merchant ID, domain name, and display name
+        body = {
+            'merchantIdentifier': merchant_identifier,
+            'domainName': merchant_domain,
+            'displayName':'Payments Demo'
+        }
+        r = requests.post(url, cert=('testcert.pem', 'testkey.pem'), data=body)
+        return r
 
 app.register_blueprint(basic, url_prefix='/payment/basic')
 app.register_blueprint(card, url_prefix='/payment/card')

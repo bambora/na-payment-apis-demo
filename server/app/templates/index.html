@@ -23,5 +23,8 @@
       {% include 'snippets/footer.html' %}
     </div>
     {% include 'snippets/scripts.html' %}
+    {% if 'apple_pay' is active_feature %}
+    {% include 'snippets/apple-pay-scripts.html' %}
+    {% endif %}
   </body>
 </html>
