@@ -2400,3 +2400,7 @@ footer {
 
 .fill-inherit path {
   fill: currentColor; }
+
+.masterpass-button {
+  cursor: pointer;
+}
