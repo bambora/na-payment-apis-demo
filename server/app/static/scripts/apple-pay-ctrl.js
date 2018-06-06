@@ -1,17 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
     if (window.ApplePaySession) {
         if (ApplePaySession.canMakePayments) {
-            showApplePayButton();
+                document.getElementById('apple_pay_button').style.display = 'inline-block';
+                document.getElementById('apple_pay_not_enabled').style.display = 'none';
+            }
         }
     }
-});
-
-function showApplePayButton() {
-    const buttons = document.getElementsByClassName("apple-pay-button");
-    for (let button of buttons) {
-        button.className += " visible";
-    }
-};
+);
 
 function getApplePaySession(url) {
     console.log(url);
