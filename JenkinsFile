@@ -31,7 +31,7 @@ timestamps {
                         sh """\$(AWS_DEFAULT_REGION=$REGION aws ecr get-login --no-include-email)"""
 
                         withCredentials([file(credentialsId: 'payment_api_demo_apple_pay_cert', variable: "CERTFILE")]) {
-                            sh "cp '$CERTFILE' ApplePayProcessingCert.crt"
+                            sh "cp '$CERTFILE' ApplePayProcessingCert.cer"
                        }
 
                         withCredentials([file(credentialsId: 'payment_api_demo_apple_pay_key', variable: "KEYFILE")]) {
