@@ -34,7 +34,7 @@ timestamps {
                             sh "cp '$CERTFILE' ApplePayProcessingCert.cer"
                        }
 
-                        withCredentials([file(credentialsId: 'payment_api_demo_apple_pay_key', variable: "KEYFILE")]) {
+                        withCredentials([file(credentialsId: 'payment_api_demo_apple_pay_keyfile', variable: "KEYFILE")]) {
                               sh "cp '$KEYFILE' ApplePayProcessingKey.key"
                         }
 
