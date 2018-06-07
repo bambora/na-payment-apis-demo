@@ -45,5 +45,9 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 # Setup logrotate
 RUN touch /var/log/messages
 
+# get the apple pay cert in place
+COPY ApplePayProcessingCert.crt /deploy/app/ApplePayProcessingCert.crt
+COPY ApplePayProcessingKey.key /deploy/app/ApplePayProcessingKey.key
+
 # Start processes
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

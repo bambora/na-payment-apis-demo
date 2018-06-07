@@ -29,6 +29,15 @@ timestamps {
                         echo "Image: $image"
                         sh """sed -i'.orig' -e 's/<VERSION>/$sha/g' app/server.py"""
                         sh """\$(AWS_DEFAULT_REGION=$REGION aws ecr get-login --no-include-email)"""
+
+                        withCredentials([file(credentialsId: 'payment_api_demo_apple_pay_cert', variable: "CERTFILE")]) {
+                            sh "cp '$CERTFILE' ApplePayProcessingCert.crt"
+                       }
+
+                        withCredentials([file(credentialsId: 'payment_api_demo_apple_pay_key', variable: "KEYFILE")]) {
+                              sh "cp '$KEYFILE' ApplePayProcessingKey.key"
+                        }
+
                         docker.withRegistry("https://$REGISTRY") {
                             paymentapidemo = docker.build("$image")
                             paymentapidemo.push()
