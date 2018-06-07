@@ -1,3 +1,4 @@
+#!groovy
 
 DEPLOY = true
 if("$BRANCH_NAME" == 'develop') {
