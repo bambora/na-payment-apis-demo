@@ -6,11 +6,8 @@ FROM python:3.6.0-alpine
 RUN mkdir -p /deploy/app/blueprints \
   && mkdir -p /deploy/app/static \
   && mkdir -p /deploy/app/templates
+
 COPY app/requirements.txt /deploy/app/
-COPY app/*.py /deploy/app/
-COPY app/blueprints /deploy/app/blueprints
-COPY app/static /deploy/app/static
-COPY app/templates /deploy/app/templates
 
 RUN apk add --no-cache --update python3 \
   && python3 -m ensurepip \
@@ -27,6 +24,11 @@ RUN apk add --no-cache --update python3 \
   && apk add logrotate \
   && rm -rf /var/cache/apk/*
 
+COPY app/*.py /deploy/app/
+COPY app/blueprints /deploy/app/blueprints
+COPY app/static /deploy/app/static
+COPY app/templates /deploy/app/templates
+
 # Setup nginx
 RUN mkdir -p /run/nginx \
   && mkdir -p /etc/nginx/sites-available \
@@ -42,6 +44,10 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Setup logrotate
 RUN touch /var/log/messages
+
+# get the apple pay cert in place
+COPY ApplePayProcessingCert.cer /deploy/app/ApplePayProcessingCert.cer
+COPY ApplePayProcessingKey.key /deploy/app/ApplePayProcessingKey.key
 
 # Start processes
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

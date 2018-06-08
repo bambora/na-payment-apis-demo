@@ -1,3 +1,5 @@
+<script src="{{ url_for('static', filename='scripts/apple-pay-ctrl.js') }}"></script>
+
 <div class="message">
   <div id="b4" class="message-title">
     <form>
@@ -7,13 +9,19 @@
       </div>
     </form>
     <div class="card-icon-row">
-      <img class="card-icon" src="{{ url_for('static', filename='images/apple-pay.png') }}"/>
+      <img class="card-icon" src="{{ url_for('static', filename='images/apple-pay-acceptance-mark.svg') }}"/>
     </div>
   </div>
   <div class="message-content">
-    <p>Coming soon...</p>
+    <div id="apple_pay_button" class="apple-pay-button apple-pay-button-black" onclick="applePayButtonClicked()"></div>
 
-    <p>Apple Pay is a digital wallet service that lets users make payments within iOS apps (iPhone and iPad) and on websites in Safari (iPhone, iPad, and Mac).</p>
+    <div id="apple_pay_not_enabled" class="apple-pay-not-enabled">
+      <p>Your device does not support Apple Pay. To view the demo, use Safari running macOS Sierra or later, or an iOS device with iOS 10 or later.</p>
+    </div>
+
+    <div class="test-cards">
+      <p>Apple Pay is a digital wallet service that lets users make payments within iOS apps (iPhone and iPad) and on websites in Safari (iPhone, iPad, and Mac).</p>
+    </div>
 
   </div>
 </div>
