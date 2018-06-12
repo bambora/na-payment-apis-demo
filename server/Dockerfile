@@ -27,6 +27,7 @@ RUN apk add --no-cache --update python3 \
 COPY app/*.py /deploy/app/
 COPY app/blueprints /deploy/app/blueprints
 COPY app/static /deploy/app/static
+COPY app/.well-known /deploy/app/.well-known
 COPY app/templates /deploy/app/templates
 
 # Setup nginx
