@@ -113,7 +113,7 @@ def get_apple_pay_session():
             'domainName': merchant_domain,
             'displayName':'Payments Demo'
         }
-        r = requests.post(url, cert=('testcert.pem', 'testkey.pem'), data=body)
+        r = requests.post(url, cert=('merchant_id.cer'), data=body)
         return r
 
 app.register_blueprint(basic, url_prefix='/payment/basic')
