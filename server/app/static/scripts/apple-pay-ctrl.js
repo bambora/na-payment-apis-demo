@@ -71,7 +71,7 @@ function applePayButtonClicked() {
         requiredShippingContactFields: [ 'postalAddress', 'email' ],
     };
  
-    const session = new ApplePaySession(1, paymentRequest);
+    const session = new ApplePaySession(3, paymentRequest);
     
     session.onvalidatemerchant = (event) => {
         console.log("Validate merchant");
