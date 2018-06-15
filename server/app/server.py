@@ -110,10 +110,11 @@ def get_apple_pay_session():
         #merchant ID, domain name, and display name
         body = {
             'merchantIdentifier': merchant_identifier,
-            'domainName': merchant_domain,
-            'displayName':'Payments Demo'
+            'displayName':'Payments Demo',
+            'initiative': 'web',
+            'initiativeContext': 'dev-demo.na.bambora.com',
         }
-        r = requests.post(url, cert=('merchant_id.cer'), data=body)
+        r = requests.post(url, cert=('merchant_id.cer'), data=jsonify(body))
         return r
 
 app.register_blueprint(basic, url_prefix='/payment/basic')
