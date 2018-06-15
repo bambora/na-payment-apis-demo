@@ -48,7 +48,8 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 RUN touch /var/log/messages
 
 # get the apple pay cert in place
-COPY merchant_id.cer /deploy/app/merchant_id.cer
+COPY merchant_id.pem /deploy/app/merchant_id.pem
+COPY merchant_id.key /deploy/app/merchant_id.key
 COPY apple_domain_verification_files/apple-developer-merchantid-domain-association.txt.$domain /deploy/app/.well-known/apple-developer-merchantid-domain-association.txt
 
 # Start processes

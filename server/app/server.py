@@ -107,11 +107,14 @@ def route(path):
 def get_apple_pay_session():
     # Must contain apple url from onMerchantValidate event
     url = request.get_json().get("url")
-    body = jsonify(merchantIdentifier=merchant_identifier,
-                   domainName=merchant_domain,
-                   displayName='Payments Demo')
-    r = requests.post(url, cert=('merchant_id.cer'), data=body)
-    return r
+    body = {
+        "merchantIdentifier": merchant_identifier,
+        "domainName": merchant_domain,
+        "displayName": 'Payments Demo'
+    }
+    r = requests.post(url, cert=('merchant_id.pem',
+                                 'merchant_id.key'), json=body)
+    return r.text
 
 app.register_blueprint(basic, url_prefix='/payment/basic')
 app.register_blueprint(card, url_prefix='/payment/card')
