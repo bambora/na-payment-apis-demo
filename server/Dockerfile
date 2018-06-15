@@ -2,6 +2,8 @@
 
 FROM python:3.6.0-alpine
 
+ARG domain=dev-demo.na.bambora.com
+
 # Install platform dependencies & setup flask application
 RUN mkdir -p /deploy/app/blueprints \
   && mkdir -p /deploy/app/static \
@@ -27,7 +29,6 @@ RUN apk add --no-cache --update python3 \
 COPY app/*.py /deploy/app/
 COPY app/blueprints /deploy/app/blueprints
 COPY app/static /deploy/app/static
-COPY app/.well-known /deploy/app/.well-known
 COPY app/templates /deploy/app/templates
 
 # Setup nginx
@@ -48,6 +49,7 @@ RUN touch /var/log/messages
 
 # get the apple pay cert in place
 COPY merchant_id.cer /deploy/app/merchant_id.cer
+COPY apple_domain_verification_files/apple-developer-merchantid-domain-association.txt.$domain /deploy/app/.well-known/apple-developer-merchantid-domain-association.txt
 
 # Start processes
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
