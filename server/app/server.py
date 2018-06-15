@@ -33,7 +33,7 @@ logger.setLevel(logging.WARNING)
 
 # Set apple global variables
 merchant_identifier = "merchant.com.bambora.na.test"
-merchant_domain="https://localhost:5000"
+merchant_domain="dev-demo.na.bambora.com"
 
 
 # Create a Flask app.
@@ -109,7 +109,7 @@ def get_apple_pay_session():
         url = request.form["url"]
         #merchant ID, domain name, and display name
         body = jsonify(merchantIdentifier=merchant_identifier,
-                        domainName='dev-demo.na.bambora.com',
+                        domainName=merchant_domain,
                         displayName='Payments Demo')
         r = requests.post(url, cert=('merchant_id.cer'), data=body)
         return r
