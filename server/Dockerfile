@@ -47,8 +47,7 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 RUN touch /var/log/messages
 
 # get the apple pay cert in place
-COPY ApplePayProcessingCert.cer /deploy/app/ApplePayProcessingCert.cer
-COPY ApplePayProcessingKey.key /deploy/app/ApplePayProcessingKey.key
+COPY merchant_id.cer /deploy/app/merchant_id.cer
 
 # Start processes
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
