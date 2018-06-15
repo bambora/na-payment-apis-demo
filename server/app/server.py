@@ -109,9 +109,8 @@ def get_apple_pay_session():
         url = request.form["url"]
         #merchant ID, domain name, and display name
         body = jsonify(merchantIdentifier=merchant_identifier,
-                        displayName='Payments Demo',
-                        initiative='web',
-                        initiativeContext='dev-demo.na.bambora.com')
+                        domainName='dev-demo.na.bambora.com',
+                        displayName='Payments Demo')
         r = requests.post(url, cert=('merchant_id.cer'), data=body)
         return r
 
