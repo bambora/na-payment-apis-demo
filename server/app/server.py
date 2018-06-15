@@ -108,11 +108,10 @@ def get_apple_pay_session():
         # Must contain apple url from onMerchantValidate event
         url = request.form["url"]
         #merchant ID, domain name, and display name
-        body = {
-            'merchantIdentifier': merchant_identifier,
-            'domainName': merchant_domain,
-            'displayName':'Payments Demo'
-        }
+        body = jsonify(merchantIdentifier=merchant_identifier,
+                        displayName='Payments Demo',
+                        initiative='web',
+                        initiativeContext='dev-demo.na.bambora.com')
         r = requests.post(url, cert=('merchant_id.cer'), data=body)
         return r
 
