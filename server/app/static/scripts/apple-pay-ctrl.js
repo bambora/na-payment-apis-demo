@@ -121,7 +121,6 @@ function applePayButtonClicked() {
 
         // ...return a status and redirect to a confirmation page
         session.completePayment(ApplePaySession.STATUS_SUCCESS);
-        // window.location.href = "/success.html";
     }
 
     // All our handlers are setup - start the Apple Pay payment
