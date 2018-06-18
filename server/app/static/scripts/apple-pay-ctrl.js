@@ -119,6 +119,9 @@ function applePayButtonClicked() {
         // Send payment for processing...
         const payment = event.payment;
 
+        console.log("Full Payment object: ", payment);
+        console.log("Token: ", payment.token.paymentData.data);
+
         // ...return a status and redirect to a confirmation page
         session.completePayment(ApplePaySession.STATUS_SUCCESS);
     }
