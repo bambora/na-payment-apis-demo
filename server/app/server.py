@@ -33,7 +33,7 @@ logger.setLevel(logging.WARNING)
 
 # Set apple global variables
 merchant_identifier = "merchant.com.bambora.na.test"
-merchant_domain="https://localhost:5000"
+merchant_domain="dev-demo.na.bambora.com"
 
 
 # Create a Flask app.
@@ -105,16 +105,16 @@ def route(path):
 # Accept a POST to /getApplePaySession
 @app.route('/getApplePaySession', methods=["POST"])
 def get_apple_pay_session():
-        # Must contain apple url from onMerchantValidate event
-        url = request.form["url"]
-        #merchant ID, domain name, and display name
-        body = {
-            'merchantIdentifier': merchant_identifier,
-            'domainName': merchant_domain,
-            'displayName':'Payments Demo'
-        }
-        r = requests.post(url, cert=('testcert.pem', 'testkey.pem'), data=body)
-        return r
+    # Must contain apple url from onMerchantValidate event
+    url = request.get_json().get("url")
+    body = {
+        "merchantIdentifier": merchant_identifier,
+        "domainName": merchant_domain,
+        "displayName": 'Payments Demo'
+    }
+    r = requests.post(url, cert=('merchant_id.pem',
+                                 'merchant_id.key'), json=body)
+    return r.text
 
 app.register_blueprint(basic, url_prefix='/payment/basic')
 app.register_blueprint(card, url_prefix='/payment/card')

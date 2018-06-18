@@ -1,10 +1,12 @@
 #!groovy
 
 DEPLOY = true
+DOMAIN = 'dev-demo.na.bambora.com'
 if("$BRANCH_NAME" == 'develop') {
     ENV = 'dev-cde'
 } else if("$BRANCH_NAME" == 'master') {
     ENV = 'prod-cde'
+    DOMAIN = 'demo.na.bambora.com'
 } else {
     DEPLOY = false
     ENV = 'dev-cde'
@@ -31,15 +33,14 @@ timestamps {
                         sh """\$(AWS_DEFAULT_REGION=$REGION aws ecr get-login --no-include-email)"""
 
                         withCredentials([file(credentialsId: 'payment_api_demo_apple_pay_cert', variable: "CERTFILE")]) {
-                            sh "cp '$CERTFILE' ApplePayProcessingCert.cer"
-                       }
-
-                        withCredentials([file(credentialsId: 'payment_api_demo_apple_pay_keyfile', variable: "KEYFILE")]) {
-                              sh "cp '$KEYFILE' ApplePayProcessingKey.key"
+                            sh "cp '$CERTFILE' merchant_id.pem"
+                        }
+                        withCredentials([file(credentialsId: 'payment_api_demo_apple_pay_key', variable: "CERTFILE")]) {
+                            sh "cp '$CERTFILE' merchant_id.key"
                         }
 
                         docker.withRegistry("https://$REGISTRY") {
-                            paymentapidemo = docker.build("$image")
+                            paymentapidemo = docker.build("$image", "--build-arg domain=$DOMAIN .")
                             paymentapidemo.push()
                             paymentapidemo.push('latest')
                         }
