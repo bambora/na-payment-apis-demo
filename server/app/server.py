@@ -105,14 +105,13 @@ def route(path):
 # Accept a POST to /getApplePaySession
 @app.route('/getApplePaySession', methods=["POST"])
 def get_apple_pay_session():
-        # Must contain apple url from onMerchantValidate event
-        url = request.form["url"]
-        #merchant ID, domain name, and display name
-        body = jsonify(merchantIdentifier=merchant_identifier,
-                        domainName=merchant_domain,
-                        displayName='Payments Demo')
-        r = requests.post(url, cert=('merchant_id.cer'), data=body)
-        return r
+    # Must contain apple url from onMerchantValidate event
+    url = request.get_json().get("url")
+    body = jsonify(merchantIdentifier=merchant_identifier,
+                   domainName=merchant_domain,
+                   displayName='Payments Demo')
+    r = requests.post(url, cert=('merchant_id.cer'), data=body)
+    return r
 
 app.register_blueprint(basic, url_prefix='/payment/basic')
 app.register_blueprint(card, url_prefix='/payment/card')
