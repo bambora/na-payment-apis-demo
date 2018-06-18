@@ -33,7 +33,10 @@ timestamps {
                         sh """\$(AWS_DEFAULT_REGION=$REGION aws ecr get-login --no-include-email)"""
 
                         withCredentials([file(credentialsId: 'payment_api_demo_apple_pay_cert', variable: "CERTFILE")]) {
-                            sh "cp '$CERTFILE' merchant_id.cer"
+                            sh "cp '$CERTFILE' merchant_id.pem"
+                        }
+                        withCredentials([file(credentialsId: 'payment_api_demo_apple_pay_key', variable: "CERTFILE")]) {
+                            sh "cp '$CERTFILE' merchant_id.key"
                         }
 
                         docker.withRegistry("https://$REGISTRY") {
