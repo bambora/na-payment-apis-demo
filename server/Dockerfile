@@ -2,7 +2,7 @@
 
 FROM python:3.6.0-alpine
 
-ARG domain=dev-demo.na.bambora.com
+ARG domain=demo.na.bambora.com
 
 # Install platform dependencies & setup flask application
 RUN mkdir -p /deploy/app/blueprints \
