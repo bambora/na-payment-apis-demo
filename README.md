@@ -194,7 +194,7 @@ payload = {
 
 # API References
 
-* [Mercant Quickstart](https://dev.na.bambora.com/docs/guides/merchant_quickstart/)
+* [Merchant Quickstart](https://dev.na.bambora.com/docs/guides/merchant_quickstart/)
 * [Payment APIs](https://dev.na.bambora.com/docs/references/payment_APIs)
 * [Apple Pay @ Bambora](https://dev.na.bambora.com/docs/guides/apple_pay/)
 * [Getting Started with Apple Pay](https://developer.apple.com/apple-pay/get-started/)
