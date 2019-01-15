@@ -48,7 +48,7 @@ pip install -r requirements.txt
 
 ### Set up Environment Variables
 
-We are using 2 test accounts in this demo app. One is on Production, the other is on Sandbox. All services,
+We are using two test accounts in this demo app. One is on Production, the other is on Sandbox. All services,
 except Visa Checkout can be tested on Production. Visa Checkout must be tested on Sandbox.
 
 #### Mac/Linux
@@ -103,7 +103,7 @@ Run the supplied `gen-cert.sh` script.  This creates the root CA & cert for the 
 sudo security add-trusted-cert -d -r trustAsRoot -k /Library/Keychains/System.keychain server/app/domain.crt
 ```
 
-Once this is done, going to https://0.0.0.0:5000 should resolve without error.
+Once this is done, going to <https://0.0.0.0:5000> should resolve without error.
 
 # Mobile Payment Clients
 
@@ -121,11 +121,11 @@ the payment, the merchant's CRM could be updated and the originating mobile clie
 
 The iOS client project was built with XCode 8 and requires Swift 3.0.
 
-<img width="83" height="53" align="right" src="http://images.apple.com/v/apple-pay/f/images/overview/apple_pay_logo_large_2x.png">
+<img width="83" height="53" align="right" src="https://developer.apple.com/assets/elements/icons/apple-pay/apple-pay.svg">
 
 For details on how to develop Apple Pay enabled apps please visit:
 
-https://developer.apple.com/library/content/ApplePay_Guide/index.html#//apple_ref/doc/uid/TP40014764-CH1-SW1
+<https://developer.apple.com/library/content/ApplePay_Guide/index.html#//apple_ref/doc/uid/TP40014764-CH1-SW1>
 
 ## Apple Pay and the Bambora Payments API
 
@@ -134,7 +134,7 @@ APIs. It then communicates this info to the Demo Server which is responsible for
 Bambora Payments API. The Bambora Payments API has been updated to allow for Apple Pay transactions
 and the following is a sample POST parameter to use with a RESTful invocation of the Payments API.
 
-```
+```javascript
 payload = {
     'amount': float(<purchase_amount>),
     'payment_method': 'apple_pay',
@@ -146,6 +146,12 @@ payload = {
 }
 ```
 
+## Feature Flags
+
+Some features for the project are enabled via feature flags (ex: the Apple Pay demo).  These are defined in
+`config.py` which contains a dictionary called `FEATURE_FLAGS` mapping feature names to boolean values
+(`True` for feature enabled, `False` for disabled).
+
 # Android Client
 
 The Android client project was built with Android Studio v2.3.1.
@@ -154,7 +160,7 @@ The Android client project was built with Android Studio v2.3.1.
 
 For details on how to develop Android Pay enabled apps please visit:
 
-https://developers.google.com/android-pay/
+<https://developers.google.com/android-pay/>
 
 ## Android Pay and the Bambora Payments API
 
@@ -163,7 +169,7 @@ SDK APIs. It then communicates this info to the Demo Server which is responsible
 Bambora Payments API. The Bambora Payments API has been updated to allow for Android Pay transactions
 and the following is a sample POST parameter to use with a RESTful invocation of the Payments API.
 
-```
+```javascript
 payload = {
     'amount': float(<purchase_amount>),
     'payment_method': 'android_pay',
@@ -181,13 +187,14 @@ payload = {
 
 ## Building Locally and Contributing
 
- * Check out this repository
- * Fork the repo to commit changes to and issue Pull Requests as needed.
+* Check out this repository
+* Fork the repo to commit changes to and issue Pull Requests as needed.
 
 ---
 
 # API References
-* [Mercant Quickstart](https://dev.na.bambora.com/docs/guides/merchant_quickstart/)
+
+* [Merchant Quickstart](https://dev.na.bambora.com/docs/guides/merchant_quickstart/)
 * [Payment APIs](https://dev.na.bambora.com/docs/references/payment_APIs)
 * [Apple Pay @ Bambora](https://dev.na.bambora.com/docs/guides/apple_pay/)
 * [Getting Started with Apple Pay](https://developer.apple.com/apple-pay/get-started/)
