@@ -51,6 +51,16 @@ timestamps {
                     }
                 }
 
+                if (ENV == 'prod-cde') {
+                    withCredentials([usernamePassword(credentialsId: "$SLACK_ID", usernameVariable: 'username', passwordVariable: 'TOKEN')]) {
+                        slackSend color: "good", message: "Prod na-payment-apis-demo - confirm deploy ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}console|Open>)", token: "$TOKEN", channel: "$SLACK_CHANNEL"
+                    }
+
+                    timeout(time:30, UNITS:'MINUTES') {
+                        input 'Are we okay to deploy?'
+                    }
+                }
+
                 stage('deploy') {
                     if(DEPLOY) {
                         def ret = sh script: "git rev-parse --short HEAD", returnStdout: true
