@@ -1,13 +1,5 @@
 #!groovy
 
-if ( APP_ENV == 'prod-cde' ) {
-    credentialsId = 'vic-devops-cd'
-    slackChannel = 'vic-devops-cd'
-} else {
-    credentialsId = 'vic-devops-cd-dev'
-    slackChannel = 'vic-devops-cd-dev'
-}
-
 DEPLOY = true
 DOMAIN = 'demo.na.bambora.com'
 if("$BRANCH_NAME" == 'develop') {
@@ -20,6 +12,14 @@ if("$BRANCH_NAME" == 'develop') {
     DEPLOY = false
     ENV = 'dev-cde'
     DOMAIN = 'dev-demo.na.bambora.com'
+}
+
+if ( ENV == 'prod-cde' ) {
+    credentialsId = 'vic-devops-cd'
+    slackChannel = 'vic-devops-cd'
+} else {
+    credentialsId = 'vic-devops-cd-dev'
+    slackChannel = 'vic-devops-cd-dev'
 }
 
 REGION = 'ca-central-1'
@@ -60,8 +60,8 @@ timestamps {
                 }
 
                 if (ENV == 'prod-cde') {
-                    withCredentials([usernamePassword(credentialsId: "$credentialsId", usernameVariable: 'username', passwordVariable: 'TOKEN')]) {
-                        slackSend color: "good", message: "Prod na-payment-apis-demo - confirm deploy ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}console|Open>)", token: "$TOKEN", channel: "$slackChannel"
+                    withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'username', passwordVariable: 'TOKEN')]) {
+                        slackSend color: "good", message: "Prod na-payment-apis-demo - confirm deploy ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}console|Open>)", token: "$TOKEN", channel: slackChannel
                     }
 
                     timeout(time:30, UNITS:'MINUTES') {
@@ -100,8 +100,8 @@ timestamps {
                     color = "danger"
                     message = "Build Failed"
                 }
-                withCredentials([usernamePassword(credentialsId: '$credentialsId', usernameVariable: 'username', passwordVariable: 'TOKEN')]) {
-                    slackSend color: "$color", message: "$message - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}console|Open>)", token: "$TOKEN", channel: "$slackChannel"
+                withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'username', passwordVariable: 'TOKEN')]) {
+                    slackSend color: "$color", message: "$message - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}console|Open>)", token: "$TOKEN", channel: slackChannel
                 }
             }
     }
