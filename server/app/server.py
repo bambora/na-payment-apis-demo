@@ -6,13 +6,11 @@
 
 import os
 import logging
-import requests
 
 from flask import Flask
 from flask_featureflags import FeatureFlag
 from flask import render_template
 from flask import jsonify
-from flask import request
 
 from werkzeug.exceptions import default_exceptions
 from werkzeug.exceptions import HTTPException
@@ -101,20 +99,6 @@ def route(path):
     return render_template(path)
 
 # Start of translation
-
-# Accept a POST to /getApplePaySession
-@app.route('/getApplePaySession', methods=["POST"])
-def get_apple_pay_session():
-    # Must contain apple url from onMerchantValidate event
-    url = request.get_json().get("url")
-    body = {
-        "merchantIdentifier": merchant_identifier,
-        "domainName": merchant_domain,
-        "displayName": 'Payments Demo'
-    }
-    r = requests.post(url, cert=('merchant_id.pem',
-                                 'merchant_id.key'), json=body)
-    return r.text
 
 app.register_blueprint(basic, url_prefix='/payment/basic')
 app.register_blueprint(card, url_prefix='/payment/card')
