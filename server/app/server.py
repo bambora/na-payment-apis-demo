@@ -8,7 +8,6 @@ import os
 import logging
 
 from flask import Flask
-from flask_featureflags import FeatureFlag
 from flask import render_template
 from flask import jsonify
 
@@ -29,22 +28,8 @@ import settings
 logger = logging.getLogger('Payment-APIs-Demo')
 logger.setLevel(logging.WARNING)
 
-# Set apple global variables
-merchant_identifier = "merchant.com.bambora.na.test"
-merchant_domain="dev-demo.na.bambora.com"
-
-
 # Create a Flask app.
 app = Flask(__name__)
-
-# Grab config setup
-app.config.from_object('config')
-
-# Set up feature flagging
-feature_flags = FeatureFlag(app)
-
-# with open(os.path.join(app.root_path, 'domain.crt')) as f:
-#     apple_pay_cert = f.read()
 
 ##########################
 # ERROR/EXCEPTION HANDLING
