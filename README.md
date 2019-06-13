@@ -146,12 +146,6 @@ payload = {
 }
 ```
 
-## Feature Flags
-
-Some features for the project are enabled via feature flags (ex: the Apple Pay demo).  These are defined in
-`config.py` which contains a dictionary called `FEATURE_FLAGS` mapping feature names to boolean values
-(`True` for feature enabled, `False` for disabled).
-
 # Android Client
 
 The Android client project was built with Android Studio v2.3.1.
