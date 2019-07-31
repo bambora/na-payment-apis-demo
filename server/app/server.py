@@ -97,9 +97,6 @@ app.register_blueprint(masterpass, url_prefix='/payment/masterpass')
 # Start the app using the built-in Flask (non-production quality) server
 #
 
-# Set the secret key for sessions to work.  Keep this really secret!
-app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
-
 # When doing local dev and serving flask directly, the browser
 # needs to use an IP address or name and not 0.0.0.0 or else
 # browser side security checks will likely fail.
