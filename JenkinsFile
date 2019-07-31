@@ -1,17 +1,13 @@
 #!groovy
 
 DEPLOY = true
-DOMAIN = 'demo.na.bambora.com'
 if("$BRANCH_NAME" == 'develop') {
     ENV = 'dev-cde'
-    DOMAIN = 'dev-demo.na.bambora.com'
 } else if("$BRANCH_NAME" == 'master') {
     ENV = 'prod-cde'
-    DOMAIN = 'demo.na.bambora.com'
 } else {
     DEPLOY = false
     ENV = 'dev-cde'
-    DOMAIN = 'dev-demo.na.bambora.com'
 }
 
 if ( ENV == 'prod-cde' ) {
@@ -43,7 +39,7 @@ timestamps {
                         sh """\$(AWS_DEFAULT_REGION=$REGION aws ecr get-login --no-include-email)"""
 
                         docker.withRegistry("https://$REGISTRY") {
-                            paymentapidemo = docker.build("$image", "--build-arg domain=$DOMAIN .")
+                            paymentapidemo = docker.build("$image", ".")
                             paymentapidemo.push()
                             paymentapidemo.push('latest')
                         }
