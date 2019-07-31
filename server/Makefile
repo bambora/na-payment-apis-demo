@@ -1,6 +1,5 @@
-APP_NAME=na-merchant-api-demo
-IMAGE_NAME=bambora/$(APP_NAME)
-VERSION=9.0.0
+IMAGE_NAME=bambora/na-merchant-api-demo
+VERSION=latest
 
 # Can specify arbitrary docker arguments on the command line.  Ex:
 # make DOCKERBUILDARGS=--no-cache dockerbuild
@@ -20,7 +19,7 @@ shell: build
 	docker run --rm -it $(IMAGE_NAME):$(VERSION) /bin/ash
 
 run: build
-	docker run --rm -p 80:8080 $(IMAGE_NAME):$(VERSION)
+	docker run --rm -p 8080:8080 $(IMAGE_NAME):$(VERSION)
 
 clean:
 	# preceding dash is to prevent the makefile from erroring if the file/image doesn't exist

@@ -1,11 +1,4 @@
-# Bambora na-payment-apis-demo
-
 FROM alpine:3.10
-
-# Install platform dependencies & setup flask application
-RUN mkdir -p /deploy/app/blueprints \
-  && mkdir -p /deploy/app/static \
-  && mkdir -p /deploy/app/templates
 
 COPY app/requirements.txt /deploy/app/
 
@@ -15,13 +8,10 @@ RUN apk add --no-cache --update python3 \
   && rm -rf /root/.cache \
   && apk add --no-cache --update \
      build-base python3-dev libffi-dev postgresql-dev \
-     nginx supervisor \
+     nginx supervisor logrotate \
   && pip3 install --upgrade pip \
-  && pip3 install virtualenv gunicorn \
   && pip3 install -r /deploy/app/requirements.txt \
-  && apk del \
-    build-base python3-dev \
-  && apk add logrotate \
+  && apk del build-base python3-dev \
   && rm -rf /var/cache/apk/*
 
 COPY app/*.py /deploy/app/
