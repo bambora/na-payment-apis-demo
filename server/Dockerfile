@@ -1,8 +1,6 @@
 # Bambora na-payment-apis-demo
 
-FROM python:3.6.0-alpine
-
-ARG domain=demo.na.bambora.com
+FROM alpine:3.10
 
 # Install platform dependencies & setup flask application
 RUN mkdir -p /deploy/app/blueprints \
