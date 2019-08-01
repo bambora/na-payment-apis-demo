@@ -48,6 +48,23 @@ timestamps {
                     }
                 }
 
+                stage('safetycheck') {
+                    checkout scm
+                    def ret = sh script: "git rev-parse --short HEAD", returnStdout: true
+                    def sha = ret.trim()
+                    def pwd = sh(script: "echo \$PWD", returnStdout: true).trim()
+                    def image = "paymentapidemo-$ENV-$REGION:$sha"
+
+                    docker.withRegistry("https://$REGISTRY") {
+                        def dockerimage = docker.image("${REGISTRY}/$image")
+                        dockerimage.pull()
+                        dockerimage.inside() {
+                            sh """safety check"""
+                        }
+                    }
+
+                }
+
                 if (ENV == 'prod-cde') {
                     withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'username', passwordVariable: 'TOKEN')]) {
                         slackSend color: "good", message: "Prod na-payment-apis-demo - confirm deploy ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}console|Open>)", token: "$TOKEN", channel: slackChannel
