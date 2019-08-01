@@ -16,7 +16,7 @@ build:
 	mv app/server.py.orig app/server.py
 
 shell: build
-	docker run --rm -it $(IMAGE_NAME):$(VERSION) /bin/ash
+	docker run --rm -it $(IMAGE_NAME):$(VERSION) /bin/sh
 
 run: build
 	docker run --rm -p 8080:8080 $(IMAGE_NAME):$(VERSION)

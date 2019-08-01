@@ -33,7 +33,8 @@ RUN mkdir -p /var/log/supervisor/conf.d
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Setup logrotate
-RUN touch /var/log/messages
+COPY conf/logrotate.d /etc/logrotate.d
+RUN touch /var/log/cron
 
 # Start processes
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
