@@ -36,6 +36,7 @@ try:
     sandbox_hash_key = ssmclient.get_parameter(Name="paymentapidemo-SANDBOX_HASH_KEY", WithDecryption=True)['Parameter']['Value']
     sandbox_visa_checkout_api_key = \
     ssmclient.get_parameter(Name="paymentapidemo-SANDBOX_VISA_CHECKOUT_API_KEY", WithDecryption=True)['Parameter']['Value']
+    secret_key = ssmclient.get_parameter(Name="paymentapidemo-SECRET_KEY", WithDecryption=True)['Parameter']['Value']
 except Exception as e:
     merchant_id = os.environ.get('MERCHANT_ID')
     api_passcode = os.environ.get('API_PASSCODE')
@@ -44,6 +45,7 @@ except Exception as e:
     sandbox_api_passcode = os.environ.get('SANDBOX_API_PASSCODE')
     sandbox_hash_key = os.environ.get('SANDBOX_HASH_KEY')
     sandbox_visa_checkout_api_key = os.environ.get('SANDBOX_VISA_CHECKOUT_API_KEY')
+    secret_key = os.environ.get('SECRET_KEY')
 
 if (merchant_id is None or
             api_passcode is None or

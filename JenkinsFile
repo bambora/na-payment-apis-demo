@@ -1,17 +1,13 @@
 #!groovy
 
 DEPLOY = true
-DOMAIN = 'demo.na.bambora.com'
 if("$BRANCH_NAME" == 'develop') {
     ENV = 'dev-cde'
-    DOMAIN = 'dev-demo.na.bambora.com'
 } else if("$BRANCH_NAME" == 'master') {
     ENV = 'prod-cde'
-    DOMAIN = 'demo.na.bambora.com'
 } else {
     DEPLOY = false
     ENV = 'dev-cde'
-    DOMAIN = 'dev-demo.na.bambora.com'
 }
 
 if ( ENV == 'prod-cde' ) {
@@ -43,13 +39,30 @@ timestamps {
                         sh """\$(AWS_DEFAULT_REGION=$REGION aws ecr get-login --no-include-email)"""
 
                         docker.withRegistry("https://$REGISTRY") {
-                            paymentapidemo = docker.build("$image", "--build-arg domain=$DOMAIN .")
+                            paymentapidemo = docker.build("$image", ".")
                             paymentapidemo.push()
                             paymentapidemo.push('latest')
                         }
                         sh """docker rmi $image"""
                         sh """mv app/server.py.orig app/server.py"""
                     }
+                }
+
+                stage('safetycheck') {
+                    checkout scm
+                    def ret = sh script: "git rev-parse --short HEAD", returnStdout: true
+                    def sha = ret.trim()
+                    def pwd = sh(script: "echo \$PWD", returnStdout: true).trim()
+                    def image = "paymentapidemo-$ENV-$REGION:$sha"
+
+                    docker.withRegistry("https://$REGISTRY") {
+                        def dockerimage = docker.image("${REGISTRY}/$image")
+                        dockerimage.pull()
+                        dockerimage.inside() {
+                            sh """safety check"""
+                        }
+                    }
+
                 }
 
                 if (ENV == 'prod-cde') {
