@@ -1,13 +1,13 @@
-<img src="https://cdn.na.bambora.com/resources/logos/bambora-logo180x92.png" />
-
 # Payment APIs Demo Client & Server
+
+![Bambora](https://cdn.na.bambora.com/resources/logos/bambora-logo180x92.png)
 
 Copyright © 2017 Bambora Inc.
 
 This repo contains a simple merchant Python/Flask server and associated Web and iOS clients to help process payments.
 The demo server & clients are intended to be simple examples that can help you with your production implementation.
 
-# Server
+## Server
 
 Feel free to [view and try out](https://demo.na.bambora.com) the Payment APIs Demo web app now!
 
@@ -105,7 +105,7 @@ sudo security add-trusted-cert -d -r trustAsRoot -k /Library/Keychains/System.ke
 
 Once this is done, going to <https://0.0.0.0:5000> should resolve without error.
 
-# Mobile Payment Clients
+## Mobile Payment Clients
 
 Apple Pay or Android Pay payment requests are initiated from mobile clients and then, if successful, an Apple Pay or
 Android Pay token is transmitted to the demo payment server, which records the payment request and executes the Bambora
@@ -117,11 +117,11 @@ on a merchant's CRM (as an example), and then a request to process the payment u
 Android Pay token would then be made to the Bambora Payments API. Upon success or failure to process
 the payment, the merchant's CRM could be updated and the originating mobile client would then receive a response.
 
-# iOS Client
+## iOS Client
 
 The iOS client project was built with XCode 8 and requires Swift 3.0.
 
-<img width="83" height="53" align="right" src="https://developer.apple.com/assets/elements/icons/apple-pay/apple-pay.svg">
+![Apple Pay](https://developer.apple.com/assets/elements/icons/apple-pay/apple-pay.svg)
 
 For details on how to develop Apple Pay enabled apps please visit:
 
@@ -146,17 +146,9 @@ payload = {
 }
 ```
 
-## Feature Flags
-
-Some features for the project are enabled via feature flags (ex: the Apple Pay demo).  These are defined in
-`config.py` which contains a dictionary called `FEATURE_FLAGS` mapping feature names to boolean values
-(`True` for feature enabled, `False` for disabled).
-
-# Android Client
+## Android Client
 
 The Android client project was built with Android Studio v2.3.1.
-
-<img width="120" align="right" src="https://www.android.com/static/2016/img/pay/androidpaylogo-outlined.png">
 
 For details on how to develop Android Pay enabled apps please visit:
 
@@ -183,8 +175,6 @@ payload = {
 
 ---
 
-<a name="contributing"/>
-
 ## Building Locally and Contributing
 
 * Check out this repository
@@ -192,7 +182,7 @@ payload = {
 
 ---
 
-# API References
+## API References
 
 * [Merchant Quickstart](https://dev.na.bambora.com/docs/guides/merchant_quickstart/)
 * [Payment APIs](https://dev.na.bambora.com/docs/references/payment_APIs)

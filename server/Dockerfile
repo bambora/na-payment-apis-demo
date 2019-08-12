@@ -1,13 +1,4 @@
-# Bambora na-payment-apis-demo
-
-FROM python:3.6.0-alpine
-
-ARG domain=demo.na.bambora.com
-
-# Install platform dependencies & setup flask application
-RUN mkdir -p /deploy/app/blueprints \
-  && mkdir -p /deploy/app/static \
-  && mkdir -p /deploy/app/templates
+FROM alpine:3.10
 
 COPY app/requirements.txt /deploy/app/
 
@@ -17,13 +8,10 @@ RUN apk add --no-cache --update python3 \
   && rm -rf /root/.cache \
   && apk add --no-cache --update \
      build-base python3-dev libffi-dev postgresql-dev \
-     nginx supervisor \
+     nginx supervisor logrotate \
   && pip3 install --upgrade pip \
-  && pip3 install virtualenv gunicorn \
   && pip3 install -r /deploy/app/requirements.txt \
-  && apk del \
-    build-base python3-dev \
-  && apk add logrotate \
+  && apk del build-base python3-dev \
   && rm -rf /var/cache/apk/*
 
 COPY app/*.py /deploy/app/
@@ -45,12 +33,8 @@ RUN mkdir -p /var/log/supervisor/conf.d
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Setup logrotate
-RUN touch /var/log/messages
-
-# get the apple pay cert in place
-COPY merchant_id.pem /deploy/app/merchant_id.pem
-COPY merchant_id.key /deploy/app/merchant_id.key
-COPY apple_domain_verification_files/apple-developer-merchantid-domain-association.txt.$domain /deploy/app/.well-known/apple-developer-merchantid-domain-association.txt
+COPY conf/logrotate.d /etc/logrotate.d
+RUN touch /var/log/cron
 
 # Start processes
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
