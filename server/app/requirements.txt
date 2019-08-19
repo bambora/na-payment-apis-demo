@@ -1,8 +1,7 @@
-boto3==1.9.199
-Flask==0.12.4
+boto3==1.9.211
+Flask==1.1.1
 gunicorn==19.9.0
-requests==2.21.0
+requests==2.22.0
 safety==1.8.5
-simplejson==3.10.0
-SQLAlchemy==1.1.9
-Werkzeug==0.12.1
+simplejson==3.16.0
+Werkzeug==0.15.5

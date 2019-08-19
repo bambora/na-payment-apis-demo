@@ -16,7 +16,6 @@ from werkzeug.exceptions import HTTPException
 
 from blueprints.basic import payments as basic
 from blueprints.checkout import payments as checkout
-from blueprints.mobile import payments as mobile
 from blueprints.interac import payments as interac
 from blueprints.card import payments as card
 from blueprints.visa_checkout import payments as visa_checkout
@@ -30,29 +29,6 @@ logger.setLevel(logging.WARNING)
 
 # Create a Flask app.
 app = Flask(__name__)
-
-##########################
-# ERROR/EXCEPTION HANDLING
-#
-# --> http://flask.pocoo.org/snippets/83/
-# Creates a JSON-oriented Flask app.
-#
-# All error responses that you don't specifically
-# manage yourself will have application/json content
-# type, and will contain JSON like this (just an example):
-#
-# { "message": "405: Method Not Allowed" }
-
-def make_json_error(ex):
-    response = jsonify(message=str(ex))
-    response.status_code = (ex.code
-                            if isinstance(ex, HTTPException)
-                            else 500)
-    return response
-
-for code in default_exceptions.items():
-    app.error_handler_spec[None][code] = make_json_error
-
 
 @app.errorhandler(Exception)
 def error500(e):
@@ -88,7 +64,6 @@ def route(path):
 app.register_blueprint(basic, url_prefix='/payment/basic')
 app.register_blueprint(card, url_prefix='/payment/card')
 app.register_blueprint(checkout, url_prefix='/checkout')
-app.register_blueprint(mobile, url_prefix='/payment/mobile')
 app.register_blueprint(interac, url_prefix='/payment/interac')
 app.register_blueprint(visa_checkout, url_prefix='/visa-checkout')
 app.register_blueprint(masterpass, url_prefix='/payment/masterpass')
