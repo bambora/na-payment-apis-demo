@@ -15,7 +15,17 @@ The server project requires Python 3. To build & run the server for local dev yo
 try the server out by just setting your Bambora Payments API Passcode as a server side environment variable
 and then start up as follows.
 
-## Server Setup & Installation
+## Server Setup & Installation (Docker)
+
+Clone the repo, and then do a:
+
+```shell
+make run
+```
+
+Server should now be running at <http://127.0.0.1:8080>.
+
+## Server Setup & Installation (Non-Docker)
 
 * Execute a git clone command on this repo and in a terminal cd into the root project directory.
 
