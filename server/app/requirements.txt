@@ -4,4 +4,3 @@ gunicorn==19.9.0
 requests==2.22.0
 safety==1.8.5
 simplejson==3.16.0
-Werkzeug==0.15.5

@@ -11,9 +11,6 @@ from flask import Flask
 from flask import render_template
 from flask import jsonify
 
-from werkzeug.exceptions import default_exceptions
-from werkzeug.exceptions import HTTPException
-
 from blueprints.basic import payments as basic
 from blueprints.checkout import payments as checkout
 from blueprints.interac import payments as interac
