@@ -18,9 +18,6 @@ import settings
 payments = Blueprint('interac', __name__,)
 
 
-INTERAC_BASE_URL = 'https://yo-api.na.bambora.com'
-
-
 @payments.route('', methods=['POST'])
 def make_interac_payment():
     data = json.dumps({
@@ -28,9 +25,7 @@ def make_interac_payment():
         'payment_method': 'interac'
     }, use_decimal=True)
 
-    response = requests.post(
-        INTERAC_BASE_URL + '/v1/payments', 
-        headers=settings.create_auth_headers(), data=data)
+    response = requests.post(settings.base_url + '/v1/payments', headers=settings.create_auth_headers(), data=data)
     session['interac-id'] = json.loads(response.content.decode("utf-8")).get('merchant_data')
     return response.content.decode("utf-8"), response.status_code
 
@@ -38,9 +33,7 @@ def make_interac_payment():
 @payments.route('/callback', methods=['POST'])
 def interac_callback():
     if 'interac-id' in session:
-        url = '{}/{}/continue'.format(
-            INTERAC_BASE_URL + '/v1/payments', 
-            session['interac-id'])
+        url = '{}/{}/continue'.format(settings.base_url + '/v1/payments', session['interac-id'])
         session.pop('interac-id', None)
 
         data = json.dumps({
