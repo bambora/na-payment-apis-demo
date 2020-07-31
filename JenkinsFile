@@ -62,7 +62,6 @@ timestamps {
                             sh """safety check"""
                         }
                     }
-
                 }
 
                 if (ENV == 'prod-cde') {
