@@ -18,6 +18,10 @@
           "value": "VNE"
         },
         {
+          "name": "SERVER_URL_BASE",
+          "value": "https://api.na.bambora.com"
+        },
+        {
           "name": "AWS_DEFAULT_REGION",
           "value": "NOIGER"
         }
