@@ -22,6 +22,10 @@
           "value": "https://api.na.bambora.com"
         },
         {
+          "name": "QUERYSTRING_SERVER_URL_BASE",
+          "value": "https://sandbox-web.na.bambora.com"
+        },
+        {
           "name": "AWS_DEFAULT_REGION",
           "value": "NOIGER"
         }
