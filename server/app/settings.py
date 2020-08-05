@@ -13,14 +13,9 @@ import decimal
 # web.na.bambora.com / api.na.bambora.com.
 
 # Bambora Payment APIs Server base URL. Defaults to 'https://api.na.bambora.com'
-base_url = os.environ.get('SERVER_URL_BASE')
+base_url = os.environ.get('SERVER_URL_BASE', 'https://api.na.bambora.com')
 
-if base_url is None:
-    base_url = 'https://api.na.bambora.com'
-
-base_querystring_sandbox_url = os.environ.get('QUERYSTRING_SERVER_URL_BASE')
-if not base_querystring_sandbox_url:
-    base_querystring_sandbox_url = 'https://sandbox-web.na.bambora.com'
+base_querystring_sandbox_url = os.environ.get('QUERYSTRING_SERVER_URL_BASE', 'https://sandbox-web.na.bambora.com')
 
 # Bambora params needed for authentication include Merchant ID & API Passcode.
 # --> More info here: https://dev.na.bambora.com/docs/guides/merchant_quickstart/
