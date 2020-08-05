@@ -33,6 +33,19 @@ timestamps {
                     dir("server") {
                         def ret = sh script: "git rev-parse --short HEAD", returnStdout: true
                         def sha = ret.trim()
+
+                        def full_sha = sh(script: "git rev-parse HEAD", returnStdout: true).trim()
+                        def timestamp = sh(returnStdout: true, script: 'date "+%Y-%m-%d %H:%M:%S"').trim()
+
+                        echo "branch is $BRANCH_NAME"
+                        sh """
+                        sed -i 's|HCNARB|$BRANCH_NAME|g' version.json
+                        sed -i 's|NOISIVER|$full_sha|g' version.json
+                        sed -i 's|EMITDLIUB|$timestamp|g' version.json
+                        sed -i 's|REBMUNDLIUB|$env.BUILD_NUMBER|g' version.json
+                        """
+                        archiveArtifacts 'version.json'
+
                         def image = "paymentapidemo-$ENV-$REGION:$sha"
                         echo "Image: $image"
                         sh """sed -i'.orig' -e 's/<VERSION>/$sha/g' app/server.py"""
