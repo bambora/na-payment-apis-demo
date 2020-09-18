@@ -24,7 +24,7 @@ class ViewController: UIViewController {
     
     // !!! TD backend processor
     // Bambora North America; Supported Payment Networks for Apple Pay
-    fileprivate let SupportedPaymentNetworks : [PKPaymentNetwork] = [.visa, .masterCard, .amex]
+    fileprivate let SupportedPaymentNetworks : [PKPaymentNetwork] = [.visa, .masterCard, .amex, .discover]
 
     // !!! First Data backend processor
     // Bambora North America; Supported Payment Networks for Apple Pay
@@ -52,7 +52,7 @@ class ViewController: UIViewController {
 
     // MARK: - Custom action methods
     
-    func paymentButtonAction() {
+    @objc func paymentButtonAction() {
         // Check to make sure payments are supported.
         if !PKPaymentAuthorizationViewController.canMakePayments(usingNetworks: SupportedPaymentNetworks, capabilities: .capability3DS) {
             // Let user know they can not continue with an Apple Pay based transaction...
@@ -92,8 +92,8 @@ class ViewController: UIViewController {
         
         
         let authVC = PKPaymentAuthorizationViewController(paymentRequest: request)
-        authVC.delegate = self
-        present(authVC, animated: true, completion: nil)
+        authVC?.delegate = self
+        present(authVC!, animated: true, completion: nil)
     }
 }
 
