@@ -20,7 +20,7 @@ class ViewController: UIViewController {
     fileprivate let DemoServerURLBase = "http://merchant-api-demo.us-west-2.elasticbeanstalk.com"
     
     // Apple Pay Merchant Identifier
-    fileprivate let ApplePayMerchantID = "merchant.com.bambora.na.logansapp2"
+    fileprivate let ApplePayMerchantID = "merchant.com.beanstream.apbeanstream"
     
     // !!! TD backend processor
     // Bambora North America; Supported Payment Networks for Apple Pay
