@@ -19,7 +19,6 @@ class InventoryTableViewCell: UITableViewCell, UITextFieldDelegate {
         super.awakeFromNib()
         self.imageView?.image = UIImage.init(named: "golden-egg")
         self.textLabel?.text = "1 Golden Egg"
-//        self.amountField.text = "nib texter"
         self.amountField.placeholder = "$0.00"
         self.addDoneButtonOnKeyboard()
         self.amountField.delegate = self
@@ -58,7 +57,8 @@ class InventoryTableViewCell: UITableViewCell, UITextFieldDelegate {
         formatter.numberStyle = NumberFormatter.Style.currency
         
         let amount = Double(amt/100) + Double(amt%100)/100
-        print("amount:" + String(amount))
+        let viewController = UIApplication.shared.keyWindow?.rootViewController as! ViewController
+        viewController.totalTransactionAmount = amount
         
         return formatter.string(from: NSNumber(value: amount))
     }
