@@ -96,6 +96,12 @@ class ViewController: UIViewController {
     }
 }
 
+extension ViewController: InventoryTableViewCellDelegate {
+    func transactionAmountUpdated(transactionAmount: Double) {
+        totalTransactionAmount = transactionAmount
+    }
+}
+
 extension ViewController: PKPaymentAuthorizationViewControllerDelegate {
     
     // Executes a process payment request on our Merchant Server

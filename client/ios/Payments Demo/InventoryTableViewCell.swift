@@ -8,43 +8,47 @@
 
 import UIKit
 
+protocol InventoryTableViewCellDelegate {
+    func transactionAmountUpdated(transactionAmount: Double)
+}
+
 @IBDesignable
 class InventoryTableViewCell: UITableViewCell, UITextFieldDelegate {
     
     @IBOutlet weak var amountField: UITextField!
     
-    var amt: Int = 0
+    var itemAmount: Int = 0
+    var delegate: InventoryTableViewCellDelegate?
 
     override func awakeFromNib() {
         super.awakeFromNib()
         self.imageView?.image = UIImage.init(named: "golden-egg")
         self.textLabel?.text = "1 Golden Egg"
         self.amountField.placeholder = "$0.00"
-        self.addDoneButtonOnKeyboard()
         self.amountField.delegate = self
+        self.addDoneButtonOnKeyboard()
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if let digit = Int(string) {
-            amt = amt * 10 + digit
+            let rootViewController = self.window!.rootViewController
+            itemAmount = itemAmount * 10 + digit
             
-            if amt > 1_000_000_000_00 {
+            if itemAmount > 1_000_000_000_00 {
                 let alertController = UIAlertController(title: "Please enter an amount less than 1 billion", message: nil, preferredStyle: .alert)
                 
                 alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertAction.Style.default))
                 
-                UIApplication.shared.keyWindow?.rootViewController?.present(alertController, animated: true, completion: nil)
+                rootViewController?.present(alertController, animated: true, completion: nil)
                 
                 amountField.text = ""
-                
-                amt = 0
+                itemAmount = 0
             }
             amountField.text = updateAmount()
         }
         
         if string == "" {
-            amt = amt/10
-            
+            itemAmount = itemAmount/10
             amountField.text = updateAmount()
         }
         
@@ -53,12 +57,10 @@ class InventoryTableViewCell: UITableViewCell, UITextFieldDelegate {
     
     func updateAmount() -> String? {
         let formatter = NumberFormatter()
-        
         formatter.numberStyle = NumberFormatter.Style.currency
         
-        let amount = Double(amt/100) + Double(amt%100)/100
-        let viewController = UIApplication.shared.keyWindow?.rootViewController as! ViewController
-        viewController.totalTransactionAmount = amount
+        let amount = Double(itemAmount/100) + Double(itemAmount%100)/100
+        delegate?.transactionAmountUpdated(transactionAmount: amount)
         
         return formatter.string(from: NSNumber(value: amount))
     }
@@ -69,7 +71,7 @@ class InventoryTableViewCell: UITableViewCell, UITextFieldDelegate {
         doneToolbar.barStyle = UIBarStyle.default
       
         let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-        let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: Selector("doneButtonAction"))
+        let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(self.doneButtonAction))
       
       var items = [UIBarButtonItem]()
       items.append(flexSpace)
@@ -81,7 +83,7 @@ class InventoryTableViewCell: UITableViewCell, UITextFieldDelegate {
       self.amountField.inputAccessoryView = doneToolbar
     }
     
-    func doneButtonAction()
+    @objc func doneButtonAction()
     {
       self.amountField.resignFirstResponder()
     }
