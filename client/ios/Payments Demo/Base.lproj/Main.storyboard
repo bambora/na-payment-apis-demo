@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Mobile_Pay" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Payments_Demo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -23,16 +20,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gnW-Kv-sCS">
-                                <rect key="frame" x="16" y="73" width="343" height="574"/>
+                                <rect key="frame" x="16" y="53" width="343" height="594"/>
                                 <subviews>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9IA-sq-lf5">
-                                        <rect key="frame" x="0.0" y="44" width="343" height="470"/>
+                                        <rect key="frame" x="0.0" y="47" width="343" height="487"/>
                                         <connections>
                                             <segue destination="piS-o5-UHK" kind="embed" id="OzQ-D6-vyY"/>
                                         </connections>
                                     </containerView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ddz-pU-HQl">
-                                        <rect key="frame" x="71.5" y="522" width="200" height="44"/>
+                                        <rect key="frame" x="71.5" y="542" width="200" height="44"/>
                                         <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="ZxG-Yd-gbz"/>
@@ -40,7 +37,7 @@
                                         </constraints>
                                     </view>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="xq8-Nb-ZlO">
-                                        <rect key="frame" x="8" y="8" width="327" height="29"/>
+                                        <rect key="frame" x="8" y="8" width="327" height="32"/>
                                         <segments>
                                             <segment title="Purchase"/>
                                             <segment title="Pre-Auth"/>
@@ -61,7 +58,7 @@
                                 </constraints>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bambora-logo350x180" translatesAutoresizingMaskIntoConstraints="NO" id="Lyf-i4-i66">
-                                <rect key="frame" x="16" y="20" width="343" height="45"/>
+                                <rect key="frame" x="16" y="0.0" width="343" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="2Fo-Md-x4x"/>
                                 </constraints>
@@ -85,26 +82,38 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="515" y="428"/>
+            <point key="canvasLocation" x="-47" y="346"/>
         </scene>
         <!--Inventory View Controller-->
         <scene sceneID="8De-uB-wKm">
             <objects>
-                <tableViewController id="piS-o5-UHK" customClass="InventoryViewController" customModule="Mobile_Pay" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="piS-o5-UHK" customClass="InventoryViewController" customModule="Payments_Demo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="1jw-Df-lQS">
-                        <rect key="frame" x="0.0" y="0.0" width="343" height="470"/>
+                        <rect key="frame" x="0.0" y="0.0" width="343" height="487"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="InventoryCell" id="50x-yp-O3t" customClass="InventoryTableViewCell" customModule="Mobile_Pay" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="InventoryCell" id="50x-yp-O3t" customClass="InventoryTableViewCell" customModule="Payments_Demo" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="55.5" width="343" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="50x-yp-O3t" id="AgJ-rB-Nbd">
-                                    <rect key="frame" x="0.0" y="0.0" width="304" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="303" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="$0.00" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fLG-R4-Gbz">
+                                            <rect key="frame" x="206" y="5" width="97" height="34"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                        </textField>
+                                    </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="amountField" destination="fLG-R4-Gbz" id="v7r-M4-KMX"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
+                        <sections/>
                         <connections>
                             <outlet property="dataSource" destination="piS-o5-UHK" id="lj1-K6-e6e"/>
                             <outlet property="delegate" destination="piS-o5-UHK" id="IpN-Yl-ROG"/>
