@@ -17,10 +17,14 @@ class ViewController: UIViewController {
     @IBOutlet weak var placeholderView: UIView!
     
     // Mobile Payments Demo Server
+    // TODO: Update this value to a working Demo Server. Our Elastic Beanstalk instance is out of commission.
     fileprivate let DemoServerURLBase = "http://merchant-api-demo.us-west-2.elasticbeanstalk.com"
     
     // Apple Pay Merchant Identifier
-    fileprivate let ApplePayMerchantID = "merchant.com.beanstream.apbeanstream"
+    // Update this to an Apple Pay Merchant Identifier. Instructions on how to create a Merchant Identifier
+    // can be found in the "Setup Apple Developer Assets" section
+    // in https://confluence.beanstream.com/display/NAMP/Apple+Pay+Guide+for+Bambora+Developers
+    fileprivate let ApplePayMerchantID = "<FILL-ME-IN>"
     
     // !!! TD backend processor
     // Bambora North America; Supported Payment Networks for Apple Pay
