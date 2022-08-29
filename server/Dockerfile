@@ -36,5 +36,7 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY conf/logrotate.d /etc/logrotate.d
 RUN touch /var/log/cron
 
+COPY version.json /deploy/app/static/version.json
+
 # Start processes
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

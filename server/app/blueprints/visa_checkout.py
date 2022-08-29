@@ -32,6 +32,8 @@ def make_payment():
         'api_passcode': payment_api_passcode,
         'trnAmount': decimal.Decimal(request.json.get('amount')).quantize(settings.TWO_PLACES),
         'visaCheckoutCallID': request.json.get('callId'),
+        'ordProvince': 'BC',
+        'shipProvince': 'BC'
     }
 
     response = requests.request('POST', url, params=querystring)
@@ -40,14 +42,22 @@ def make_payment():
     params = urlparse.parse_qs(query_string)
 
     if bool(params['trnStatus'][0]):
-        feedback = {
-            'success': bool(params['trnStatus'][0]),
-            'id': params['trnId'][0],
-            'bank': params['rspId'][0],
-            'avs': params['avsId'][0],
-            'cvv': params['cvdId'][0],
-        }
-
+        try:
+            feedback = {
+                'success': True,
+                'id': params['trnId'][0],
+                'bank': params['rspId'][0],
+                'avs': params['avsId'][0],
+                'cvv': params['cvdId'][0],
+            }
+        except:
+            feedback = {
+                'success': False,
+                'id': params['trnId'][0],
+                'bank': params['rspId'][0],
+                'avs': params['avsId'][0],
+                'message': (params['rspId'][0] + ': ' + params['rspMessage'][0])
+            }
     else:
         feedback = {'success': False,
                     'message': (args.get('rspId') + ': ' + params['rspMessage'][0])}

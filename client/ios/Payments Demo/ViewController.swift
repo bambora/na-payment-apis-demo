@@ -17,18 +17,24 @@ class ViewController: UIViewController {
     @IBOutlet weak var placeholderView: UIView!
     
     // Mobile Payments Demo Server
+    // TODO: Update this value to a working Demo Server. Our Elastic Beanstalk instance is out of commission.
     fileprivate let DemoServerURLBase = "http://merchant-api-demo.us-west-2.elasticbeanstalk.com"
     
     // Apple Pay Merchant Identifier
-    fileprivate let ApplePayMerchantID = "merchant.com.beanstream.apbeanstream"
+    // Update this to an Apple Pay Merchant Identifier. Instructions on how to create a Merchant Identifier
+    // can be found in the "Setup Apple Developer Assets" section
+    // in https://confluence.beanstream.com/display/NAMP/Apple+Pay+Guide+for+Bambora+Developers
+    fileprivate let ApplePayMerchantID = "<FILL-ME-IN>"
     
     // !!! TD backend processor
     // Bambora North America; Supported Payment Networks for Apple Pay
-    fileprivate let SupportedPaymentNetworks : [PKPaymentNetwork] = [.visa, .masterCard, .amex]
+    fileprivate let SupportedPaymentNetworks : [PKPaymentNetwork] = [.visa, .masterCard, .amex, .discover]
 
     // !!! First Data backend processor
     // Bambora North America; Supported Payment Networks for Apple Pay
     //fileprivate let SupportedPaymentNetworks : [PKPaymentNetwork] = [.visa, .masterCard, .amex, .discover]
+    
+    var totalTransactionAmount = 0.00
     
     fileprivate var paymentButton: PKPaymentButton!
     fileprivate var paymentAmount: NSDecimalNumber!
@@ -52,7 +58,7 @@ class ViewController: UIViewController {
 
     // MARK: - Custom action methods
     
-    func paymentButtonAction() {
+    @objc func paymentButtonAction() {
         // Check to make sure payments are supported.
         if !PKPaymentAuthorizationViewController.canMakePayments(usingNetworks: SupportedPaymentNetworks, capabilities: .capability3DS) {
             // Let user know they can not continue with an Apple Pay based transaction...
@@ -77,13 +83,10 @@ class ViewController: UIViewController {
         request.currencyCode = "CAD" // "USD"
         
         request.paymentSummaryItems = [
-            PKPaymentSummaryItem(label: "1 Golden Egg", amount: NSDecimalNumber(string: "1.00"), type: .final),
-            /*PKPaymentSummaryItem(label: "Shipping", amount: NSDecimalNumber(string: "0.05"), type: .final),*/
-            PKPaymentSummaryItem(label: "GST Tax", amount: NSDecimalNumber(string: "0.07"), type: .final),
-            PKPaymentSummaryItem(label: "Total", amount: NSDecimalNumber(string: "1.07"), type: .final)
+            PKPaymentSummaryItem(label: "1 Golden Egg", amount: NSDecimalNumber(value: totalTransactionAmount), type: .final)
         ]
         
-        self.paymentAmount = NSDecimalNumber(string: "1.07")
+        self.paymentAmount = NSDecimalNumber(value: totalTransactionAmount)
         
         // Request shipping and billing info. 
         // Apple recommends that we should not require these unless absolutely necessary.
@@ -92,8 +95,14 @@ class ViewController: UIViewController {
         
         
         let authVC = PKPaymentAuthorizationViewController(paymentRequest: request)
-        authVC.delegate = self
-        present(authVC, animated: true, completion: nil)
+        authVC?.delegate = self
+        present(authVC!, animated: true, completion: nil)
+    }
+}
+
+extension ViewController: InventoryTableViewCellDelegate {
+    func transactionAmountUpdated(transactionAmount: Double) {
+        totalTransactionAmount = transactionAmount
     }
 }
 
@@ -109,7 +118,7 @@ extension ViewController: PKPaymentAuthorizationViewControllerDelegate {
         let transactionType = self.purchaseTypeSegmentedControl.selectedSegmentIndex == 0 ? "purchase" : "pre-auth"
         
         var parameters = [
-            "amount": self.paymentAmount,
+            "amount": self.paymentAmount ?? 1.00,
             "transaction-type": transactionType,
             "payment-token": b64TokenStr
         ] as [String : Any]
