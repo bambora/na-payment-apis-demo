@@ -15,7 +15,6 @@ from blueprints.basic import payments as basic
 from blueprints.checkout import payments as checkout
 from blueprints.interac import payments as interac
 from blueprints.card import payments as card
-from blueprints.visa_checkout import payments as visa_checkout
 from blueprints.masterpass import payments as masterpass
 
 import settings
@@ -62,7 +61,6 @@ app.register_blueprint(basic, url_prefix='/payment/basic')
 app.register_blueprint(card, url_prefix='/payment/card')
 app.register_blueprint(checkout, url_prefix='/checkout')
 app.register_blueprint(interac, url_prefix='/payment/interac')
-app.register_blueprint(visa_checkout, url_prefix='/visa-checkout')
 app.register_blueprint(masterpass, url_prefix='/payment/masterpass')
 
 #
