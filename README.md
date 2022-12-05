@@ -58,7 +58,7 @@ pip install -r requirements.txt
 
 ### Set up Environment Variables
 
-We are using one test account on Pruduction in this demo app. All services can be tested on Production.
+We are using one test account on Production in this demo app. All services can be tested on Production.
 
 #### Mac/Linux
 

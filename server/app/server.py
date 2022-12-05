@@ -43,8 +43,7 @@ def version():
 
 @app.route('/')
 def get_landing_page():
-    secret_key = settings.secret_key
-    return render_template('index.html', api_key=secret_key)
+    return render_template('index.html')
 
 @app.route('/health')
 def health():
