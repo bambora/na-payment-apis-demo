@@ -43,8 +43,8 @@ def version():
 
 @app.route('/')
 def get_landing_page():
-    visa_checkout_api_key = settings.sandbox_visa_checkout_api_key
-    return render_template('index.html', api_key=visa_checkout_api_key)
+    secret_key = settings.secret_key
+    return render_template('index.html', api_key=secret_key)
 
 @app.route('/health')
 def health():

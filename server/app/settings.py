@@ -29,8 +29,6 @@ try:
     sandbox_api_passcode = ssmclient.get_parameter(Name="paymentapidemo-SANDBOX_API_PASSCODE", WithDecryption=True)['Parameter'][
         'Value']
     sandbox_hash_key = ssmclient.get_parameter(Name="paymentapidemo-SANDBOX_HASH_KEY", WithDecryption=True)['Parameter']['Value']
-    sandbox_visa_checkout_api_key = \
-    ssmclient.get_parameter(Name="paymentapidemo-SANDBOX_VISA_CHECKOUT_API_KEY", WithDecryption=True)['Parameter']['Value']
     secret_key = ssmclient.get_parameter(Name="paymentapidemo-SECRET_KEY", WithDecryption=True)['Parameter']['Value']
 except Exception as e:
     merchant_id = os.environ.get('MERCHANT_ID')
@@ -39,15 +37,13 @@ except Exception as e:
     sandbox_merchant_id = os.environ.get('SANDBOX_MERCHANT_ID')
     sandbox_api_passcode = os.environ.get('SANDBOX_API_PASSCODE')
     sandbox_hash_key = os.environ.get('SANDBOX_HASH_KEY')
-    sandbox_visa_checkout_api_key = os.environ.get('SANDBOX_VISA_CHECKOUT_API_KEY')
     secret_key = os.environ.get('SECRET_KEY')
 
 if (merchant_id is None or
             api_passcode is None or
             sandbox_api_passcode is None or
             sandbox_api_passcode is None or
-            sandbox_hash_key is None or
-            sandbox_visa_checkout_api_key is None):
+            sandbox_hash_key is None):
     print('Setup incomplete. Please set all environment variables and then'
           ' start this app!')
     exit(0)
