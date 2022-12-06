@@ -192,14 +192,3 @@ body {
 .response.message-content {
   display: block;
 }
-
-/* --- visa checkout button --- */
-.v-learn.v-learn-defaulty {
-    margin-right: 4px;
-    font-size: 12px;
-    text-transform: capitalize;
-    color: rgb(0, 62, 169);
-    cursor: pointer;
-    text-decoration: none;
-    display: block;
-}

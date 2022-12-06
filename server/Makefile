@@ -19,7 +19,7 @@ shell: build
 	docker run --rm -it $(IMAGE_NAME):$(VERSION) /bin/sh
 
 run: build
-	docker run --rm -p 8080:8080 -e MERCHANT_ID=10000000 -e API_PASSCODE=1234 -e REPORT_API_PASSCODE=1234 -e SANDBOX_MERCHANT_ID=1234 -e SANDBOX_API_PASSCODE=1234 -e SANDBOX_HASH_KEY=1234 -e SANDBOX_VISA_CHECKOUT_API_KEY=1234 $(IMAGE_NAME):$(VERSION)
+	docker run --rm -p 8080:8080 -e MERCHANT_ID=10000000 -e API_PASSCODE=1234 -e REPORT_API_PASSCODE=1234 $(IMAGE_NAME):$(VERSION)
 
 clean:
 	# preceding dash is to prevent the makefile from erroring if the file/image doesn't exist
