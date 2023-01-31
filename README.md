@@ -58,8 +58,7 @@ pip install -r requirements.txt
 
 ### Set up Environment Variables
 
-We are using two test accounts in this demo app. One is on Production, the other is on Sandbox. All services,
-except Visa Checkout can be tested on Production. Visa Checkout must be tested on Sandbox.
+We are using one test account on Production in this demo app. All services can be tested on Production.
 
 #### Mac/Linux
 
@@ -70,10 +69,6 @@ export MERCHANT_ID=<your_bambora_merchant_id>
 export API_PASSCODE=<your_payment_api_passcode>
 export BATCH_PAYMENT_API_PASSCODE=<your_batch_payment_api_passcode>
 export REPORT_API_PASSCODE=<report_api_passcode>
-export SANDBOX_MERCHANT_ID=<your_bambora_sandbox_merchant_id>
-export SANDBOX_API_PASSCODE=<your_sandbox_payment_api_passcode>
-export SANDBOX_HASH_KEY=<your_sandbox_hash_key>
-export SANDBOX_VISA_CHECKOUT_API_KEY=<your_sandbox_visa_checkout_api_key>
 ```
 
 #### Windows
@@ -83,9 +78,6 @@ export SANDBOX_VISA_CHECKOUT_API_KEY=<your_sandbox_visa_checkout_api_key>
 (venv) app$ $env:DATABASE_URL = "sqlite:////users/<your_user>/appdata/local/temp/mobilepay-demo.db"
 (venv) app$ $env:MERCHANT_ID = "<your_bambora_merchant_id>"
 (venv) app$ $env:API_PASSCODE = "<your_merchant_payments_passcode>"
-(venv) app$ $env:SANDBOX_MERCHANT_ID = "<your_bambora_sandbox_merchant_id>"
-(venv) app$ $env:SANDBOX_API_PASSCODE = "<your_sandbox_merchant_payments_passcode>"
-(venv) app$ $env:SANDBOX_HASH_KEY = "<your_sandbox_hash_key>"
 ```
 
 ### Run
