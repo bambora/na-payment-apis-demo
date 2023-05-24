@@ -154,16 +154,18 @@
 
     updateFeedback: function(feedback) {
       if (feedback.success) {
-        this.responseId.text(feedback.id);
-        this.responseBank.text(feedback.bank);
-        this.responseCvv.text(feedback.cvv);
-        this.responseAvs.text(feedback.avs);
+        this.responseId[0].value = feedback.id;
+        this.responseBank[0].value = feedback.bank;
+        this.responseCvv[0].value = feedback.cvv;
+        this.responseAvs[0].value = feedback.avs;
         this.responsePanelSuccess.slideDown('fast');
         this.responsePanelFail.slideUp('fast');
+        document.getElementById('response-id').focus();
       } else {
-        this.responseError.text(feedback.message);
+        this.responseError[0].value = feedback.message;
         this.responsePanelFail.slideDown('fast');
         this.responsePanelSuccess.slideUp('fast');
+        document.getElementById('response-error-message').focus();
       }
 
       $('html, body').animate({ scrollTop: 0 }, 'slow');

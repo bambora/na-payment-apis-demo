@@ -7,19 +7,19 @@
             <tbody>
               <tr>
                 <td>Transaction ID</td>
-                <td id="response-id"></td>
+                <td><input type="text" id="response-id" class="no_border no-outline left field" readonly></td>
               </tr>
               <tr>
                 <td>Bank response</td>
-                <td id="response-bank"></td>
+                <td><input type="text" id="response-bank" class="no_border no-outline left field" readonly></td>
               </tr>
               <tr>
                 <td>CVV response</td>
-                <td id="response-cvv"></td>
+                <td><input type="text" id="response-cvv" class="no_border no-outline left field" readonly></td>
               </tr>
               <tr>
                 <td>AVS response</td>
-                <td id="response-avs"></td>
+                <td><input type="text" id="response-avs" class="no_border no-outline left field" readonly></td>
               </tr>
             </tbody>
           </table>
@@ -37,7 +37,7 @@
             <tbody>
               <tr>
                 <td>Error message</td>
-                <td id="response-error-message"></td>
+                <td><input type="text" id="response-error-message" class="no_border no-outline left field" readonly></td>
               </tr>
             </tbody>
           </table>
@@ -45,3 +45,16 @@
       </div>
   </div>
 </div>
+
+<style>
+  .no_border {
+    border-top-style: hidden;
+    border-right-style: hidden;
+    border-left-style: hidden;
+    border-bottom-style: hidden;
+  }
+      
+  .no-outline:focus {
+    outline: none;
+  }
+</style>
