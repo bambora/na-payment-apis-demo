@@ -13,7 +13,6 @@ from flask import jsonify
 
 from blueprints.basic import payments as basic
 from blueprints.checkout import payments as checkout
-from blueprints.interac import payments as interac
 from blueprints.card import payments as card
 from blueprints.masterpass import payments as masterpass
 
@@ -59,7 +58,6 @@ def route(path):
 app.register_blueprint(basic, url_prefix='/payment/basic')
 app.register_blueprint(card, url_prefix='/payment/card')
 app.register_blueprint(checkout, url_prefix='/checkout')
-app.register_blueprint(interac, url_prefix='/payment/interac')
 app.register_blueprint(masterpass, url_prefix='/payment/masterpass')
 
 #
