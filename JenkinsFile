@@ -51,6 +51,8 @@ timestamps {
                         sh """sed -i'.orig' -e 's/<VERSION>/$sha/g' app/server.py"""
                         sh """\$(AWS_DEFAULT_REGION=$REGION aws ecr get-login --no-include-email)"""
 
+                        sh """docker pull alpine:3.11"""
+
                         docker.withRegistry("https://$REGISTRY") {
                             paymentapidemo = docker.build("$image", ".")
                             paymentapidemo.push()
