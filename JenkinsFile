@@ -6,7 +6,7 @@ if("$BRANCH_NAME" == 'develop') {
 } else if("$BRANCH_NAME" == 'master') {
     ENV = 'prod-cde'
 } else {
-    DEPLOY = false
+    DEPLOY = true
     ENV = 'dev-cde'
 }
 
