@@ -109,7 +109,7 @@
         2
       );
 
-      xhr.timeout = 2000;
+      xhr.timeout = 3000;
       xhr.open(method, url, true);
       xhr.onreadystatechange = function() {
 
