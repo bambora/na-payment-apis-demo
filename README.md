@@ -2,7 +2,7 @@
 
 ![Bambora](https://cdn.na.bambora.com/resources/logos/bambora-logo180x92.png)
 
-Copyright © 2017 Bambora Inc.
+Copyright © 2022 Bambora Inc.
 
 This repo contains a simple merchant Python/Flask server and associated Web and iOS clients to help process payments.
 The demo server & clients are intended to be simple examples that can help you with your production implementation.
